@@ -636,7 +636,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* --- Header Container --- */
 .ac-header {
-  padding: 16px 20px;
+  padding: 8px 20px;
   border-bottom: 1px solid #f3f2f1;
 }
 .ac-header-row {
@@ -644,16 +644,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: center;
   justify-content: space-between;
 }
+.ac-header-row .ac-column {
+  display: flex;
+  align-items: center;
+}
 
 /* --- Body Container --- */
 .ac-body {
-  padding: 20px;
+  padding: 20px 20px 10px;
 }
 
 /* --- ColumnSet & Column --- */
 .ac-columnSet {
   display: flex;
-  gap: 0;
+  gap: 24px;
 }
 .ac-column {
   min-width: 0;
@@ -707,8 +711,67 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .ac-factSet {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 6px 50px;
+  gap: 6px 30px;
   margin-top: 12px;
+}
+
+/* Aligned factSet for Reference tab card — same spacing as Financials */
+.ref-factSet-aligned {
+  grid-template-columns: auto 1fr;
+  gap: 6px 30px;
+  margin-top: 12px;
+}
+.ref-factSet-aligned .ac-fact-value {
+  text-align: left;
+}
+
+/* --- AI Disclaimer (approval impact) --- */
+.ref-ai-disclaimer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: transparent;
+  border-radius: 6px;
+  border: none;
+}
+.ref-ai-disclaimer__icon {
+  color: #616161;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.ref-ai-disclaimer__text {
+  font-size: 12px;
+  color: #616161;
+  line-height: 1.4;
+  font-style: italic;
+}
+.ref-ai-disclaimer__feedback {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+.ref-ai-disclaimer:hover .ref-ai-disclaimer__feedback {
+  opacity: 1;
+}
+.ref-ai-disclaimer__btn {
+  width: 28px; height: 28px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  color: #616161;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+.ref-ai-disclaimer__btn:hover {
+  background: #e0e0e0;
+  color: #242424;
 }
 .ac-fact {
   display: contents;
