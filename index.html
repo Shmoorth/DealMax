@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920">
+  <title>Quote Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap">
+</head>
+<body>
+
+  <!-- Top Nav Bar -->
+  <header class="top-nav">
+    <div class="top-nav-left">
+      <button class="nav-icon-btn" title="Menu"><i class="fas fa-th"></i></button>
+      <span class="brand-title">ENTERPRISE SERVICES EXPERIENCE</span>
+      <span class="brand-divider">|</span>
+      <span class="brand-section">Quotes</span>
+    </div>
+    <div class="top-nav-right">
+      <button class="nav-icon-btn" title="Notifications"><i class="far fa-bell"></i></button>
+      <button class="nav-icon-btn" title="Feedback"><i class="far fa-smile"></i></button>
+      <button class="nav-icon-btn" title="Apps"><i class="fas fa-rocket"></i></button>
+      <button class="nav-icon-btn" title="Help"><i class="far fa-question-circle"></i></button>
+      <div class="avatar">S</div>
+    </div>
+  </header>
+
+  <!-- Left sidebar nav -->
+  <aside class="left-sidebar">
+    <div class="sidebar-brand">
+      <button class="nav-icon-btn sidebar-hamburger" title="Toggle menu"><i class="fas fa-bars"></i></button>
+      <span class="sidebar-brand__text">ESXP</span>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-nav-btn" onclick="switchNav(event, 'nav-quotes')">
+        <i class="fas fa-home"></i><span>Home</span>
+      </button>
+      <button class="sidebar-nav-btn">
+        <i class="fas fa-lightbulb"></i><span>Opportunities</span>
+      </button>
+      <button class="sidebar-nav-btn sidebar-nav-btn--active" onclick="switchNav(event, 'nav-quotes')" id="nav-btn-quotes">
+        <i class="fas fa-file-alt"></i><span>Quotes</span>
+      </button>
+      <button class="sidebar-nav-btn">
+        <i class="fas fa-users"></i><span>Customers</span>
+      </button>
+      <button class="sidebar-nav-btn">
+        <i class="fas fa-truck"></i><span>Deliveries</span>
+      </button>
+      <button class="sidebar-nav-btn">
+        <i class="fas fa-dollar-sign"></i><span>Financials</span>
+      </button>
+      <button class="sidebar-nav-btn">
+        <i class="fas fa-check-circle"></i><span>Approvals</span>
+      </button>
+      <button class="sidebar-nav-btn">
+        <i class="fas fa-chart-bar"></i><span>Reports</span>
+      </button>
+      <button class="sidebar-nav-btn" onclick="switchNav(event, 'nav-agent')" id="nav-btn-agent">
+        <i class="fas fa-robot"></i><span>Services Deal Agent</span>
+      </button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="sidebar-nav-btn">
+        <i class="fas fa-cog"></i><span>Settings</span>
+      </button>
+      <button class="sidebar-nav-btn">
+        <i class="fas fa-question-circle"></i><span>Help</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+
+    <!-- ===== NAV PANEL: Quotes ===== -->
+    <div id="nav-quotes" class="nav-panel nav-panel--active">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+      <nav class="breadcrumb">
+        <a href="#">Quote Dashboard</a>
+        <span class="sep">&gt;</span>
+        <a href="#">Quote A123456</a>
+        <span class="sep">&gt;</span>
+        <span class="current">Quote Financials</span>
+      </nav>
+      <div class="breadcrumb-right">
+        <a href="#" class="sync-link"><i class="fas fa-sync-alt"></i> View sync progress</a>
+      </div>
+    </div>
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <button class="action-link"><i class="far fa-eye"></i> Preview</button>
+      <button class="action-link"><i class="fas fa-upload"></i> Publish</button>
+      <button class="action-link"><i class="fas fa-exchange-alt"></i> Compare</button>
+      <button class="action-link"><i class="far fa-trash-alt"></i> Delete</button>
+    </div>
+
+    <!-- Quote Header -->
+    <div class="quote-header">
+      <div class="quote-title-row">
+        <h1 class="quote-title">PSS-FY22 Fidelity Corp Premier US-West</h1>
+        <span class="badge badge-primary">Primary Quote</span>
+      </div>
+      <div class="quote-meta">
+        <span class="meta-item">Status <strong>In Draft</strong> <i class="fas fa-info-circle meta-info-icon"></i></span>
+        <span class="meta-item">Price to Customer <strong>$ 3,000,000.00</strong></span>
+        <span class="meta-item">Revenue <strong>$ 3,000,000.00</strong></span>
+        <span class="meta-item">Delivery Cost <strong>$ 2,700,000.00</strong></span>
+        <span class="meta-item">Sold Margin <strong>0.00 %</strong></span>
+        <span class="meta-item">Discount <strong>0.00 %</strong></span>
+        <span class="meta-item">Currency <strong>USD($)</strong></span>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-bar">
+      <button class="tab" onclick="switchTab(event)">Summary</button>
+      <button class="tab" onclick="switchTab(event)">Contract details</button>
+      <button class="tab tab-active" onclick="switchTab(event)" data-panel="panel-financials">Financials <i class="fas fa-chevron-down tab-chevron"></i></button>
+      <button class="tab" onclick="switchTab(event)" data-panel="panel-reference">Reference <i class="fas fa-lightbulb tab-icon-ref"></i></button>
+      <button class="tab" onclick="switchTab(event)">Risks</button>
+      <button class="tab" onclick="switchTab(event)">Approvals</button>
+      <button class="tab" onclick="switchTab(event)">Proposals</button>
+      <button class="tab" onclick="switchTab(event)">Team</button>
+    </div>
+
+    <!-- Content Area with sidebar -->
+    <div class="content-area">
+
+      <!-- Left content: table -->
+      <div class="table-area">
+
+        <!-- ===== PANEL: Financials ===== -->
+        <div id="panel-financials" class="tab-panel tab-panel--active">
+
+        <!-- DealMax Adaptive Card -->
+        <div class="ac-card" role="region" aria-label="DealMax">
+
+          <!-- Card Header -->
+          <div class="ac-container ac-header">
+            <div class="ac-columnSet ac-header-row">
+              <div class="ac-column ac-column-stretch">
+                <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">DealMax</span>
+              </div>
+              <div class="ac-column ac-column-auto">
+                <div class="ac-actionSet ac-actionSet--inline">
+                  <button class="ac-action ac-action--icon" title="Link" aria-label="Link"><i class="fas fa-link"></i></button>
+                  <button class="ac-action ac-action--icon" title="More options" aria-label="More options"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="ac-container ac-body">
+            <div class="ac-columnSet">
+
+              <!-- Column 1: Deal Financials (left half) -->
+              <div class="ac-column ac-column-stretch">
+                <div class="ac-container">
+                  <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder ac-color--accent">Deal Financials</span>
+                  <div class="ac-factSet" id="deal-financials-facts">
+                    <div class="ac-fact"><span class="ac-fact-title">Gross minus Flex</span><span class="ac-fact-value" data-field="gross_minus_flex">$28,589,055.00</span></div>
+                    <div class="ac-fact"><span class="ac-fact-title">Addon Base Ratio Bucket</span><span class="ac-fact-value" data-field="addon_base_ratio">Second highest (60 - 80% Deals)</span></div>
+                    <div class="ac-fact"><span class="ac-fact-title">Deal size bucket</span><span class="ac-fact-value" data-field="deal_size_bucket">$1M-$5M</span></div>
+                    <div class="ac-fact"><span class="ac-fact-title">Multi-Yr Deal</span><span class="ac-fact-value" data-field="multi_yr_deal">No</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Column 2: Deal Financials (right half) -->
+              <div class="ac-column ac-column-stretch">
+                <div class="ac-container">
+                  <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder" style="visibility:hidden;">&#8203;</span>
+                  <div class="ac-factSet" id="deal-financials-facts-2">
+                    <div class="ac-fact"><span class="ac-fact-title">TP Industry name</span><span class="ac-fact-value" data-field="tp_industry">Financial services</span></div>
+                    <div class="ac-fact"><span class="ac-fact-title">Customer Segment</span><span class="ac-fact-value" data-field="customer_segment">Major</span></div>
+                    <div class="ac-fact"><span class="ac-fact-title">New Unified Customer</span><span class="ac-fact-value" data-field="new_unified_customer">No</span></div>
+                    <div class="ac-fact"><span class="ac-fact-title">Customer satisfaction</span><span class="ac-fact-value" data-field="customer_satisfaction">Positive</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Separator -->
+              <div class="ac-separator ac-separator--vertical"></div>
+
+              <!-- Column 3: Max Recommended Discount -->
+              <div class="ac-column ac-column-auto">
+                <div class="ac-container ac-discount-block">
+                  <span class="ac-textBlock ac-textBlock--default ac-weight--bolder ac-color--default">Max. Recommended Discount %</span>
+                  <span id="discount-hero" class="ac-textBlock ac-textBlock--extraLarge ac-weight--bolder ac-discount-hero">24.2%</span>
+                  <div class="ac-slider-row">
+                    <input type="range" id="discount-slider" class="ac-range-slider" min="0" max="100" step="0.1" value="24.2">
+                    <span id="discount-label" class="ac-textBlock ac-textBlock--small ac-slider-value">24.2%</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Actions row below the columns -->
+            <div class="ac-actionSet" style="margin-top:16px;">
+              <button class="ac-action ac-action--primary">Apply to Quote</button>
+              <button class="ac-action ac-action--secondary" id="btn-edit-deal">Edit</button>
+              <button class="ac-action ac-action--viewmore" id="btn-view-more-hist"><i class="fas fa-chart-bar"></i> Historical Financials</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <button class="toolbar-btn toolbar-btn-primary"><i class="fas fa-plus-circle"></i> Add packages <i class="fas fa-chevron-down"></i></button>
+            <button class="toolbar-btn" disabled><i class="far fa-calendar-alt"></i> Dates</button>
+            <button class="toolbar-btn" disabled><i class="fas fa-globe"></i> Geo</button>
+            <button class="toolbar-btn" disabled><i class="fas fa-sliders-h"></i> Add adjustment</button>
+            <button class="toolbar-btn" disabled><i class="far fa-copy"></i> Copy</button>
+            <button class="toolbar-btn" disabled><i class="far fa-trash-alt"></i> Delete</button>
+          </div>
+          <div class="toolbar-right">
+            <button class="toolbar-btn"><i class="fas fa-pencil-alt"></i> Open Inline editor</button>
+            <button class="toolbar-btn"><i class="fas fa-filter"></i> Filter</button>
+          </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="col-check"><input type="checkbox"></th>
+                <th class="col-expand"></th>
+                <th class="col-package">Package name <i class="fas fa-arrow-down sort-icon"></i></th>
+                <th class="col-actions">Actions</th>
+                <th class="col-date">Start date</th>
+                <th class="col-date">End date</th>
+                <th class="col-money">Customer price</th>
+                <th class="col-money">Revenue</th>
+                <th class="col-money">Delivery cost</th>
+                <th class="col-percent">Margin</th>
+                <th class="col-percent">Discount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1 -->
+              <tr>
+                <td class="col-check"><input type="checkbox"></td>
+                <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
+                <td class="col-package">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">USP Base Package Name 2022-23</a>
+                    <span class="badge badge-teal">USP Base</span>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag"><i class="fas fa-globe"></i> USA</span>
+                    <span class="tag"><i class="fas fa-users"></i> MSO</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn">···</button></td>
+                <td class="col-date">16-Apr-2022</td>
+                <td class="col-date">15-Apr-2023</td>
+                <td class="col-money">$ 1,000,000.00</td>
+                <td class="col-money">$ 1,000,000.00</td>
+                <td class="col-money">$ 900,000.00</td>
+                <td class="col-percent">0.0 %</td>
+                <td class="col-percent">0.00 %</td>
+              </tr>
+              <!-- Row 2 -->
+              <tr>
+                <td class="col-check"><input type="checkbox"></td>
+                <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
+                <td class="col-package">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">USP Base Package Name 2023-24</a>
+                    <span class="badge badge-teal">USP Base</span>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag"><i class="fas fa-globe"></i> USA</span>
+                    <span class="tag"><i class="fas fa-users"></i> MSO</span>
+                    <span class="tag"><i class="fas fa-layer-group"></i> Bundle</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn">···</button></td>
+                <td class="col-date">16-Apr-2023</td>
+                <td class="col-date">15-Apr-2024</td>
+                <td class="col-money">$ 1,000,000.00</td>
+                <td class="col-money">$ 1,000,000.00</td>
+                <td class="col-money">$ 900,000.00</td>
+                <td class="col-percent">0.0 %</td>
+                <td class="col-percent">0.00 %</td>
+              </tr>
+              <!-- Row 3 -->
+              <tr>
+                <td class="col-check"><input type="checkbox"></td>
+                <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
+                <td class="col-package">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">USP Base Package Name 2024-25</a>
+                    <span class="badge badge-teal">USP Base</span>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag"><i class="fas fa-globe"></i> USA</span>
+                    <span class="tag"><i class="fas fa-users"></i> MSO</span>
+                    <span class="tag"><i class="fas fa-layer-group"></i> Bundle</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn">···</button></td>
+                <td class="col-date">16-Apr-2024</td>
+                <td class="col-date">15-Apr-2025</td>
+                <td class="col-money">$ 1,000,000.00</td>
+                <td class="col-money">$ 1,000,000.00</td>
+                <td class="col-money">$ 900,000.00</td>
+                <td class="col-percent">0.0 %</td>
+                <td class="col-percent">0.00 %</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-bar">
+          <span class="pagination-info">Displaying <strong>1-100</strong> of <strong>200</strong> items</span>
+        </div>
+
+        </div><!-- /panel-financials -->
+
+        <!-- ===== PANEL: Reference (DealMax Discount Intelligence) ===== -->
+        <div id="panel-reference" class="tab-panel">
+
+          <!-- DealMax Recommendation Card (same ac-card style as Financials) -->
+          <div class="ac-card" role="region" aria-label="DealMax Recommendation">
+
+            <!-- Card Header -->
+            <div class="ac-container ac-header">
+              <div class="ac-columnSet ac-header-row">
+                <div class="ac-column ac-column-stretch">
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
+                </div>
+                <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:12px;">
+                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle"><i class="far fa-clock"></i> Last refreshed: 09 Apr 2026, 10:42 AM</span>
+                  <button class="ref-banner__refresh" title="Refresh recommendation"><i class="fas fa-sync-alt"></i> Refresh</button>
+                  <button class="ac-action ac-action--icon" title="More options" aria-label="More options"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="ac-container ac-body">
+              <div class="ac-columnSet">
+
+                <!-- Column 1: Recommendation facts (left) -->
+                <div class="ac-column ac-column-stretch">
+                  <div class="ac-container">
+                    <div class="ac-factSet">
+                      <div class="ac-fact"><span class="ac-fact-title">Recommended Discount</span><span class="ac-fact-value">18.5 %</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Min Discount</span><span class="ac-fact-value">12.0 %</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Current Applied</span><span class="ac-fact-value">22.0 %</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Column 2: Customer & deal context (right) -->
+                <div class="ac-column ac-column-stretch">
+                  <div class="ac-container">
+                    <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder" style="visibility:hidden;">&#8203;</span>
+                    <div class="ac-factSet">
+                      <div class="ac-fact"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" style="color:#d13438;font-weight:700;">+3.5 % ($105,000)</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Approval Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Green → Blue</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Customer Segment</span><span class="ac-fact-value">Major</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Customer satisfaction</span><span class="ac-fact-value">Positive</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Separator -->
+                <div class="ac-separator ac-separator--vertical"></div>
+
+                <!-- Column 3: Hero discount -->
+                <div class="ac-column ac-column-auto">
+                  <div class="ac-container ac-discount-block">
+                    <span class="ac-textBlock ac-textBlock--default ac-weight--bolder ac-color--default">Recommended Discount %</span>
+                    <span id="ref-discount-hero" class="ac-textBlock ac-textBlock--extraLarge ac-weight--bolder ac-discount-hero">18.5%</span>
+                    <div class="ac-slider-row">
+                      <input type="range" id="ref-discount-slider" class="ac-range-slider" min="0" max="100" step="0.1" value="18.5">
+                      <span id="ref-discount-label" class="ac-textBlock ac-textBlock--small ac-slider-value">18.5%</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Actions row -->
+              <div class="ac-actionSet" style="margin-top:16px;">
+                <button class="ac-action ac-action--primary">Apply to Quote</button>
+                <button class="ac-action ac-action--secondary">Simulate</button>
+                <button class="ac-action ac-action--viewmore" id="btn-reasons-toggle"><i class="fas fa-lightbulb"></i> Reasons to Believe</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Reasons to Believe section removed; now in drawer -->
+
+          <!-- Offering Group Toolbar -->
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <span class="toolbar-title"><i class="fas fa-layer-group"></i> Offering Group Recommendations by Contract Year</span>
+            </div>
+            <div class="toolbar-right">
+              <button class="toolbar-btn"><i class="fas fa-filter"></i> Filter</button>
+              <button class="toolbar-btn"><i class="fas fa-download"></i> Export</button>
+            </div>
+          </div>
+
+          <!-- Offering Group Data Table (same grid style as Financials) -->
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="col-check"><input type="checkbox"></th>
+                  <th class="col-expand"></th>
+                  <th class="col-package">Offering Group / Package <i class="fas fa-arrow-down sort-icon"></i></th>
+                  <th class="col-date">Contract Year</th>
+                  <th class="col-percent">Recommended %</th>
+                  <th class="col-percent">Min %</th>
+                  <th class="col-percent">Max %</th>
+                  <th class="col-percent">Current %</th>
+                  <th class="col-money">Deviation ($)</th>
+                  <th class="col-percent">Deviation %</th>
+                  <th class="col-status">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Row 1 -->
+                <tr>
+                  <td class="col-check"><input type="checkbox"></td>
+                  <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
+                  <td class="col-package">
+                    <div class="package-name-cell">
+                      <a href="#" class="package-link">USP Base Package Name 2022-23</a>
+                      <span class="badge badge-teal">USP Base</span>
+                    </div>
+                    <div class="package-tags">
+                      <span class="tag"><i class="fas fa-globe"></i> USA</span>
+                      <span class="tag"><i class="fas fa-users"></i> MSO</span>
+                    </div>
+                  </td>
+                  <td class="col-date">CY1 (FY23)</td>
+                  <td class="col-percent ref-cell--accent">17.5 %</td>
+                  <td class="col-percent">10.0 %</td>
+                  <td class="col-percent">22.0 %</td>
+                  <td class="col-percent">20.0 %</td>
+                  <td class="col-money ref-cell--attention">$ 25,000.00</td>
+                  <td class="col-percent ref-cell--attention">+2.5 %</td>
+                  <td class="col-status"><span class="ref-status ref-status--above">Above</span></td>
+                </tr>
+                <!-- Row 2 -->
+                <tr>
+                  <td class="col-check"><input type="checkbox"></td>
+                  <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
+                  <td class="col-package">
+                    <div class="package-name-cell">
+                      <a href="#" class="package-link">USP Base Package Name 2023-24</a>
+                      <span class="badge badge-teal">USP Base</span>
+                    </div>
+                    <div class="package-tags">
+                      <span class="tag"><i class="fas fa-globe"></i> USA</span>
+                      <span class="tag"><i class="fas fa-users"></i> MSO</span>
+                      <span class="tag"><i class="fas fa-layer-group"></i> Bundle</span>
+                    </div>
+                  </td>
+                  <td class="col-date">CY2 (FY24)</td>
+                  <td class="col-percent ref-cell--accent">19.0 %</td>
+                  <td class="col-percent">13.0 %</td>
+                  <td class="col-percent">25.0 %</td>
+                  <td class="col-percent">18.5 %</td>
+                  <td class="col-money ref-cell--good">-$ 5,000.00</td>
+                  <td class="col-percent ref-cell--good">-0.5 %</td>
+                  <td class="col-status"><span class="ref-status ref-status--within">Within</span></td>
+                </tr>
+                <!-- Row 3 -->
+                <tr>
+                  <td class="col-check"><input type="checkbox"></td>
+                  <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
+                  <td class="col-package">
+                    <div class="package-name-cell">
+                      <a href="#" class="package-link">USP Base Package Name 2024-25</a>
+                      <span class="badge badge-teal">USP Base</span>
+                    </div>
+                    <div class="package-tags">
+                      <span class="tag"><i class="fas fa-globe"></i> USA</span>
+                      <span class="tag"><i class="fas fa-users"></i> MSO</span>
+                      <span class="tag"><i class="fas fa-layer-group"></i> Bundle</span>
+                    </div>
+                  </td>
+                  <td class="col-date">CY3 (FY25)</td>
+                  <td class="col-percent ref-cell--accent">19.5 %</td>
+                  <td class="col-percent">14.0 %</td>
+                  <td class="col-percent">26.0 %</td>
+                  <td class="col-percent">24.0 %</td>
+                  <td class="col-money ref-cell--attention">$ 45,000.00</td>
+                  <td class="col-percent ref-cell--attention">+4.5 %</td>
+                  <td class="col-status"><span class="ref-status ref-status--above">Above</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Approval Impact + Feedback row -->
+          <div class="ref-footer-strip">
+            <div class="ref-approval-impact">
+              <i class="fas fa-shield-alt"></i>
+              <span class="ref-approval-impact__text">
+                Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>.
+              </span>
+            </div>
+            <div class="ref-feedback">
+              <span class="ref-feedback__label">Was this recommendation helpful?</span>
+              <button class="ref-feedback__btn ref-feedback__btn--up" title="Thumbs up"><i class="far fa-thumbs-up"></i></button>
+              <button class="ref-feedback__btn ref-feedback__btn--down" title="Thumbs down"><i class="far fa-thumbs-down"></i></button>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination-bar">
+            <span class="pagination-info">Displaying <strong>1-3</strong> of <strong>3</strong> offering groups</span>
+          </div>
+
+        </div><!-- /panel-reference -->
+
+      </div>
+
+      <!-- Right Sidebar -->
+      <div class="right-sidebar">
+        <div class="sidebar-collapse-btn">
+          <i class="fas fa-angle-double-right"></i>
+        </div>
+        <div class="sidebar-tabs">
+          <button class="sidebar-tab" onclick="switchSidebarTab(event, 'sb-rules')">Business rules</button>
+          <button class="sidebar-tab" onclick="switchSidebarTab(event, 'sb-activity')">Activity</button>
+          <button class="sidebar-tab sidebar-tab-active" onclick="switchSidebarTab(event, 'sb-insights')">Insights</button>
+        </div>
+        <div class="sidebar-content">
+
+          <!-- Business rules panel -->
+          <div id="sb-rules" class="sidebar-panel" style="display:none;">
+            <div class="sidebar-empty-state">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect x='30' y='20' width='60' height='80' rx='4' fill='%23e8e8e8' stroke='%23ccc' stroke-width='1'/%3E%3Crect x='38' y='35' width='44' height='4' rx='2' fill='%23d0d0d0'/%3E%3Crect x='38' y='45' width='44' height='4' rx='2' fill='%23d0d0d0'/%3E%3Crect x='38' y='55' width='30' height='4' rx='2' fill='%23d0d0d0'/%3E%3Ccircle cx='75' cy='85' r='18' fill='%23b4e8c8' opacity='0.6'/%3E%3Cpath d='M68 85 l5 5 l10-10' stroke='%23217346' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" alt="All good" class="empty-state-img">
+              <p class="empty-state-text">Everything looks good</p>
+            </div>
+          </div>
+
+          <!-- Activity panel -->
+          <div id="sb-activity" class="sidebar-panel" style="display:none;">
+            <div class="sidebar-empty-state">
+              <p class="empty-state-text" style="color:#605e5c;">No recent activity</p>
+            </div>
+          </div>
+
+          <!-- Insights panel: Reasons to Believe -->
+          <div id="sb-insights" class="sidebar-panel">
+            <div class="sb-insights-content">
+
+              <div class="sb-section-header">
+                <i class="fas fa-lightbulb"></i> Reasons to Believe
+                <span class="ref-reasons__badge">8 signals</span>
+              </div>
+
+              <!-- P0: Deal Financials -->
+              <div class="sb-group">
+                <div class="sb-group__title"><i class="fas fa-chart-pie"></i> Deal Financials</div>
+                <div class="sb-signal sb-signal--p0">
+                  <span class="sb-signal__label">Gross minus Flex</span>
+                  <span class="sb-signal__value">$28,589,055.00</span>
+                  <span class="sb-signal__tag">P0</span>
+                </div>
+                <div class="sb-signal sb-signal--p0">
+                  <span class="sb-signal__label">Add-On Base Ratio Bucket</span>
+                  <span class="sb-signal__value">Second highest (60-80%)</span>
+                  <span class="sb-signal__tag">P0</span>
+                </div>
+                <div class="sb-signal sb-signal--p0">
+                  <span class="sb-signal__label">Deal Size Bucket</span>
+                  <span class="sb-signal__value">$1M - $5M</span>
+                  <span class="sb-signal__tag">P0</span>
+                </div>
+                <div class="sb-signal">
+                  <span class="sb-signal__label">Multi-Year Deal</span>
+                  <span class="sb-signal__value">No</span>
+                </div>
+              </div>
+
+              <!-- P0: Historical Patterns -->
+              <div class="sb-group">
+                <div class="sb-group__title"><i class="fas fa-history"></i> Historical Patterns</div>
+                <div class="sb-signal sb-signal--p0">
+                  <span class="sb-signal__label">Prior Deal Gross minus Flex</span>
+                  <span class="sb-signal__value">$1,589,055.00</span>
+                  <span class="sb-signal__tag">P0</span>
+                </div>
+                <div class="sb-signal sb-signal--p0">
+                  <span class="sb-signal__label">Prior Deal Discount %</span>
+                  <span class="sb-signal__value">22.2 %</span>
+                  <span class="sb-signal__tag">P0</span>
+                </div>
+                <div class="sb-signal sb-signal--p0">
+                  <span class="sb-signal__label">ACR Growth Bucket</span>
+                  <span class="sb-signal__value sb-signal__value--attention">Lowest (Bottom 20%)</span>
+                  <span class="sb-signal__tag">P0</span>
+                </div>
+              </div>
+
+              <!-- P1/P2: Customer Attributes -->
+              <div class="sb-group">
+                <div class="sb-group__title"><i class="fas fa-user-tie"></i> Customer Attributes</div>
+                <div class="sb-signal">
+                  <span class="sb-signal__label">TP Industry</span>
+                  <span class="sb-signal__value">Financial services</span>
+                </div>
+                <div class="sb-signal">
+                  <span class="sb-signal__label">Customer Segment</span>
+                  <span class="sb-signal__value">Major</span>
+                </div>
+                <div class="sb-signal">
+                  <span class="sb-signal__label">New Unified Customer</span>
+                  <span class="sb-signal__value">No</span>
+                </div>
+                <div class="sb-signal">
+                  <span class="sb-signal__label">CSAT</span>
+                  <span class="sb-signal__value sb-signal__value--good">Positive</span>
+                </div>
+              </div>
+
+              <!-- P1/P2: Azure & Revenue -->
+              <div class="sb-group">
+                <div class="sb-group__title"><i class="fas fa-cloud"></i> Azure Consumed Revenue</div>
+                <div class="sb-signal">
+                  <span class="sb-signal__label">ACR FY22</span>
+                  <span class="sb-signal__value">$28,908,433</span>
+                </div>
+                <div class="sb-signal">
+                  <span class="sb-signal__label">ACR FY23</span>
+                  <span class="sb-signal__value sb-signal__value--good">$30,300,333 <i class="fas fa-arrow-up" style="font-size:10px;"></i></span>
+                </div>
+                <div class="sb-signal">
+                  <span class="sb-signal__label">ACR FY24</span>
+                  <span class="sb-signal__value sb-signal__value--attention">$29,457,485 <i class="fas fa-arrow-down" style="font-size:10px;"></i></span>
+                </div>
+                <div class="sb-signal">
+                  <span class="sb-signal__label">FRATTM Category</span>
+                  <span class="sb-signal__value">Higher than $10M</span>
+                </div>
+              </div>
+
+              <!-- Feedback -->
+              <div class="sb-feedback">
+                <span class="sb-feedback__label">Was this helpful?</span>
+                <button class="ref-feedback__btn ref-feedback__btn--up" title="Thumbs up"><i class="far fa-thumbs-up"></i></button>
+                <button class="ref-feedback__btn ref-feedback__btn--down" title="Thumbs down"><i class="far fa-thumbs-down"></i></button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    </div><!-- /nav-quotes -->
+
+    <!-- ===== NAV PANEL: Agent Flow ===== -->
+    <div id="nav-agent" class="nav-panel">
+      <div class="agent-flow-page">
+
+        <!-- Agent Header using ac-card styling -->
+        <div class="ac-card" role="region" aria-label="Services Deal Agent" style="margin:12px 24px 0;">
+          <div class="ac-container ac-header">
+            <div class="ac-columnSet ac-header-row">
+              <div class="ac-column ac-column-stretch" style="display:flex;align-items:center;gap:12px;">
+                <div class="agent-header__icon"><i class="fas fa-robot"></i></div>
+                <div>
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Services Deal Agent</span>
+                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle">Simulate, reason, and apply discount recommendations through natural language.</span>
+                </div>
+              </div>
+              <div class="ac-column ac-column-auto">
+                <div class="ac-actionSet ac-actionSet--inline">
+                  <button class="ac-action ac-action--icon" title="New conversation" aria-label="New conversation"><i class="fas fa-plus"></i></button>
+                  <button class="ac-action ac-action--icon" title="More options" aria-label="More options"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agent Chat Area -->
+        <div class="agent-chat-area">
+
+          <!-- System message -->
+          <div class="agent-msg agent-msg--system">
+            <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
+            <div class="agent-msg__bubble">
+              <p>Hello! I'm the Services Deal Agent. I can help you with discount recommendations, simulations, and applying discounts to your deals.</p>
+              <p style="margin-top:8px;">Try asking:</p>
+              <div class="agent-suggestions">
+                <button class="agent-suggestion-chip">What is the DealMax recommended discount for this deal?</button>
+                <button class="agent-suggestion-chip">Simulate DealMax recommended discount on this deal</button>
+                <button class="agent-suggestion-chip">What is the approval impact if I apply this discount?</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- User message -->
+          <div class="agent-msg agent-msg--user">
+            <div class="agent-msg__bubble">What is the DealMax recommended discount for this deal?</div>
+            <div class="agent-msg__avatar agent-msg__avatar--user">S</div>
+          </div>
+
+          <!-- Agent response: DealMax Recommendation Card (ac-card style) -->
+          <div class="agent-msg agent-msg--system">
+            <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
+            <div class="agent-msg__bubble agent-msg__bubble--wide">
+              <p style="margin-bottom:10px;"><strong>DealMax Recommendation for Quote A123456</strong></p>
+
+              <!-- ac-card: same layout as Financials DealMax card -->
+              <div class="ac-card" role="region" aria-label="Discount Recommendation" style="margin:0;">
+                <div class="ac-container ac-header">
+                  <div class="ac-columnSet ac-header-row">
+                    <div class="ac-column ac-column-stretch">
+                      <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">DealMax</span>
+                    </div>
+                    <div class="ac-column ac-column-auto">
+                      <div class="ac-actionSet ac-actionSet--inline">
+                        <button class="ac-action ac-action--icon" title="Link" aria-label="Link"><i class="fas fa-link"></i></button>
+                        <button class="ac-action ac-action--icon" title="More options" aria-label="More options"><i class="fas fa-ellipsis-h"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ac-container ac-body">
+                  <div class="ac-columnSet">
+                    <!-- Column 1: Recommendation facts (left) -->
+                    <div class="ac-column ac-column-stretch">
+                      <div class="ac-container">
+                        <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder ac-color--accent">Recommendation</span>
+                        <div class="ac-factSet">
+                          <div class="ac-fact"><span class="ac-fact-title">Recommended Discount</span><span class="ac-fact-value">18.5 %</span></div>
+                          <div class="ac-fact"><span class="ac-fact-title">Min Discount</span><span class="ac-fact-value">12.0 %</span></div>
+                          <div class="ac-fact"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
+                          <div class="ac-fact"><span class="ac-fact-title">Current Applied</span><span class="ac-fact-value">22.0 %</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Column 2: Deal context facts (right) -->
+                    <div class="ac-column ac-column-stretch">
+                      <div class="ac-container">
+                        <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder" style="visibility:hidden;">&#8203;</span>
+                        <div class="ac-factSet">
+                          <div class="ac-fact"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" style="color:#d13438;font-weight:700;">+3.5 % ($105,000)</span></div>
+                          <div class="ac-fact"><span class="ac-fact-title">Customer Segment</span><span class="ac-fact-value">Major</span></div>
+                          <div class="ac-fact"><span class="ac-fact-title">TP Industry</span><span class="ac-fact-value">Financial services</span></div>
+                          <div class="ac-fact"><span class="ac-fact-title">Customer satisfaction</span><span class="ac-fact-value">Positive</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Separator -->
+                    <div class="ac-separator ac-separator--vertical"></div>
+                    <!-- Column 3: Hero discount -->
+                    <div class="ac-column ac-column-auto">
+                      <div class="ac-container ac-discount-block">
+                        <span class="ac-textBlock ac-textBlock--default ac-weight--bolder ac-color--default">Recommended Discount %</span>
+                        <span class="ac-textBlock ac-textBlock--extraLarge ac-weight--bolder ac-discount-hero">18.5%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Actions -->
+                  <div class="ac-actionSet" style="margin-top:16px;">
+                    <button class="ac-action ac-action--primary">Apply to Quote</button>
+                    <button class="ac-action ac-action--secondary">Simulate</button>
+                    <button class="ac-action ac-action--viewmore"><i class="fas fa-chart-bar"></i> Historical Financials</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="agent-suggestions" style="margin-top:10px;">
+                <button class="agent-suggestion-chip">Simulate this on my deal</button>
+                <button class="agent-suggestion-chip">Apply recommended discount</button>
+                <button class="agent-suggestion-chip">Show approval impact</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- User message: simulate -->
+          <div class="agent-msg agent-msg--user">
+            <div class="agent-msg__bubble">Simulate DealMax recommended discount on this deal</div>
+            <div class="agent-msg__avatar agent-msg__avatar--user">S</div>
+          </div>
+
+          <!-- Agent response: Simulation with data grid (data-table style) -->
+          <div class="agent-msg agent-msg--system">
+            <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
+            <div class="agent-msg__bubble agent-msg__bubble--wide">
+              <p style="margin-bottom:10px;"><strong>Simulation: Applying 18.5% discount to Quote A123456</strong></p>
+
+              <div class="ac-card" role="region" aria-label="Simulation Results" style="margin:0;">
+                <div class="ac-container ac-header" style="padding:12px 16px;">
+                  <div class="ac-columnSet ac-header-row">
+                    <div class="ac-column ac-column-stretch">
+                      <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder"><i class="fas fa-flask" style="color:#0f6cbd;margin-right:6px;"></i> Simulation Results</span>
+                    </div>
+                    <div class="ac-column ac-column-auto">
+                      <span class="badge badge-teal"><i class="fas fa-check" style="margin-right:4px;"></i> All guardrails passed</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="ac-container" style="padding:0;">
+                  <!-- Data Table: Same style as Financials tab -->
+                  <div class="table-container" style="max-height:none;overflow:visible;">
+                    <table class="data-table">
+                      <thead>
+                        <tr>
+                          <th class="col-package">Package name</th>
+                          <th class="col-date">Contract Year</th>
+                          <th class="col-money">Customer price</th>
+                          <th class="col-money">Revenue</th>
+                          <th class="col-money">Delivery cost</th>
+                          <th class="col-percent">Margin</th>
+                          <th class="col-percent">Simulated Discount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="col-package">
+                            <div class="package-name-cell">
+                              <a href="#" class="package-link">USP Base Package 2022-23</a>
+                              <span class="badge badge-teal">USP Base</span>
+                            </div>
+                          </td>
+                          <td class="col-date">CY1 (FY23)</td>
+                          <td class="col-money">$ 815,000.00</td>
+                          <td class="col-money">$ 815,000.00</td>
+                          <td class="col-money">$ 900,000.00</td>
+                          <td class="col-percent" style="color:#d13438;font-weight:600;">-10.4 %</td>
+                          <td class="col-percent" style="color:#0f6cbd;font-weight:600;">18.5 %</td>
+                        </tr>
+                        <tr>
+                          <td class="col-package">
+                            <div class="package-name-cell">
+                              <a href="#" class="package-link">USP Base Package 2023-24</a>
+                              <span class="badge badge-teal">USP Base</span>
+                            </div>
+                          </td>
+                          <td class="col-date">CY2 (FY24)</td>
+                          <td class="col-money">$ 815,000.00</td>
+                          <td class="col-money">$ 815,000.00</td>
+                          <td class="col-money">$ 900,000.00</td>
+                          <td class="col-percent" style="color:#d13438;font-weight:600;">-10.4 %</td>
+                          <td class="col-percent" style="color:#0f6cbd;font-weight:600;">18.5 %</td>
+                        </tr>
+                        <tr>
+                          <td class="col-package">
+                            <div class="package-name-cell">
+                              <a href="#" class="package-link">USP Base Package 2024-25</a>
+                              <span class="badge badge-teal">USP Base</span>
+                            </div>
+                          </td>
+                          <td class="col-date">CY3 (FY25)</td>
+                          <td class="col-money">$ 815,000.00</td>
+                          <td class="col-money">$ 815,000.00</td>
+                          <td class="col-money">$ 900,000.00</td>
+                          <td class="col-percent" style="color:#d13438;font-weight:600;">-10.4 %</td>
+                          <td class="col-percent" style="color:#0f6cbd;font-weight:600;">18.5 %</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Approval impact row -->
+                  <div style="padding:12px 16px;border-top:1px solid #edebe9;display:flex;align-items:center;gap:8px;">
+                    <i class="fas fa-shield-alt" style="color:#0f6cbd;"></i>
+                    <span class="ac-textBlock ac-textBlock--small">Approval reduces from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>.</span>
+                  </div>
+                </div>
+                <!-- Actions -->
+                <div style="padding:12px 16px;border-top:1px solid #edebe9;display:flex;gap:8px;">
+                  <button class="ac-action ac-action--primary">Apply to Existing Quote</button>
+                  <button class="ac-action ac-action--secondary">Create New Quote</button>
+                </div>
+              </div>
+
+              <div class="agent-suggestions" style="margin-top:10px;">
+                <button class="agent-suggestion-chip">Apply to existing quote</button>
+                <button class="agent-suggestion-chip">Create a new quote with this discount</button>
+                <button class="agent-suggestion-chip">What discount should I apply for this deal?</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Agent Input Bar -->
+        <div class="agent-input-bar">
+          <input type="text" class="agent-input" placeholder="Ask the Deal Agent anything about this deal…">
+          <button class="agent-send-btn" title="Send"><i class="fas fa-paper-plane"></i></button>
+        </div>
+
+      </div>
+    </div><!-- /nav-agent -->
+
+  </main>
+
+  <!-- Fluent 2 Drawer Overlay -->
+  <div class="fui-drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+  <aside class="fui-drawer" id="edit-drawer" role="dialog" aria-label="Edit Deal Financials" aria-hidden="true">
+    <div class="fui-drawer__header">
+      <h2 class="fui-drawer__title">Edit Deal Financials</h2>
+      <button class="fui-drawer__close" id="drawer-close" aria-label="Close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="fui-drawer__body" id="drawer-body">
+      <!-- Fields are populated dynamically -->
+    </div>
+    <div class="fui-drawer__footer">
+      <button class="fui-btn fui-btn--primary" id="drawer-save">Apply</button>
+      <button class="fui-btn fui-btn--secondary" id="drawer-cancel">Cancel</button>
+    </div>
+  </aside>
+
+  <!-- Fluent 2 Drawer – Historical Financials (medium 600px) -->
+  <div class="fui-drawer-overlay" id="hist-drawer-overlay" aria-hidden="true"></div>
+  <aside class="fui-drawer fui-drawer--medium" id="hist-drawer" role="dialog" aria-label="Historical Financials" aria-hidden="true">
+    <div class="fui-drawer__header">
+      <h2 class="fui-drawer__title">Historical Financials</h2>
+      <button class="fui-drawer__close" id="hist-drawer-close" aria-label="Close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="fui-drawer__body">
+      <div class="hist-drawer-grid">
+
+        <!-- Prior Deal -->
+        <div class="hist-section">
+          <div class="hist-section__header"><i class="fas fa-file-invoice-dollar"></i> Prior Deal</div>
+          <div class="hist-section__facts">
+            <div class="hist-fact"><span class="hist-fact__label">Gross minus Flex</span><span class="hist-fact__value">$1,589,055.00</span></div>
+            <div class="hist-fact"><span class="hist-fact__label">Discount</span><span class="hist-fact__value">22.2%</span></div>
+            <div class="hist-fact"><span class="hist-fact__label">Deal Type</span><span class="hist-fact__value">Renewal</span></div>
+            <div class="hist-fact"><span class="hist-fact__label">Contract Duration</span><span class="hist-fact__value">12 months</span></div>
+          </div>
+        </div>
+
+        <!-- ACR Growth -->
+        <div class="hist-section">
+          <div class="hist-section__header"><i class="fas fa-chart-line"></i> ACR Growth</div>
+          <div class="hist-section__facts">
+            <div class="hist-fact"><span class="hist-fact__label">ACR Growth Bucket</span><span class="hist-fact__value hist-fact__value--attention">Lowest (Bottom 20% of Deals)</span></div>
+          </div>
+        </div>
+
+        <!-- Azure Consumed Revenue -->
+        <div class="hist-section hist-section--wide">
+          <div class="hist-section__header"><i class="fas fa-cloud"></i> Azure Consumed Revenue</div>
+          <div class="hist-acr-grid">
+            <div class="hist-acr-card">
+              <span class="hist-acr-card__fy">FY22</span>
+              <span class="hist-acr-card__amount">$28,908,433</span>
+            </div>
+            <div class="hist-acr-card">
+              <span class="hist-acr-card__fy">FY23</span>
+              <span class="hist-acr-card__amount">$30,300,333</span>
+              <span class="hist-acr-card__trend hist-fact__value--good"><i class="fas fa-arrow-up"></i> +4.8%</span>
+            </div>
+            <div class="hist-acr-card">
+              <span class="hist-acr-card__fy">FY24</span>
+              <span class="hist-acr-card__amount">$29,457,485</span>
+              <span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> −2.8%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FRATTM -->
+        <div class="hist-section">
+          <div class="hist-section__header"><i class="fas fa-layer-group"></i> FRATTM</div>
+          <div class="hist-section__facts">
+            <div class="hist-fact"><span class="hist-fact__label">Category</span><span class="hist-fact__value">Higher than $10M</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </aside>
+
+  <!-- Fluent 2 Drawer – Reasons to Believe (medium 600px) -->
+  <div class="fui-drawer-overlay" id="reasons-drawer-overlay" aria-hidden="true"></div>
+  <aside class="fui-drawer fui-drawer--large" id="reasons-drawer" role="dialog" aria-label="Reasons to Believe" aria-hidden="true">
+    <div class="fui-drawer__header">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <i class="fas fa-lightbulb" style="color:#0f6cbd;font-size:16px;"></i>
+        <h2 class="fui-drawer__title">Reasons to Believe</h2>
+        <span class="ref-reasons__badge">8 signals</span>
+      </div>
+      <button class="fui-drawer__close" id="reasons-drawer-close" aria-label="Close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="fui-drawer__body">
+      <div class="hist-drawer-grid">
+
+        <!-- Deal Financials -->
+        <div class="hist-section">
+          <div class="hist-section__header"><i class="fas fa-chart-pie"></i> Deal Financials</div>
+          <div class="hist-section__facts">
+            <div class="hist-fact">
+              <span class="hist-fact__label">Gross minus Flex</span>
+              <span class="hist-fact__value">$28,589,055.00</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">Add-On Base Ratio Bucket</span>
+              <span class="hist-fact__value">Second highest (60-80%)</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">Deal Size Bucket</span>
+              <span class="hist-fact__value">$1M - $5M</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">Multi-Year Deal</span>
+              <span class="hist-fact__value">No</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Attributes -->
+        <div class="hist-section">
+          <div class="hist-section__header"><i class="fas fa-user-tie"></i> Customer Attributes</div>
+          <div class="hist-section__facts">
+            <div class="hist-fact">
+              <span class="hist-fact__label">TP Industry</span>
+              <span class="hist-fact__value">Financial services</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">Customer Segment</span>
+              <span class="hist-fact__value">Major</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">New Unified Customer</span>
+              <span class="hist-fact__value">No</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">CSAT</span>
+              <span class="hist-fact__value hist-fact__value--good">Positive</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historical Patterns -->
+        <div class="hist-section">
+          <div class="hist-section__header"><i class="fas fa-history"></i> Prior Deal</div>
+          <div class="hist-section__facts">
+            <div class="hist-fact">
+              <span class="hist-fact__label">Gross minus Flex</span>
+              <span class="hist-fact__value">$1,589,055.00</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">Discount %</span>
+              <span class="hist-fact__value">22.2%</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">Deal Type</span>
+              <span class="hist-fact__value">Renewal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACR Growth -->
+        <div class="hist-section">
+          <div class="hist-section__header"><i class="fas fa-chart-line"></i> ACR Growth</div>
+          <div class="hist-section__facts">
+            <div class="hist-fact">
+              <span class="hist-fact__label">ACR Growth Bucket</span>
+              <span class="hist-fact__value hist-fact__value--attention">Lowest (Bottom 20%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Azure Consumed Revenue -->
+        <div class="hist-section hist-section--wide">
+          <div class="hist-section__header"><i class="fas fa-cloud"></i> Azure Consumed Revenue</div>
+          <div class="hist-acr-grid">
+            <div class="hist-acr-card">
+              <span class="hist-acr-card__fy">FY22</span>
+              <span class="hist-acr-card__amount">$28,908,433</span>
+            </div>
+            <div class="hist-acr-card">
+              <span class="hist-acr-card__fy">FY23</span>
+              <span class="hist-acr-card__amount">$30,300,333</span>
+              <span class="hist-acr-card__trend hist-fact__value--good"><i class="fas fa-arrow-up"></i> +4.8%</span>
+            </div>
+            <div class="hist-acr-card">
+              <span class="hist-acr-card__fy">FY24</span>
+              <span class="hist-acr-card__amount">$29,457,485</span>
+              <span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> −2.8%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FRATTM -->
+        <div class="hist-section hist-section--wide">
+          <div class="hist-section__header"><i class="fas fa-layer-group"></i> FRATTM</div>
+          <div class="hist-section__facts">
+            <div class="hist-fact">
+              <span class="hist-fact__label">Category</span>
+              <span class="hist-fact__value">Higher than $10M</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="fui-drawer__footer">
+      <button class="fui-btn fui-btn--secondary" id="reasons-drawer-close-btn">Close</button>
+    </div>
+  </aside>
+
+  <!-- Footer -->
+  <footer class="bottom-footer">
+    <span>©2020 Microsoft</span>
+    <a href="#">Data Protection Notice</a>
+    <span class="footer-right">Build 1.6.0.20200121.5</span>
+  </footer>
+
+  <script>
+    const slider = document.getElementById('discount-slider');
+    const hero = document.getElementById('discount-hero');
+    const label = document.getElementById('discount-label');
+
+    function updateDiscount() {
+      const val = parseFloat(slider.value).toFixed(1) + '%';
+      hero.textContent = val;
+      label.textContent = val;
+    }
+
+    slider.addEventListener('input', updateDiscount);
+
+    // --- Reference tab slider ---
+    const refSlider = document.getElementById('ref-discount-slider');
+    const refHero = document.getElementById('ref-discount-hero');
+    const refLabel = document.getElementById('ref-discount-label');
+
+    function updateRefDiscount() {
+      const val = parseFloat(refSlider.value).toFixed(1) + '%';
+      refHero.textContent = val;
+      refLabel.textContent = val;
+    }
+
+    refSlider.addEventListener('input', updateRefDiscount);
+
+    // --- Fluent 2 Drawer logic ---
+    const editBtn = document.getElementById('btn-edit-deal');
+    const drawer = document.getElementById('edit-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    const drawerBody = document.getElementById('drawer-body');
+    const drawerClose = document.getElementById('drawer-close');
+    const drawerSave = document.getElementById('drawer-save');
+    const drawerCancel = document.getElementById('drawer-cancel');
+
+    const fieldLabels = {
+      gross_minus_flex: 'Gross minus Flex',
+      addon_base_ratio: 'Addon Base Ratio Bucket',
+      deal_size_bucket: 'Deal size bucket',
+      multi_yr_deal: 'Multi-Yr Deal',
+      tp_industry: 'TP Industry name',
+      customer_segment: 'Customer Segment',
+      new_unified_customer: 'New Unified Customer',
+      customer_satisfaction: 'Customer satisfaction'
+    };
+
+    const dropdownFields = {
+      multi_yr_deal: ['Yes', 'No']
+    };
+
+    const radioFields = {
+      new_unified_customer: ['Yes', 'No']
+    };
+
+    function openDrawer() {
+      drawerBody.innerHTML = '';
+      const facts = document.querySelectorAll('#deal-financials-facts .ac-fact-value, #deal-financials-facts-2 .ac-fact-value');
+      facts.forEach(function(el) {
+        const field = el.getAttribute('data-field');
+        const value = el.textContent.trim();
+        const group = document.createElement('div');
+        group.className = 'fui-field';
+        const lbl = document.createElement('label');
+        lbl.className = 'fui-field__label';
+        lbl.textContent = fieldLabels[field] || field;
+        group.appendChild(lbl);
+
+        if (radioFields[field]) {
+          const radioGroup = document.createElement('div');
+          radioGroup.className = 'fui-radio-group';
+          radioGroup.setAttribute('role', 'radiogroup');
+          radioGroup.setAttribute('aria-label', fieldLabels[field] || field);
+          radioFields[field].forEach(function(opt) {
+            const radioLabel = document.createElement('label');
+            radioLabel.className = 'fui-radio';
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.className = 'fui-radio__input';
+            radio.name = 'edit-' + field;
+            radio.value = opt;
+            radio.setAttribute('data-field', field);
+            if (opt === value) radio.checked = true;
+            const indicator = document.createElement('span');
+            indicator.className = 'fui-radio__indicator';
+            const text = document.createElement('span');
+            text.className = 'fui-radio__label';
+            text.textContent = opt;
+            radioLabel.appendChild(radio);
+            radioLabel.appendChild(indicator);
+            radioLabel.appendChild(text);
+            radioGroup.appendChild(radioLabel);
+          });
+          group.appendChild(radioGroup);
+        } else if (dropdownFields[field]) {
+          const select = document.createElement('select');
+          select.className = 'fui-input fui-select';
+          select.id = 'edit-' + field;
+          select.setAttribute('data-field', field);
+          dropdownFields[field].forEach(function(opt) {
+            const option = document.createElement('option');
+            option.value = opt;
+            option.textContent = opt;
+            if (opt === value.trim()) option.selected = true;
+            select.appendChild(option);
+          });
+          group.appendChild(select);
+        } else {
+          const input = document.createElement('input');
+          input.className = 'fui-input';
+          input.type = 'text';
+          input.id = 'edit-' + field;
+          input.setAttribute('data-field', field);
+          input.value = value;
+          group.appendChild(input);
+        }
+
+        drawerBody.appendChild(group);
+      });
+
+      drawer.classList.add('fui-drawer--open');
+      overlay.classList.add('fui-drawer-overlay--visible');
+      drawer.setAttribute('aria-hidden', 'false');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('fui-drawer--open');
+      overlay.classList.remove('fui-drawer-overlay--visible');
+      drawer.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    function saveDrawer() {
+      var inputs = drawerBody.querySelectorAll('.fui-input, .fui-select');
+      inputs.forEach(function(input) {
+        var field = input.getAttribute('data-field');
+        var target = document.querySelector('#deal-financials-facts .ac-fact-value[data-field="' + field + '"]')
+          || document.querySelector('#deal-financials-facts-2 .ac-fact-value[data-field="' + field + '"]');
+        if (target) {
+          target.textContent = input.value;
+        }
+      });
+      var radioGroups = drawerBody.querySelectorAll('.fui-radio-group');
+      radioGroups.forEach(function(group) {
+        var checked = group.querySelector('.fui-radio__input:checked');
+        if (checked) {
+          var field = checked.getAttribute('data-field');
+          var target = document.querySelector('#deal-financials-facts .ac-fact-value[data-field="' + field + '"]')
+            || document.querySelector('#deal-financials-facts-2 .ac-fact-value[data-field="' + field + '"]');
+          if (target) {
+            target.textContent = checked.value;
+          }
+        }
+      });
+      closeDrawer();
+    }
+
+    editBtn.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    drawerCancel.addEventListener('click', closeDrawer);
+    drawerSave.addEventListener('click', saveDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // --- Historical Financials Drawer ---
+    var btnViewMore = document.getElementById('btn-view-more-hist');
+    var histDrawer = document.getElementById('hist-drawer');
+    var histOverlay = document.getElementById('hist-drawer-overlay');
+    var histClose = document.getElementById('hist-drawer-close');
+
+    function openHistDrawer() {
+      histDrawer.classList.add('fui-drawer--open');
+      histOverlay.classList.add('fui-drawer-overlay--visible');
+      histDrawer.setAttribute('aria-hidden', 'false');
+      histOverlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeHistDrawer() {
+      histDrawer.classList.remove('fui-drawer--open');
+      histOverlay.classList.remove('fui-drawer-overlay--visible');
+      histDrawer.setAttribute('aria-hidden', 'true');
+      histOverlay.setAttribute('aria-hidden', 'true');
+    }
+
+    btnViewMore.addEventListener('click', openHistDrawer);
+    histClose.addEventListener('click', closeHistDrawer);
+    histOverlay.addEventListener('click', closeHistDrawer);
+
+    // --- Reasons to Believe Drawer ---
+    var reasonsBtn = document.getElementById('btn-reasons-toggle');
+    var reasonsDrawer = document.getElementById('reasons-drawer');
+    var reasonsOverlay = document.getElementById('reasons-drawer-overlay');
+    var reasonsClose = document.getElementById('reasons-drawer-close');
+    var reasonsCloseBtn = document.getElementById('reasons-drawer-close-btn');
+
+    function openReasonsDrawer() {
+      reasonsDrawer.classList.add('fui-drawer--open');
+      reasonsOverlay.classList.add('fui-drawer-overlay--visible');
+      reasonsDrawer.setAttribute('aria-hidden', 'false');
+      reasonsOverlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeReasonsDrawer() {
+      reasonsDrawer.classList.remove('fui-drawer--open');
+      reasonsOverlay.classList.remove('fui-drawer-overlay--visible');
+      reasonsDrawer.setAttribute('aria-hidden', 'true');
+      reasonsOverlay.setAttribute('aria-hidden', 'true');
+    }
+
+    reasonsBtn.addEventListener('click', openReasonsDrawer);
+    reasonsClose.addEventListener('click', closeReasonsDrawer);
+    reasonsCloseBtn.addEventListener('click', closeReasonsDrawer);
+    reasonsOverlay.addEventListener('click', closeReasonsDrawer);
+
+    // --- Tab Switching ---
+    function switchTab(e) {
+      var tabs = document.querySelectorAll('.tabs-bar .tab');
+      tabs.forEach(function(t) { t.classList.remove('tab-active'); });
+      e.currentTarget.classList.add('tab-active');
+
+      // Hide all panels
+      var panels = document.querySelectorAll('.tab-panel');
+      panels.forEach(function(p) { p.classList.remove('tab-panel--active'); });
+
+      // Show target panel
+      var panelId = e.currentTarget.getAttribute('data-panel');
+      if (panelId) {
+        var panel = document.getElementById(panelId);
+        if (panel) panel.classList.add('tab-panel--active');
+      }
+    }
+
+    // --- Reasons to Believe toggle ---
+    var reasonsToggle = document.getElementById('reasons-toggle');
+    var reasonsBody = document.getElementById('reasons-body');
+    var reasonsChevron = document.getElementById('reasons-chevron');
+    if (reasonsToggle) {
+      reasonsToggle.addEventListener('click', function() {
+        var open = reasonsBody.style.display !== 'none';
+        reasonsBody.style.display = open ? 'none' : 'block';
+        reasonsChevron.style.transform = open ? 'rotate(0deg)' : 'rotate(90deg)';
+      });
+    }
+
+    // --- Feedback buttons ---
+    document.querySelectorAll('.ref-feedback__btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.ref-feedback__btn').forEach(function(b) { b.classList.remove('ref-feedback__btn--active'); });
+        btn.classList.add('ref-feedback__btn--active');
+      });
+    });
+
+    // --- Left Nav switching ---
+    function switchNav(e, panelId) {
+      // Deactivate all nav buttons
+      document.querySelectorAll('.sidebar-nav-btn').forEach(function(b) { b.classList.remove('sidebar-nav-btn--active'); });
+      e.currentTarget.classList.add('sidebar-nav-btn--active');
+
+      // Hide all nav panels
+      document.querySelectorAll('.nav-panel').forEach(function(p) { p.classList.remove('nav-panel--active'); });
+
+      // Show target
+      var panel = document.getElementById(panelId);
+      if (panel) panel.classList.add('nav-panel--active');
+    }
+
+    // --- Right sidebar tab switching ---
+    function switchSidebarTab(e, panelId) {
+      document.querySelectorAll('.sidebar-tab').forEach(function(t) { t.classList.remove('sidebar-tab-active'); });
+      e.currentTarget.classList.add('sidebar-tab-active');
+      document.querySelectorAll('.sidebar-panel').forEach(function(p) { p.style.display = 'none'; });
+      var panel = document.getElementById(panelId);
+      if (panel) panel.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
