@@ -517,7 +517,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* --- Fluent Drawer: Medium size (600px) --- */
 .fui-drawer--medium {
-  width: 600px;
+  width: 940px;
 }
 
 /* --- Fluent Drawer: Large size (800px) --- */
@@ -638,11 +638,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .ac-header {
   padding: 8px 20px;
   border-bottom: 1px solid #f3f2f1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .ac-header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 36px;
 }
 .ac-header-row .ac-column {
   display: flex;
