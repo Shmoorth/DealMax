@@ -121,7 +121,7 @@
       <button class="tab" onclick="switchTab(event)">Summary</button>
       <button class="tab" onclick="switchTab(event)">Contract details</button>
       <button class="tab tab-active" onclick="switchTab(event)" data-panel="panel-financials">Financials <i class="fas fa-chevron-down tab-chevron"></i></button>
-      <button class="tab" onclick="switchTab(event)" data-panel="panel-reference">Reference <i class="fas fa-lightbulb tab-icon-ref"></i></button>
+      <button class="tab" onclick="switchTab(event)" data-panel="panel-reference">Reference</button>
       <button class="tab" onclick="switchTab(event)">Risks</button>
       <button class="tab" onclick="switchTab(event)">Approvals</button>
       <button class="tab" onclick="switchTab(event)">Proposals</button>
@@ -173,7 +173,7 @@
               </div>
 
               <!-- Column 2: Deal Financials (right half) -->
-              <div class="ac-column ac-column-stretch">
+              <div class="ac-column ac-column-stretch" style="padding-left:50px;">
                 <div class="ac-container">
                   <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder" style="visibility:hidden;">&#8203;</span>
                   <div class="ac-factSet" id="deal-financials-facts-2">
@@ -342,11 +342,12 @@
                   <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
                 </div>
                 <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:12px;">
-                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle"><i class="far fa-clock"></i> Last refreshed: 09 Apr 2026, 10:42 AM</span>
                   <button class="ref-banner__refresh" title="Refresh recommendation"><i class="fas fa-sync-alt"></i> Refresh</button>
+                  <button class="ref-banner__refresh" id="btn-reasons-toggle" title="Reasons to Believe"><i class="fas fa-lightbulb"></i> Reasons to Believe</button>
                   <button class="ac-action ac-action--icon" title="More options" aria-label="More options"><i class="fas fa-ellipsis-h"></i></button>
                 </div>
               </div>
+              <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="margin-top:4px;"><i class="far fa-clock"></i> Last refreshed: 09 Apr 2026, 10:42 AM</span>
             </div>
 
             <!-- Card Body -->
@@ -356,7 +357,7 @@
                 <!-- Column 1: Recommendation facts (left) -->
                 <div class="ac-column ac-column-stretch">
                   <div class="ac-container">
-                    <div class="ac-factSet">
+                    <div class="ac-factSet ref-factSet-aligned">
                       <div class="ac-fact"><span class="ac-fact-title">Recommended Discount</span><span class="ac-fact-value">18.5 %</span></div>
                       <div class="ac-fact"><span class="ac-fact-title">Min Discount</span><span class="ac-fact-value">12.0 %</span></div>
                       <div class="ac-fact"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
@@ -368,8 +369,7 @@
                 <!-- Column 2: Customer & deal context (right) -->
                 <div class="ac-column ac-column-stretch">
                   <div class="ac-container">
-                    <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder" style="visibility:hidden;">&#8203;</span>
-                    <div class="ac-factSet">
+                    <div class="ac-factSet ref-factSet-aligned">
                       <div class="ac-fact"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" style="color:#d13438;font-weight:700;">+3.5 % ($105,000)</span></div>
                       <div class="ac-fact"><span class="ac-fact-title">Approval Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Green → Blue</span></div>
                       <div class="ac-fact"><span class="ac-fact-title">Customer Segment</span><span class="ac-fact-value">Major</span></div>
@@ -399,7 +399,15 @@
               <div class="ac-actionSet" style="margin-top:16px;">
                 <button class="ac-action ac-action--primary">Apply to Quote</button>
                 <button class="ac-action ac-action--secondary">Simulate</button>
-                <button class="ac-action ac-action--viewmore" id="btn-reasons-toggle"><i class="fas fa-lightbulb"></i> Reasons to Believe</button>
+              </div>
+
+              <!-- AI Disclaimer with approval impact -->
+              <div class="ref-ai-disclaimer">
+                <span class="ref-ai-disclaimer__text">Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>.</span>
+                <div class="ref-ai-disclaimer__feedback">
+                  <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
+                  <button class="ref-ai-disclaimer__btn" title="Not helpful"><i class="far fa-thumbs-down"></i></button>
+                </div>
               </div>
             </div>
 
@@ -456,7 +464,7 @@
                   <td class="col-percent">10.0 %</td>
                   <td class="col-percent">22.0 %</td>
                   <td class="col-percent">20.0 %</td>
-                  <td class="col-money ref-cell--attention">$ 25,000.00</td>
+                  <td class="col-money">$ 25,000.00</td>
                   <td class="col-percent ref-cell--attention">+2.5 %</td>
                   <td class="col-status"><span class="ref-status ref-status--above">Above</span></td>
                 </tr>
@@ -480,7 +488,7 @@
                   <td class="col-percent">13.0 %</td>
                   <td class="col-percent">25.0 %</td>
                   <td class="col-percent">18.5 %</td>
-                  <td class="col-money ref-cell--good">-$ 5,000.00</td>
+                  <td class="col-money">-$ 5,000.00</td>
                   <td class="col-percent ref-cell--good">-0.5 %</td>
                   <td class="col-status"><span class="ref-status ref-status--within">Within</span></td>
                 </tr>
@@ -504,7 +512,7 @@
                   <td class="col-percent">14.0 %</td>
                   <td class="col-percent">26.0 %</td>
                   <td class="col-percent">24.0 %</td>
-                  <td class="col-money ref-cell--attention">$ 45,000.00</td>
+                  <td class="col-money">$ 45,000.00</td>
                   <td class="col-percent ref-cell--attention">+4.5 %</td>
                   <td class="col-status"><span class="ref-status ref-status--above">Above</span></td>
                 </tr>
