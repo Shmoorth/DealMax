@@ -517,7 +517,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* --- Fluent Drawer: Medium size (600px) --- */
 .fui-drawer--medium {
-  width: 940px;
+  width: 1080px;
 }
 
 /* --- Fluent Drawer: Large size (800px) --- */
@@ -528,7 +528,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* --- Historical Financials Drawer Content --- */
 .hist-drawer-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 16px;
 }
 
@@ -1034,7 +1034,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   position: fixed;
   top: 48px; right: 0; bottom: 0;
   width: 400px;
-  max-width: 90vw;
+  max-width: 95vw;
   background: #fff;
   z-index: 210;
   display: flex;
@@ -1080,6 +1080,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .fui-drawer__body {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px 24px;
 }
 
