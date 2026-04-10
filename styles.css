@@ -1315,6 +1315,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: center;
   gap: 4px;
 }
+.ref-banner__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
 .ref-banner__refresh {
   display: inline-flex;
   align-items: center;

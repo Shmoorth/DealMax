@@ -322,11 +322,6 @@
           </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="pagination-bar">
-          <span class="pagination-info">Displaying <strong>1-100</strong> of <strong>200</strong> items</span>
-        </div>
-
         </div><!-- /panel-financials -->
 
         <!-- ===== PANEL: Reference (DealMax Discount Intelligence) ===== -->
@@ -342,12 +337,14 @@
                   <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
                 </div>
                 <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:12px;">
-                  <button class="ref-banner__refresh" title="Refresh recommendation"><i class="fas fa-sync-alt"></i> Refresh</button>
-                  <button class="ref-banner__refresh" id="btn-reasons-toggle" title="Reasons to Believe"><i class="fas fa-lightbulb"></i> Reasons to Believe</button>
+                  <div class="ref-banner__actions">
+                    <button class="ref-banner__refresh" title="Refresh recommendation"><i class="fas fa-sync-alt"></i> Refresh</button>
+                    <button class="ref-banner__refresh" id="btn-reasons-toggle" title="Reasons to Believe"><i class="fas fa-lightbulb"></i> Reasons to Believe</button>
+                  </div>
                   <button class="ac-action ac-action--icon" title="More options" aria-label="More options"><i class="fas fa-ellipsis-h"></i></button>
                 </div>
               </div>
-              <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="margin-top:4px;"><i class="far fa-clock"></i> Last refreshed: 09 Apr 2026, 10:42 AM</span>
+              <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="margin-top:2px;"><i class="far fa-clock"></i> Last refreshed: 09 Apr 2026, 10:42 AM</span>
             </div>
 
             <!-- Card Body -->
@@ -518,21 +515,6 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-
-          <!-- Approval Impact + Feedback row -->
-          <div class="ref-footer-strip">
-            <div class="ref-approval-impact">
-              <i class="fas fa-shield-alt"></i>
-              <span class="ref-approval-impact__text">
-                Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>.
-              </span>
-            </div>
-            <div class="ref-feedback">
-              <span class="ref-feedback__label">Was this recommendation helpful?</span>
-              <button class="ref-feedback__btn ref-feedback__btn--up" title="Thumbs up"><i class="far fa-thumbs-up"></i></button>
-              <button class="ref-feedback__btn ref-feedback__btn--down" title="Thumbs down"><i class="far fa-thumbs-down"></i></button>
-            </div>
           </div>
 
           <!-- Pagination -->
