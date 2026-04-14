@@ -639,7 +639,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* --- Header Container --- */
 .ac-header {
-  padding: 8px 20px;
+  padding: 8px 60px 8px 20px;
   border-bottom: 1px solid #f3f2f1;
   display: flex;
   flex-direction: column;
@@ -658,7 +658,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* --- Body Container --- */
 .ac-body {
-  padding: 20px 20px 10px;
+  padding: 20px 60px 10px 20px;
 }
 
 /* --- ColumnSet & Column --- */
@@ -738,7 +738,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: center;
   gap: 8px;
   margin-top: 12px;
-  padding: 8px 12px;
+  padding: 8px 12px 8px 0;
   background: transparent;
   border-radius: 6px;
   border: none;
@@ -1740,66 +1740,85 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* Input Bar */
 .agent-input-bar {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
   padding: 12px 32px 16px;
   background: #fff;
   border-top: 1px solid #edebe9;
   flex-shrink: 0;
 }
+.agent-input-container {
+  display: flex;
+  align-items: flex-end;
+  background: #f5f5f5;
+  border: 1px solid #d1d1d1;
+  border-radius: 24px;
+  padding: 8px 8px 8px 20px;
+  max-width: 780px;
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.agent-input-container:focus-within {
+  border-color: #0f6cbd;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px #0f6cbd;
+}
 .agent-input {
   flex: 1;
-  padding: 10px 16px;
+  padding: 6px 0;
   font-size: 14px;
   font-family: 'Segoe UI', sans-serif;
   color: #242424;
-  background: #f5f5f5;
-  border: 1px solid #d1d1d1;
-  border-radius: 8px;
+  background: transparent;
+  border: none;
   outline: none;
-  transition: border-color 0.15s ease;
-}
-.agent-input:focus {
-  border-color: #0f6cbd;
-  background: #fff;
-  box-shadow: 0 0 0 1px #0f6cbd;
+  line-height: 1.5;
+  resize: none;
 }
 .agent-input::placeholder { color: #a19f9d; }
 
 .agent-input-actions {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
+  flex-shrink: 0;
 }
 .agent-input-icon {
-  width: 36px; height: 36px;
-  border-radius: 8px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
   border: none;
   background: transparent;
   color: #616161;
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.1s ease;
 }
 .agent-input-icon:hover {
-  background: #f0f0f0;
+  background: #e8e8e8;
   color: #242424;
 }
 
 .agent-send-btn {
-  width: 36px; height: 36px;
-  border-radius: 8px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
   background: #0f6cbd;
   color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
   border: none;
   transition: background 0.1s ease;
   flex-shrink: 0;
+  margin-left: 2px;
 }
 .agent-send-btn:hover { background: #115ea3; }
+.agent-input-disclaimer {
+  font-size: 11px;
+  color: #a19f9d;
+  text-align: center;
+  margin-top: 6px;
+}
 
 /* ======== Agent Card (Copilot-style) ======== */
 .agent-card {
@@ -1921,6 +1940,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: #8a8886;
   line-height: 1.5;
   margin-top: 4px;
+}
+.agent-card__disclaimer:last-child {
+  margin-top: 12px;
 }
 .agent-card__disclaimer a {
   color: #0f6cbd;
@@ -2113,4 +2135,46 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
+}
+
+/* --- Interactive Agent Flow --- */
+.agent-msg[data-step] { display: none; }
+.agent-msg[data-step].agent-msg--visible {
+  display: flex;
+  animation: agentFadeIn 0.35s ease both;
+}
+@keyframes agentFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.agent-typing {
+  display: none;
+  gap: 12px;
+  max-width: 780px;
+  width: 100%;
+  align-self: center;
+  margin-top: 8px;
+}
+.agent-typing--visible { display: flex; }
+.agent-typing__dots {
+  display: flex; gap: 4px; align-items: center;
+  padding: 10px 16px;
+}
+.agent-typing__dots span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #0f6cbd;
+  animation: typingBounce 1.2s ease-in-out infinite;
+}
+.agent-typing__dots span:nth-child(2) { animation-delay: 0.15s; }
+.agent-typing__dots span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-4px); }
+}
+.agent-suggestion-chip:disabled,
+.agent-suggestion-chip.chip--used {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
 }

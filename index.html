@@ -336,7 +336,7 @@
                 <div class="ac-column ac-column-stretch">
                   <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
                 </div>
-                <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:12px;">
+                <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:4px;margin-right:-25px;">
                   <div class="ref-banner__actions">
                     <button class="ref-banner__refresh" title="Refresh recommendation"><i class="fas fa-sync-alt"></i> Refresh</button>
                     <button class="ref-banner__refresh" id="btn-reasons-toggle" title="Reasons to Believe"><i class="fas fa-lightbulb"></i> Reasons to Believe</button>
@@ -399,7 +399,7 @@
               </div>
 
               <!-- AI Disclaimer with approval impact -->
-              <div class="ref-ai-disclaimer">
+              <div class="ref-ai-disclaimer" style="margin-top:4px;">
                 <span class="ref-ai-disclaimer__text">Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>.</span>
                 <div class="ref-ai-disclaimer__feedback">
                   <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
@@ -685,28 +685,14 @@
         <!-- Agent Chat Area -->
         <div class="agent-chat-area">
 
-          <!-- System message -->
-          <div class="agent-msg agent-msg--system">
-            <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
-            <div class="agent-msg__bubble">
-              <p>Hello! I'm the Services Deal Agent. I can help you with discount recommendations, simulations, and applying discounts to your deals.</p>
-              <p style="margin-top:8px;">Try asking:</p>
-              <div class="agent-suggestions">
-                <button class="agent-suggestion-chip">What is the DealMax recommended discount for this deal?</button>
-                <button class="agent-suggestion-chip">Simulate DealMax recommended discount on this deal</button>
-                <button class="agent-suggestion-chip">What is the approval impact if I apply this discount?</button>
-              </div>
-            </div>
-          </div>
-
           <!-- User message -->
-          <div class="agent-msg agent-msg--user">
+          <div class="agent-msg agent-msg--user" data-step="0">
             <div class="agent-msg__avatar agent-msg__avatar--user">S</div>
-            <div class="agent-msg__bubble">What is the DealMax recommended discount for this deal?</div>
+            <div class="agent-msg__bubble">What is the DealMax recommended discount for Quote A123456?</div>
           </div>
 
           <!-- Agent response: DealMax Recommendation Card -->
-          <div class="agent-msg agent-msg--system">
+          <div class="agent-msg agent-msg--system" data-step="1">
             <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
             <div class="agent-msg__bubble agent-msg__bubble--wide">
               <p>Here are the DealMax discount recommendations for this deal.</p>
@@ -754,44 +740,44 @@
 
                 <div class="agent-card__actions">
                   <button class="agent-card__btn agent-card__btn--primary">Apply to Quote</button>
-                  <button class="agent-card__btn agent-card__btn--secondary">Simulate with Agent</button>
-                  <button class="agent-card__btn agent-card__btn--secondary">Historical Financials</button>
+                  <button class="agent-card__btn agent-card__btn--secondary" id="btn-simulate-agent">Simulate with Agent</button>
                 </div>
 
                 <div class="agent-card__disclaimer">
-                  <i class="fas fa-shield-alt" style="margin-right:4px;"></i> Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>.
+                  Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>.
                 </div>
+
+                <!-- Reasons to Believe (collapsed summary) -->
+                <div class="agent-reasons-summary">
+                  <div class="agent-reasons-summary__header">
+                    <svg width="16" height="16" viewBox="0 0 20 20" fill="#0f6cbd" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 6.50238C9.5 6.22624 9.72386 6.00238 10 6.00238C10.2761 6.00238 10.5 6.22624 10.5 6.50238V7.50391C10.5 7.78005 10.2761 8.00391 10 8.00391C9.72386 8.00391 9.5 7.78005 9.5 7.50391V6.50238ZM12.8506 7.44332C12.6553 7.24806 12.3388 7.24806 12.1435 7.44332L11.4353 8.15151C11.2401 8.34677 11.2401 8.66335 11.4353 8.85861C11.6306 9.05388 11.9472 9.05388 12.1424 8.85861L12.8506 8.15043C13.0459 7.95517 13.0459 7.63858 12.8506 7.44332ZM7.8521 7.44332C7.65684 7.24806 7.34026 7.24806 7.145 7.44332C6.94973 7.63858 6.94973 7.95517 7.145 8.15043L7.85318 8.85861C8.04844 9.05388 8.36503 9.05388 8.56029 8.85861C8.75555 8.66335 8.75555 8.34677 8.56029 8.15151L7.8521 7.44332ZM10 2C13.3137 2 16 4.59693 16 7.80041C16 9.47737 15.2546 11.0164 13.7961 12.3942C13.7324 12.4544 13.6831 12.5269 13.6512 12.6065L13.6251 12.6883L12.6891 16.6051C12.5048 17.3763 11.8236 17.935 11.0181 17.9947L10.8748 18H9.12546C8.30655 18 7.59 17.4839 7.34866 16.7385L7.31108 16.6047L6.37626 12.6886C6.34955 12.5766 6.29016 12.4745 6.20516 12.3942C4.8153 11.0819 4.07265 9.62354 4.00507 8.03903L4 7.80041L4.00321 7.60894C4.1077 4.49409 6.75257 2 10 2ZM7.955 15L8.27386 16.3344L8.30004 16.4305C8.39695 16.7298 8.67583 16.9517 9.0116 16.993L9.12546 17L10.8379 17.0007L10.9442 16.9974C11.2865 16.9721 11.5726 16.7609 11.6854 16.4718L11.7165 16.3727L12.045 15H7.955ZM10 3C7.36782 3 5.21188 4.95301 5.0151 7.41357L5.00307 7.62569L4.99977 7.77916L5.00416 7.99642C5.05977 9.30026 5.67758 10.5208 6.89167 11.6671C7.07995 11.8449 7.22191 12.0647 7.30572 12.3078L7.34894 12.4564L7.716 14H9.50024V9.49707C9.50024 9.22093 9.7241 8.99707 10.0002 8.99707C10.2764 8.99707 10.5002 9.22093 10.5002 9.49707V14H12.285L12.6722 12.3851L12.7231 12.2343C12.8091 12.0198 12.9409 11.8265 13.1094 11.6673C14.3825 10.4646 15 9.18054 15 7.80041C15 5.15693 12.7689 3 10 3Z"/></svg>
+                    <span class="ac-textBlock ac-textBlock--small ac-weight--bolder">Reasons to Believe</span>
+                    <span class="ref-reasons__badge" style="font-size:10px;">8 signals</span>
+                  </div>
+                  <div class="agent-reasons-summary__body">
+                    <div class="agent-reasons-summary__group">
+                      <span class="agent-reasons-summary__label">Deal Size Bucket</span>
+                      <span class="agent-reasons-summary__value">$1M – $5M</span>
+                    </div>
+                    <div class="agent-reasons-summary__group">
+                      <span class="agent-reasons-summary__label">Add-On Base Ratio</span>
+                      <span class="agent-reasons-summary__value">Second highest (60-80%)</span>
+                    </div>
+                    <div class="agent-reasons-summary__group">
+                      <span class="agent-reasons-summary__label">Prior Deal Discount</span>
+                      <span class="agent-reasons-summary__value">22.2%</span>
+                    </div>
+                    <div class="agent-reasons-summary__group">
+                      <span class="agent-reasons-summary__label">ACR Growth Bucket</span>
+                      <span class="agent-reasons-summary__value agent-rec-value--attention">Lowest (Bottom 20%)</span>
+                    </div>
+                  </div>
+                  <button class="agent-reasons-summary__expand" onclick="openReasonsDrawer()"><i class="fas fa-expand-alt" style="margin-right:4px;"></i> View all 8 signals</button>
+                </div>
+
                 <div class="agent-card__disclaimer">
                   AI-generated content may be incorrect. Make sure AI-generated content is accurate and appropriate before using. <a href="#">See terms</a>
                 </div>
-              </div>
-
-              <!-- Reasons to Believe (collapsed summary) -->
-              <div class="agent-reasons-summary">
-                <div class="agent-reasons-summary__header">
-                  <i class="fas fa-lightbulb" style="color:#0f6cbd;"></i>
-                  <span class="ac-textBlock ac-textBlock--small ac-weight--bolder">Reasons to Believe</span>
-                  <span class="ref-reasons__badge" style="font-size:10px;">8 signals</span>
-                </div>
-                <div class="agent-reasons-summary__body">
-                  <div class="agent-reasons-summary__group">
-                    <span class="agent-reasons-summary__label">Deal Size Bucket</span>
-                    <span class="agent-reasons-summary__value">$1M – $5M</span>
-                  </div>
-                  <div class="agent-reasons-summary__group">
-                    <span class="agent-reasons-summary__label">Add-On Base Ratio</span>
-                    <span class="agent-reasons-summary__value">Second highest (60-80%)</span>
-                  </div>
-                  <div class="agent-reasons-summary__group">
-                    <span class="agent-reasons-summary__label">Prior Deal Discount</span>
-                    <span class="agent-reasons-summary__value">22.2%</span>
-                  </div>
-                  <div class="agent-reasons-summary__group">
-                    <span class="agent-reasons-summary__label">ACR Growth Bucket</span>
-                    <span class="agent-reasons-summary__value agent-rec-value--attention">Lowest (Bottom 20%)</span>
-                  </div>
-                </div>
-                <button class="agent-reasons-summary__expand" onclick="openReasonsDrawer()"><i class="fas fa-expand-alt" style="margin-right:4px;"></i> View all 8 signals</button>
               </div>
 
               <!-- Feedback -->
@@ -800,23 +786,17 @@
                 <button class="agent-feedback__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
                 <button class="agent-feedback__btn" title="Not helpful"><i class="far fa-thumbs-down"></i></button>
               </div>
-
-              <div class="agent-suggestions" style="margin-top:10px;">
-                <button class="agent-suggestion-chip">Simulate this on my deal</button>
-                <button class="agent-suggestion-chip">Apply recommended discount</button>
-                <button class="agent-suggestion-chip">Show approval impact</button>
-              </div>
             </div>
           </div>
 
           <!-- User message: simulate -->
-          <div class="agent-msg agent-msg--user">
+          <div class="agent-msg agent-msg--user" data-step="2">
             <div class="agent-msg__avatar agent-msg__avatar--user">S</div>
-            <div class="agent-msg__bubble">Simulate DealMax recommended discount on this deal</div>
+            <div class="agent-msg__bubble">Simulate this on my deal</div>
           </div>
 
           <!-- Agent response: Simulation with data grid -->
-          <div class="agent-msg agent-msg--system">
+          <div class="agent-msg agent-msg--system" data-step="3">
             <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
             <div class="agent-msg__bubble agent-msg__bubble--wide">
               <p>Here are the simulation results for applying 18.5% discount to Quote A123456.</p>
@@ -889,7 +869,6 @@
                 <div class="agent-card__actions">
                   <button class="agent-card__btn agent-card__btn--primary">Apply to Existing Quote</button>
                   <button class="agent-card__btn agent-card__btn--secondary">Create New Quote</button>
-                  <button class="agent-card__btn agent-card__btn--secondary">Cancel</button>
                 </div>
 
                 <div class="agent-card__disclaimer">
@@ -903,7 +882,14 @@
                 <button class="agent-feedback__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
                 <button class="agent-feedback__btn" title="Not helpful"><i class="far fa-thumbs-down"></i></button>
               </div>
+            </div>
+          </div>
 
+          <!-- Agent follow-up: further actions -->
+          <div class="agent-msg agent-msg--system" data-step="4">
+            <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
+            <div class="agent-msg__bubble">
+              <p>Would you like to proceed? I can help you with the following:</p>
               <div class="agent-suggestions" style="margin-top:10px;">
                 <button class="agent-suggestion-chip">Apply to existing quote</button>
                 <button class="agent-suggestion-chip">Create a new quote with this discount</button>
@@ -913,13 +899,13 @@
           </div>
 
           <!-- User message: apply -->
-          <div class="agent-msg agent-msg--user">
+          <div class="agent-msg agent-msg--user" data-step="5">
             <div class="agent-msg__avatar agent-msg__avatar--user">S</div>
             <div class="agent-msg__bubble">Apply recommended discount to this deal</div>
           </div>
 
           <!-- Agent response: Apply Confirmation -->
-          <div class="agent-msg agent-msg--system">
+          <div class="agent-msg agent-msg--system" data-step="6">
             <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
             <div class="agent-msg__bubble agent-msg__bubble--wide">
               <p>Please review and confirm before applying the discount.</p>
@@ -965,8 +951,7 @@
                 </table>
 
                 <div class="agent-card__actions">
-                  <button class="agent-card__btn agent-card__btn--primary"><i class="fas fa-check" style="margin-right:4px;"></i> Confirm &amp; Apply</button>
-                  <button class="agent-card__btn agent-card__btn--secondary">Cancel</button>
+                  <button class="agent-card__btn agent-card__btn--primary">Confirm &amp; Apply</button>
                 </div>
 
                 <div class="agent-card__disclaimer">
@@ -977,21 +962,21 @@
           </div>
 
           <!-- Separator: No recommendation scenario -->
-          <div class="agent-msg agent-msg--user" style="margin-top:12px;">
+          <div class="agent-msg agent-msg--user" data-step="7" style="margin-top:12px;">
             <div class="agent-msg__avatar agent-msg__avatar--user">S</div>
             <div class="agent-msg__bubble">What is the DealMax recommended discount for deal D-FED-9021?</div>
           </div>
 
           <!-- Agent response: No Recommendation Available -->
-          <div class="agent-msg agent-msg--system">
+          <div class="agent-msg agent-msg--system" data-step="8">
             <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
             <div class="agent-msg__bubble">
               <div class="agent-no-rec">
                 <div class="agent-no-rec__icon"><i class="fas fa-info-circle"></i></div>
                 <div class="agent-no-rec__content">
                   <p class="ac-textBlock ac-weight--bolder" style="margin-bottom:4px;">Recommendation Not Available</p>
-                  <p class="ac-textBlock ac-textBlock--small">Discount recommendations are not available for this deal. <strong>Reason:</strong> Federal deals are not currently supported by the DealMax model.</p>
-                  <p class="ac-textBlock ac-textBlock--small" style="margin-top:6px;">If you believe this is an error, please reach out to the DealMax support team.</p>
+                  <p class="ac-textBlock">Discount recommendations are not available for this deal. <strong>Reason:</strong> Federal deals are not currently supported by the DealMax model.</p>
+                  <p class="ac-textBlock" style="margin-top:6px;">If you believe this is an error, please reach out to the DealMax support team.</p>
                 </div>
               </div>
               <!-- Feedback -->
@@ -1003,17 +988,24 @@
             </div>
           </div>
 
+          <!-- Typing indicator -->
+          <div class="agent-typing" id="agent-typing">
+            <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
+            <div class="agent-typing__dots"><span></span><span></span><span></span></div>
+          </div>
+
         </div>
 
         <!-- Agent Input Bar -->
         <div class="agent-input-bar">
-          <input type="text" class="agent-input" placeholder="Type a message">
-          <div class="agent-input-actions">
-            <button class="agent-input-icon" title="Attach file"><i class="fas fa-paperclip"></i></button>
-            <button class="agent-input-icon" title="Emoji"><i class="far fa-smile"></i></button>
-            <button class="agent-input-icon" title="Edit"><i class="fas fa-pen"></i></button>
-            <button class="agent-send-btn" title="Send"><i class="fas fa-paper-plane"></i></button>
+          <div class="agent-input-container">
+            <input type="text" class="agent-input" placeholder="Ask me anything about this deal...">
+            <div class="agent-input-actions">
+              <button class="agent-input-icon" id="btn-attach" title="Attach file"><i class="fas fa-paperclip"></i></button>
+              <button class="agent-send-btn" title="Send"><i class="fas fa-arrow-up"></i></button>
+            </div>
           </div>
+          <div class="agent-input-disclaimer">AI-generated content may be incorrect.</div>
         </div>
 
       </div>
@@ -1508,6 +1500,132 @@
       var panel = document.getElementById(panelId);
       if (panel) panel.style.display = 'block';
     }
+    // --- Interactive Agent Flow ---
+    (function() {
+      var chatArea = document.querySelector('.agent-chat-area');
+      var typingEl = document.getElementById('agent-typing');
+      var inputEl = document.querySelector('.agent-input');
+      var sendBtn = document.querySelector('.agent-send-btn');
+      var currentStep = 0;
+
+      // Steps grouped: each interaction shows [user msg, ...agent responses]
+      var groups = [
+        [0, 1],       // Ask discount → recommendation
+        [2, 3, 4],    // Simulate → simulation results + follow-up
+        [5, 6],       // Apply → confirmation
+        [7, 8]        // Fed deal → no rec
+      ];
+      var currentGroup = 0;
+
+      function scrollToBottom() {
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+
+      function showTyping() {
+        typingEl.classList.add('agent-typing--visible');
+        scrollToBottom();
+      }
+
+      function hideTyping() {
+        typingEl.classList.remove('agent-typing--visible');
+      }
+
+      function showStep(step) {
+        var el = chatArea.querySelector('[data-step="' + step + '"]');
+        if (el) {
+          el.classList.add('agent-msg--visible');
+          scrollToBottom();
+        }
+      }
+
+      function disableChipsIn(container) {
+        container.querySelectorAll('.agent-suggestion-chip').forEach(function(chip) {
+          chip.classList.add('chip--used');
+          chip.disabled = true;
+        });
+      }
+
+      function revealGroup(groupIndex) {
+        if (groupIndex >= groups.length) return;
+        var steps = groups[groupIndex];
+        var userStep = steps[0];
+        var agentSteps = steps.slice(1);
+
+        // Find and disable chips in the previous visible message
+        var visibleMsgs = chatArea.querySelectorAll('.agent-msg--visible');
+        if (visibleMsgs.length > 0) {
+          disableChipsIn(visibleMsgs[visibleMsgs.length - 1]);
+        }
+
+        // Show user message instantly
+        showStep(userStep);
+
+        // Show typing, then reveal agent steps sequentially
+        setTimeout(function() {
+          showTyping();
+          var delay = 1200;
+          agentSteps.forEach(function(step, i) {
+            setTimeout(function() {
+              if (i === agentSteps.length - 1) hideTyping();
+              showStep(step);
+              // Wire up chips in newly shown step
+              var el = chatArea.querySelector('[data-step="' + step + '"]');
+              if (el) {
+                el.querySelectorAll('.agent-suggestion-chip').forEach(function(chip) {
+                  chip.addEventListener('click', function() {
+                    advanceFlow();
+                  });
+                });
+              }
+            }, delay * (i + 1));
+          });
+        }, 300);
+
+        currentGroup = groupIndex + 1;
+      }
+
+      function advanceFlow() {
+        revealGroup(currentGroup);
+      }
+
+      // Wire up attach/upload button to start the flow
+      var attachBtn = document.getElementById('btn-attach');
+      if (attachBtn) {
+        attachBtn.addEventListener('click', function() {
+          advanceFlow();
+        });
+      }
+
+      // Wire up Simulate with Agent button in card
+      var simBtn = document.getElementById('btn-simulate-agent');
+      if (simBtn) {
+        simBtn.addEventListener('click', function() {
+          advanceFlow();
+        });
+      }
+
+      // Wire up send button and Enter key
+      function handleSend() {
+        var text = inputEl.value.trim();
+        if (!text && currentGroup < groups.length) {
+          advanceFlow();
+          return;
+        }
+        if (text) {
+          inputEl.value = '';
+          advanceFlow();
+        }
+      }
+
+      sendBtn.addEventListener('click', handleSend);
+      inputEl.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleSend();
+        }
+      });
+    })();
+
   </script>
 </body>
 </html>
