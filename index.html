@@ -239,7 +239,7 @@
 
             <div class="ac-actionSet" style="margin-top:32px;flex-wrap:wrap;gap:8px;">
               <button class="ac-action ac-action--primary"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button>
-              <button class="ac-action ac-action--secondary"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate with Agent</button>
+              <button class="ac-action ac-action--secondary" id="fin-btn-simulate"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate with Agent</button>
               <a href="#" class="r2-link-action"><i class="fas fa-plus" style="margin-right:4px;font-size:11px;"></i> Create New Quote</a>
             </div>
 
@@ -2631,6 +2631,17 @@
       var reasonsBtn = document.getElementById('fin-btn-reasons');
       if (reasonsBtn) reasonsBtn.addEventListener('click', function() {
         if (typeof openReasonsDrawer === 'function') openReasonsDrawer();
+      });
+
+      // Simulate with Agent button — switch to Agent nav
+      var finSimBtn = document.getElementById('fin-btn-simulate');
+      if (finSimBtn) finSimBtn.addEventListener('click', function() {
+        document.querySelectorAll('.sidebar-nav-btn').forEach(function(b) { b.classList.remove('sidebar-nav-btn--active'); });
+        var agentNavBtn = document.getElementById('nav-btn-agent');
+        if (agentNavBtn) agentNavBtn.classList.add('sidebar-nav-btn--active');
+        document.querySelectorAll('.nav-panel').forEach(function(p) { p.classList.remove('nav-panel--active'); });
+        var agentPanel = document.getElementById('nav-agent');
+        if (agentPanel) agentPanel.classList.add('nav-panel--active');
       });
 
       // Thumbs-down feedback overlay
