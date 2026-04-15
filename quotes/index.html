@@ -120,8 +120,16 @@
     <div class="tabs-bar">
       <button class="tab" onclick="switchTab(event)">Summary</button>
       <button class="tab" onclick="switchTab(event)">Contract details</button>
-      <button class="tab tab-active" onclick="switchTab(event)" data-panel="panel-financials">Financials <i class="fas fa-chevron-down tab-chevron"></i></button>
+      <div class="tab-dropdown-wrap">
+        <button class="tab tab-active" onclick="toggleFinancialsMenu(event)" data-panel="panel-financials">Financials <i class="fas fa-chevron-down tab-chevron"></i></button>
+        <div class="tab-dropdown-menu" id="financials-dropdown">
+          <button class="tab-dropdown-item tab-dropdown-item--active" onclick="selectFinancialsOption(event,'Financials')">Financials</button>
+          <button class="tab-dropdown-item" onclick="selectFinancialsOption(event,'Prior Contracts')">Prior Contracts</button>
+          <button class="tab-dropdown-item" onclick="selectFinancialsOption(event,'Financial Summary')">Financial Summary</button>
+        </div>
+      </div>
       <button class="tab" onclick="switchTab(event)" data-panel="panel-reference">Reference</button>
+      <button class="tab" onclick="switchTab(event)" data-panel="panel-reference2">Reference 2</button>
       <button class="tab" onclick="switchTab(event)">Risks</button>
       <button class="tab" onclick="switchTab(event)">Approvals</button>
       <button class="tab" onclick="switchTab(event)">Proposals</button>
@@ -137,77 +145,126 @@
         <!-- ===== PANEL: Financials ===== -->
         <div id="panel-financials" class="tab-panel tab-panel--active">
 
-        <!-- DealMax Adaptive Card -->
-        <div class="ac-card" role="region" aria-label="DealMax">
+        <!-- Discount Intelligence Card -->
+        <div class="ac-card" role="region" aria-label="Discount Intelligence Layer" id="fin-card" style="position:relative;">
 
-          <!-- Card Header -->
+          <div class="r2-loading-overlay" id="fin-loading-overlay">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Refreshing recommendations…</span>
+          </div>
+
           <div class="ac-container ac-header">
             <div class="ac-columnSet ac-header-row">
-              <div class="ac-column ac-column-stretch">
-                <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">DealMax</span>
+              <div class="ac-column ac-column-stretch" style="gap:10px;">
+                <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Intelligence Layer</span>
+                <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
               </div>
-              <div class="ac-column ac-column-auto">
-                <div class="ac-actionSet ac-actionSet--inline">
-                  <button class="ac-action ac-action--icon" title="Link" aria-label="Link"><i class="fas fa-link"></i></button>
-                  <button class="ac-action ac-action--icon" title="More options" aria-label="More options"><i class="fas fa-ellipsis-h"></i></button>
+              <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
+                <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Last Refreshed: 15 Apr 2026, 09:15 AM &nbsp;·&nbsp; <code style="font-size:11px;background:#f3f2f1;padding:1px 5px;border-radius:3px;">DM-2026-04-A123456</code></span>
+                <div class="ref-banner__actions">
+                  <button class="ref-banner__refresh" title="Refresh recommendation" id="fin-btn-refresh"><i class="fas fa-sync-alt"></i> Refresh</button>
+                  <button class="ref-banner__refresh" id="fin-btn-reasons" title="Reasons to Believe"><i class="fas fa-lightbulb"></i> Reasons to Believe</button>
+                  <button class="ref-banner__refresh" title="Training & help"><i class="fas fa-graduation-cap"></i> Help</button>
                 </div>
+                <button class="ac-action ac-action--icon" title="More options" aria-label="More options"><i class="fas fa-ellipsis-h"></i></button>
               </div>
             </div>
           </div>
 
-          <!-- Card Body -->
           <div class="ac-container ac-body">
             <div class="ac-columnSet">
 
-              <!-- Column 1: Deal Financials (left half) -->
-              <div class="ac-column ac-column-stretch">
-                <div class="ac-container">
-                  <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder ac-color--accent">Deal Financials</span>
-                  <div class="ac-factSet" id="deal-financials-facts">
-                    <div class="ac-fact"><span class="ac-fact-title">Gross minus Flex</span><span class="ac-fact-value" data-field="gross_minus_flex">$28,589,055.00</span></div>
-                    <div class="ac-fact"><span class="ac-fact-title">Addon Base Ratio Bucket</span><span class="ac-fact-value" data-field="addon_base_ratio">Second highest (60 - 80% Deals)</span></div>
-                    <div class="ac-fact"><span class="ac-fact-title">Deal size bucket</span><span class="ac-fact-value" data-field="deal_size_bucket">$1M-$5M</span></div>
-                    <div class="ac-fact"><span class="ac-fact-title">Multi-Yr Deal</span><span class="ac-fact-value" data-field="multi_yr_deal">No</span></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Column 2: Deal Financials (right half) -->
-              <div class="ac-column ac-column-stretch" style="padding-left:50px;">
-                <div class="ac-container">
-                  <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder" style="visibility:hidden;">&#8203;</span>
-                  <div class="ac-factSet" id="deal-financials-facts-2">
-                    <div class="ac-fact"><span class="ac-fact-title">TP Industry name</span><span class="ac-fact-value" data-field="tp_industry">Financial services</span></div>
-                    <div class="ac-fact"><span class="ac-fact-title">Customer Segment</span><span class="ac-fact-value" data-field="customer_segment">Major</span></div>
-                    <div class="ac-fact"><span class="ac-fact-title">New Unified Customer</span><span class="ac-fact-value" data-field="new_unified_customer">No</span></div>
-                    <div class="ac-fact"><span class="ac-fact-title">Customer satisfaction</span><span class="ac-fact-value" data-field="customer_satisfaction">Positive</span></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Separator -->
-              <div class="ac-separator ac-separator--vertical"></div>
-
-              <!-- Column 3: Max Recommended Discount -->
               <div class="ac-column ac-column-auto">
                 <div class="ac-container ac-discount-block">
-                  <span class="ac-textBlock ac-textBlock--default ac-weight--bolder ac-color--default">Max. Recommended Discount %</span>
-                  <span id="discount-hero" class="ac-textBlock ac-textBlock--extraLarge ac-weight--bolder ac-discount-hero">24.2%</span>
-                  <div class="ac-slider-row">
-                    <input type="range" id="discount-slider" class="ac-range-slider" min="0" max="100" step="0.1" value="24.2">
-                    <span id="discount-label" class="ac-textBlock ac-textBlock--small ac-slider-value">24.2%</span>
+                  <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px;">
+                    <span class="ac-textBlock ac-textBlock--default ac-weight--bolder">Recommended Discount</span>
+                    <div class="r2-hero-input-wrap">
+                      <div class="r2-hero-input-container">
+                        <input type="text" id="fin-discount-input" class="r2-hero-input" value="12.00" inputmode="decimal">
+                        <span class="r2-hero-input-suffix">%</span>
+                      </div>
+                      <button class="r2-revert-btn" id="fin-revert-btn" title="Revert to recommended" onclick="window.resetFinSlider()"><i class="fas fa-undo"></i></button>
+                    </div>
+                  </div>
+                  <div class="r2-range-visual" id="fin-range-visual">
+                    <div class="fluent-slider-wrap">
+                      <input type="range" id="fin-fluent-slider" class="fluent-slider" min="12" max="24.2" step="0.01" value="12">
+                      <div class="fluent-slider-rec-dot" id="fin-rec-dot" title="Recommended: 12.0%"></div>
+                    </div>
+                    <div class="r2-range-labels">
+                      <span id="fin-range-min-label">12.00%</span>
+                      <span id="fin-range-max-label">24.20%</span>
+                    </div>
+                    <div class="r2-range-legend">
+                      <span><span class="r2-range-dot r2-range-dot--rec"></span> Recommended</span>
+                      <span><span class="r2-range-dot r2-range-dot--current"></span> Current</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ac-separator ac-separator--vertical" style="margin-left:50px;"></div>
+
+              <div class="ac-column ac-column-stretch">
+                <div class="ac-container">
+                  <div class="r2-col2-grid">
+                    <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder">Distribution Method</span>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                      <label class="r2-radio-label"><input type="radio" name="fin-distribution" value="proportional" checked class="r2-radio"> Proportional</label>
+                      <label class="r2-radio-label"><input type="radio" name="fin-distribution" value="manual" class="r2-radio"> Manual per package</label>
+                    </div>
+                    <span class="ac-fact-title" style="padding-top:6px;">Min Discount</span><span class="ac-fact-value" style="padding-top:6px;">12.0 %</span>
+                    <span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span>
+                    <span class="ac-fact-title">Deviation</span><span class="ac-fact-value" id="fin-deviation" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span>
+                    <span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span>
+                    <span class="ac-fact-title">Contract stage impact</span><span class="ac-fact-value">None</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ac-column ac-column-stretch">
+                <div class="ac-container">
+                  <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder">Offering Group by Year</span>
+                  <div class="r2-offering-grid">
+                    <span class="r2-offering-hdr">Package</span><span class="r2-offering-hdr">Year 1</span><span class="r2-offering-hdr">Year 2</span><span class="r2-offering-hdr">Year 3</span>
+                    <span class="r2-offering-title">Base Package</span><span class="r2-offering-val">14.5%</span><span class="r2-offering-val">11.2%</span><span class="r2-offering-val">8.0%</span>
+                    <span class="r2-offering-title">Enhanced solutions</span><span class="r2-offering-val">12.8%</span><span class="r2-offering-val">9.5%</span><span class="r2-offering-val">-</span>
+                    <span class="r2-offering-title">Mission critical</span><span class="r2-offering-val">10.2%</span><span class="r2-offering-val">7.8%</span><span class="r2-offering-val">6.1%</span>
+                    <span class="r2-offering-title">Value Acceleration</span><span class="r2-offering-val">16.0%</span><span class="r2-offering-val">13.4%</span><span class="r2-offering-val">-</span>
                   </div>
                 </div>
               </div>
 
             </div>
 
-            <!-- Actions row below the columns -->
-            <div class="ac-actionSet" style="margin-top:16px;">
-              <button class="ac-action ac-action--primary">Apply to Quote</button>
-              <button class="ac-action ac-action--secondary" id="btn-edit-deal">Edit</button>
-              <button class="ac-action ac-action--viewmore" id="btn-view-more-hist"><i class="fas fa-chart-bar"></i> Historical Financials</button>
-              <a href="javascript:void(0)" class="ac-action ac-action--viewmore" onclick="openReasonsDrawer()"><i class="fas fa-lightbulb"></i> Reasons to Believe</a>
+            <div class="ac-actionSet" style="margin-top:32px;flex-wrap:wrap;gap:8px;">
+              <button class="ac-action ac-action--primary"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button>
+              <button class="ac-action ac-action--secondary"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate with Agent</button>
+              <a href="#" class="r2-link-action"><i class="fas fa-plus" style="margin-right:4px;font-size:11px;"></i> Create New Quote</a>
+            </div>
+
+            <div class="ref-ai-disclaimer" style="margin-top:4px;">
+              <i class="fas fa-info-circle" style="color:#0f6cbd;font-size:12px;flex-shrink:0;"></i>
+              <span class="ref-ai-disclaimer__text">Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
+              <div class="ref-ai-disclaimer__feedback">
+                <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
+                <button class="ref-ai-disclaimer__btn" title="Not helpful" id="fin-btn-thumbs-down"><i class="far fa-thumbs-down"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="r2-feedback-overlay" id="fin-feedback-overlay">
+            <div class="r2-feedback-overlay-card">
+              <div class="r2-feedback-overlay-header">
+                <span><i class="far fa-thumbs-down" style="margin-right:6px;"></i>What went wrong?</span>
+                <button class="r2-feedback-overlay-close" id="fin-feedback-overlay-close" title="Close"><i class="fas fa-times"></i></button>
+              </div>
+              <textarea class="r2-feedback-textarea" id="fin-feedback-textarea" placeholder="Tell us what could be improved…" rows="3"></textarea>
+              <p class="r2-feedback-disclaimer"><i class="fas fa-info-circle"></i> Feedback is tied to recommendation ID DM-2026-04-A123456 and used to improve model quality.</p>
+              <div class="r2-feedback-overlay-actions">
+                <button class="ac-action ac-action--primary" id="fin-feedback-submit">Submit</button>
+                <button class="ac-action ac-action--secondary" id="fin-feedback-cancel">Cancel</button>
+              </div>
             </div>
           </div>
 
@@ -216,111 +273,183 @@
         <!-- Toolbar -->
         <div class="toolbar">
           <div class="toolbar-left">
-            <button class="toolbar-btn toolbar-btn-primary"><i class="fas fa-plus-circle"></i> Add packages <i class="fas fa-chevron-down"></i></button>
+            <button class="toolbar-btn toolbar-btn-primary"><i class="fas fa-plus-circle"></i> Add Packages <i class="fas fa-chevron-down"></i></button>
+            <button class="toolbar-btn"><i class="fas fa-file-export"></i> Export</button>
+            <button class="toolbar-btn" disabled><i class="far fa-copy"></i> Copy Packages</button>
             <button class="toolbar-btn" disabled><i class="far fa-calendar-alt"></i> Dates</button>
             <button class="toolbar-btn" disabled><i class="fas fa-globe"></i> Geo</button>
-            <button class="toolbar-btn" disabled><i class="fas fa-sliders-h"></i> Add adjustment</button>
-            <button class="toolbar-btn" disabled><i class="far fa-copy"></i> Copy</button>
-            <button class="toolbar-btn" disabled><i class="far fa-trash-alt"></i> Delete</button>
+            <button class="toolbar-btn" disabled><i class="far fa-trash-alt"></i> Delete Package</button>
           </div>
           <div class="toolbar-right">
-            <button class="toolbar-btn"><i class="fas fa-pencil-alt"></i> Open Inline editor</button>
+            <button class="toolbar-btn"><i class="fas fa-pencil-alt"></i> Open modeling view</button>
             <button class="toolbar-btn"><i class="fas fa-filter"></i> Filter</button>
           </div>
         </div>
 
         <!-- Data Table -->
         <div class="table-container">
-          <table class="data-table">
+          <table class="data-table data-table--responsive">
             <thead>
               <tr>
-                <th class="col-check"><input type="checkbox"></th>
-                <th class="col-expand"></th>
-                <th class="col-package">Package name <i class="fas fa-arrow-down sort-icon"></i></th>
+                <th class="col-pkg-name">Package Name (6)</th>
                 <th class="col-actions">Actions</th>
-                <th class="col-date">Start date</th>
-                <th class="col-date">End date</th>
-                <th class="col-money">Customer price</th>
-                <th class="col-money">Revenue</th>
-                <th class="col-money">Delivery cost</th>
-                <th class="col-percent">Margin</th>
+                <th class="col-date">Start Date</th>
+                <th class="col-date">End Date</th>
+                <th class="col-money">Customer Price (USD)</th>
+                <th class="col-money">Revenue (USD)</th>
+                <th class="col-money">Delivery Cost (USD)</th>
+                <th class="col-percent">Sold Margin</th>
                 <th class="col-percent">Discount</th>
+                <th class="col-fee">Fee Arrangement</th>
               </tr>
             </thead>
             <tbody>
-              <!-- Row 1 -->
+              <!-- Row 1: Unified Enterprise Support Y1 -->
               <tr>
-                <td class="col-check"><input type="checkbox"></td>
-                <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
-                <td class="col-package">
+                <td class="col-pkg-name">
                   <div class="package-name-cell">
-                    <a href="#" class="package-link">USP Base Package Name 2022-23</a>
-                    <span class="badge badge-teal">USP Base</span>
+                    <a href="#" class="package-link">Unified Enterprise Support - 2025-26</a>
+                    <span class="badge badge-teal">USP</span>
+                    <span class="badge badge-year badge-year1">Year 1</span>
                   </div>
                   <div class="package-tags">
-                    <span class="tag"><i class="fas fa-globe"></i> USA</span>
-                    <span class="tag"><i class="fas fa-users"></i> MSO</span>
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
                   </div>
                 </td>
                 <td class="col-actions"><button class="ellipsis-btn">···</button></td>
-                <td class="col-date">16-Apr-2022</td>
-                <td class="col-date">15-Apr-2023</td>
-                <td class="col-money">$ 1,000,000.00</td>
-                <td class="col-money">$ 1,000,000.00</td>
-                <td class="col-money">$ 900,000.00</td>
-                <td class="col-percent">0.0 %</td>
-                <td class="col-percent">0.00 %</td>
+                <td class="col-date">01-Jul-2025</td>
+                <td class="col-date">30-Jun-2026</td>
+                <td class="col-money">897,834.46</td>
+                <td class="col-money">897,834.46</td>
+                <td class="col-money">243,746.00</td>
+                <td class="col-percent">65.07%</td>
+                <td class="col-percent">10.00%</td>
+                <td class="col-fee">Fixed Fee</td>
               </tr>
-              <!-- Row 2 -->
+              <!-- Row 2: Proactive Services Y1 -->
               <tr>
-                <td class="col-check"><input type="checkbox"></td>
-                <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
-                <td class="col-package">
+                <td class="col-pkg-name">
                   <div class="package-name-cell">
-                    <a href="#" class="package-link">USP Base Package Name 2023-24</a>
-                    <span class="badge badge-teal">USP Base</span>
+                    <a href="#" class="package-link">Unified Proactive Services Add on | Unified Proactive Svcs Enterprise Apps &amp; Innov - 2025-26</a>
+                    <span class="badge badge-year badge-year1">Year 1</span>
+                    <i class="fas fa-exclamation-triangle pkg-warning"></i>
                   </div>
                   <div class="package-tags">
-                    <span class="tag"><i class="fas fa-globe"></i> USA</span>
-                    <span class="tag"><i class="fas fa-users"></i> MSO</span>
-                    <span class="tag"><i class="fas fa-layer-group"></i> Bundle</span>
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
                   </div>
                 </td>
                 <td class="col-actions"><button class="ellipsis-btn">···</button></td>
-                <td class="col-date">16-Apr-2023</td>
-                <td class="col-date">15-Apr-2024</td>
-                <td class="col-money">$ 1,000,000.00</td>
-                <td class="col-money">$ 1,000,000.00</td>
-                <td class="col-money">$ 900,000.00</td>
-                <td class="col-percent">0.0 %</td>
-                <td class="col-percent">0.00 %</td>
+                <td class="col-date">01-Jul-2025</td>
+                <td class="col-date">30-Jun-2026</td>
+                <td class="col-money">326,000.00</td>
+                <td class="col-money">326,000.00</td>
+                <td class="col-money">231,000.00</td>
+                <td class="col-percent">29.14%</td>
+                <td class="col-percent">0.00%</td>
+                <td class="col-fee">Fixed Fee</td>
               </tr>
-              <!-- Row 3 -->
+              <!-- Row 3: Yr 2 Unified Enterprise Support -->
               <tr>
-                <td class="col-check"><input type="checkbox"></td>
-                <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
-                <td class="col-package">
+                <td class="col-pkg-name">
                   <div class="package-name-cell">
-                    <a href="#" class="package-link">USP Base Package Name 2024-25</a>
-                    <span class="badge badge-teal">USP Base</span>
+                    <a href="#" class="package-link">Yr 2 Unified Enterprise Support</a>
+                    <span class="badge badge-teal">USP</span>
+                    <span class="badge badge-year badge-year2">Year 2</span>
+                    <i class="fas fa-exclamation-triangle pkg-warning"></i>
                   </div>
                   <div class="package-tags">
-                    <span class="tag"><i class="fas fa-globe"></i> USA</span>
-                    <span class="tag"><i class="fas fa-users"></i> MSO</span>
-                    <span class="tag"><i class="fas fa-layer-group"></i> Bundle</span>
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
                   </div>
                 </td>
                 <td class="col-actions"><button class="ellipsis-btn">···</button></td>
-                <td class="col-date">16-Apr-2024</td>
-                <td class="col-date">15-Apr-2025</td>
-                <td class="col-money">$ 1,000,000.00</td>
-                <td class="col-money">$ 1,000,000.00</td>
-                <td class="col-money">$ 900,000.00</td>
-                <td class="col-percent">0.0 %</td>
-                <td class="col-percent">0.00 %</td>
+                <td class="col-date">01-Jul-2026</td>
+                <td class="col-date">30-Jun-2027</td>
+                <td class="col-money">713,341.89</td>
+                <td class="col-money">713,341.89</td>
+                <td class="col-money">243,746.00</td>
+                <td class="col-percent">65.83%</td>
+                <td class="col-percent">8.00%</td>
+                <td class="col-fee">Fixed Fee</td>
+              </tr>
+              <!-- Row 4: Proactive Services Y2 -->
+              <tr>
+                <td class="col-pkg-name">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">Unified Proactive Services Add on | Unified Proactive Svcs Enterprise Apps &amp; Innov - yr 2</a>
+                    <span class="badge badge-year badge-year2">Year 2</span>
+                    <i class="fas fa-exclamation-triangle pkg-warning"></i>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn">···</button></td>
+                <td class="col-date">01-Jul-2026</td>
+                <td class="col-date">30-Jun-2027</td>
+                <td class="col-money">31,601.00</td>
+                <td class="col-money">31,601.00</td>
+                <td class="col-money">23,999.00</td>
+                <td class="col-percent">24.54%</td>
+                <td class="col-percent">6.34%</td>
+                <td class="col-fee">Fixed Fee</td>
+              </tr>
+              <!-- Row 5: Yr 3 Unified Enterprise Support -->
+              <tr>
+                <td class="col-pkg-name">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">Yr 3 Unified Enterprise Support</a>
+                    <span class="badge badge-custom">Custom</span>
+                    <span class="badge badge-year badge-year3">Year 3</span>
+                    <i class="fas fa-exclamation-triangle pkg-warning"></i>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn">···</button></td>
+                <td class="col-date">01-Jul-2027</td>
+                <td class="col-date">30-Jun-2028</td>
+                <td class="col-money">775,371.62</td>
+                <td class="col-money">775,371.62</td>
+                <td class="col-money">243,746.00</td>
+                <td class="col-percent">68.56%</td>
+                <td class="col-percent">3.08%</td>
+                <td class="col-fee">Fixed Fee</td>
+              </tr>
+              <!-- Row 6: Proactive Services Y3 -->
+              <tr>
+                <td class="col-pkg-name">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">Unified Proactive Services Add on | Unified Proactive Svcs Enterprise Apps &amp; Innov - yr 3</a>
+                    <span class="badge badge-year badge-year3">Year 3</span>
+                    <i class="fas fa-exclamation-triangle pkg-warning"></i>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn">···</button></td>
+                <td class="col-date">01-Jul-2027</td>
+                <td class="col-date">30-Jun-2028</td>
+                <td class="col-money">32,707.00</td>
+                <td class="col-money">32,707.00</td>
+                <td class="col-money">24,745.00</td>
+                <td class="col-percent">24.34%</td>
+                <td class="col-percent">6.34%</td>
+                <td class="col-fee">Fixed Fee</td>
               </tr>
             </tbody>
           </table>
+          <div class="table-footer">
+            <i class="fas fa-info-circle" style="color:#616161;font-size:12px;"></i>
+            <span>This is a non-binding quote. These numbers have not been approved.</span>
+          </div>
         </div>
 
         </div><!-- /panel-financials -->
@@ -383,7 +512,7 @@
                 <div class="ac-column ac-column-auto">
                   <div class="ac-container ac-discount-block">
                     <span class="ac-textBlock ac-textBlock--default ac-weight--bolder ac-color--default">Recommended Discount %</span>
-                    <span id="ref-discount-hero" class="ac-textBlock ac-textBlock--extraLarge ac-weight--bolder ac-discount-hero">18.5%</span>
+                    <input id="ref-discount-hero" class="ac-textBlock ac-textBlock--extraLarge ac-weight--bolder ac-discount-hero ac-discount-hero--editable" type="text" value="18.5%">
                     <div class="ac-slider-row">
                       <input type="range" id="ref-discount-slider" class="ac-range-slider" min="0" max="100" step="0.1" value="18.5">
                       <span id="ref-discount-label" class="ac-textBlock ac-textBlock--small ac-slider-value">18.5%</span>
@@ -394,13 +523,13 @@
               </div>
 
               <!-- Actions row -->
-              <div class="ac-actionSet" style="margin-top:16px;">
+              <div class="ac-actionSet">
                 <button class="ac-action ac-action--primary">Apply to Quote</button>
                 <button class="ac-action ac-action--secondary">Simulate with Agent</button>
               </div>
 
               <!-- AI Disclaimer with approval impact -->
-              <div class="ref-ai-disclaimer" style="margin-top:4px;">
+              <div class="ref-ai-disclaimer">
                 <span class="ref-ai-disclaimer__text">Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>.</span>
                 <div class="ref-ai-disclaimer__feedback">
                   <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
@@ -525,6 +654,544 @@
 
         </div><!-- /panel-reference -->
 
+        <!-- ===== PANEL: Reference 2 (Discount Intelligence Layer — PRD Design) ===== -->
+        <div id="panel-reference2" class="tab-panel">
+
+          <!-- ───────────────────────────────────────────────
+               SECTION 1 — Deal-Level Discount Recommendation
+               ─────────────────────────────────────────────── -->
+          <div class="ac-card" role="region" aria-label="Discount Intelligence Layer" id="r2-card">
+
+            <!-- Loading Overlay -->
+            <div class="r2-loading-overlay" id="r2-loading-overlay">
+              <i class="fas fa-spinner fa-spin"></i>
+              <span>Refreshing recommendations…</span>
+            </div>
+
+            <div class="ac-container ac-header">
+              <div class="ac-columnSet ac-header-row">
+                <div class="ac-column ac-column-stretch" style="gap:10px;">
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Intelligence Layer</span>
+                  <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
+                </div>
+                <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
+                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Last Refreshed: 15 Apr 2026, 09:15 AM &nbsp;·&nbsp; <code style="font-size:11px;background:#f3f2f1;padding:1px 5px;border-radius:3px;">DM-2026-04-A123456</code></span>
+                  <div class="ref-banner__actions">
+                    <button class="ref-banner__refresh" title="Refresh recommendation"><i class="fas fa-sync-alt"></i> Refresh</button>
+                    <button class="ref-banner__refresh" id="r2-btn-reasons" title="Reasons to Believe"><i class="fas fa-lightbulb"></i> Reasons to Believe</button>
+                    <button class="ref-banner__refresh" title="Training & help"><i class="fas fa-graduation-cap"></i> Help</button>
+                  </div>
+                  <button class="ac-action ac-action--icon" title="More options" aria-label="More options"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="ac-container ac-body">
+              <div class="ac-columnSet">
+
+                <!-- Column 1: Hero Discount (moved to left) -->
+                <div class="ac-column ac-column-auto">
+                  <div class="ac-container ac-discount-block">
+                    <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px;">
+                      <span class="ac-textBlock ac-textBlock--default ac-weight--bolder">Recommended Discount</span>
+                      <div class="r2-hero-input-wrap">
+                        <div class="r2-hero-input-container">
+                          <input type="text" id="r2-discount-input" class="r2-hero-input" value="12.00" inputmode="decimal">
+                          <span class="r2-hero-input-suffix">%</span>
+                        </div>
+                        <button class="r2-revert-btn" id="r2-revert-btn" title="Revert to recommended" onclick="window.resetR2Slider()"><i class="fas fa-undo"></i></button>
+                      </div>
+                    </div>
+                    <div class="r2-range-visual" id="r2-range-visual">
+                      <div class="fluent-slider-wrap">
+                        <input type="range" id="r2-fluent-slider" class="fluent-slider" min="12" max="24.2" step="0.01" value="12">
+                        <div class="fluent-slider-rec-dot" id="r2-rec-dot" title="Recommended: 12.0%"></div>
+                      </div>
+                      <div class="r2-range-labels">
+                        <span id="r2-range-min-label">12.00%</span>
+                        <span id="r2-range-max-label">24.20%</span>
+                      </div>
+                      <div class="r2-range-legend">
+                        <span><span class="r2-range-dot r2-range-dot--rec"></span> Recommended</span>
+                        <span><span class="r2-range-dot r2-range-dot--current"></span> Current</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Separator -->
+                <div class="ac-separator ac-separator--vertical" style="margin-left:50px;"></div>
+
+                <!-- Column 2: Core Recommendation -->
+                <div class="ac-column ac-column-stretch">
+                  <div class="ac-container">
+                    <div class="r2-col2-grid">
+                      <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder">Distribution Method</span>
+                      <div style="display:flex;align-items:center;gap:12px;">
+                        <label class="r2-radio-label"><input type="radio" name="r2-distribution" value="proportional" checked class="r2-radio"> Proportional</label>
+                        <label class="r2-radio-label"><input type="radio" name="r2-distribution" value="manual" class="r2-radio"> Manual per package</label>
+                      </div>
+                      <span class="ac-fact-title" style="padding-top:6px;">Min Discount</span><span class="ac-fact-value" style="padding-top:6px;">12.0 %</span>
+                      <span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span>
+                      <span class="ac-fact-title">Deviation</span><span class="ac-fact-value" id="r2-deviation" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span>
+                      <span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span>
+                      <span class="ac-fact-title">Contract stage impact</span><span class="ac-fact-value">None</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Column 3: Offering Group by Year -->
+                <div class="ac-column ac-column-stretch">
+                  <div class="ac-container">
+                    <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder">Offering Group by Year</span>
+                    <div class="r2-offering-grid">
+                      <span class="r2-offering-hdr">Package</span><span class="r2-offering-hdr">Year 1</span><span class="r2-offering-hdr">Year 2</span><span class="r2-offering-hdr">Year 3</span>
+                      <span class="r2-offering-title">Base Package</span><span class="r2-offering-val">14.5%</span><span class="r2-offering-val">11.2%</span><span class="r2-offering-val">8.0%</span>
+                      <span class="r2-offering-title">Enhanced solutions</span><span class="r2-offering-val">12.8%</span><span class="r2-offering-val">9.5%</span><span class="r2-offering-val">-</span>
+                      <span class="r2-offering-title">Mission critical</span><span class="r2-offering-val">10.2%</span><span class="r2-offering-val">7.8%</span><span class="r2-offering-val">6.1%</span>
+                      <span class="r2-offering-title">Value Acceleration</span><span class="r2-offering-val">16.0%</span><span class="r2-offering-val">13.4%</span><span class="r2-offering-val">-</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="ac-actionSet" style="margin-top:32px;flex-wrap:wrap;gap:8px;">
+                <button class="ac-action ac-action--primary"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button>
+                <button class="ac-action ac-action--secondary"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate with Agent</button>
+                <a href="#" class="r2-link-action"><i class="fas fa-plus" style="margin-right:4px;font-size:11px;"></i> Create New Quote</a>
+              </div>
+
+              <div class="ref-ai-disclaimer" style="margin-top:4px;">
+                <i class="fas fa-info-circle" style="color:#0f6cbd;font-size:12px;flex-shrink:0;"></i>
+                <span class="ref-ai-disclaimer__text">Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
+                <div class="ref-ai-disclaimer__feedback">
+                  <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
+                  <button class="ref-ai-disclaimer__btn" title="Not helpful" id="r2-btn-thumbs-down"><i class="far fa-thumbs-down"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Feedback Overlay -->
+            <div class="r2-feedback-overlay" id="r2-feedback-overlay">
+              <div class="r2-feedback-overlay-card">
+                <div class="r2-feedback-overlay-header">
+                  <span><i class="far fa-thumbs-down" style="margin-right:6px;"></i>What went wrong?</span>
+                  <button class="r2-feedback-overlay-close" id="r2-feedback-overlay-close" title="Close"><i class="fas fa-times"></i></button>
+                </div>
+                <textarea class="r2-feedback-textarea" id="r2-feedback-textarea" placeholder="Tell us what could be improved…" rows="3"></textarea>
+                <p class="r2-feedback-disclaimer"><i class="fas fa-info-circle"></i> Feedback is tied to recommendation ID DM-2026-04-A123456 and used to improve model quality.</p>
+                <div class="r2-feedback-overlay-actions">
+                  <button class="ac-action ac-action--primary" id="r2-feedback-submit">Submit</button>
+                  <button class="ac-action ac-action--secondary" id="r2-feedback-cancel">Cancel</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ───────────────────────────────────────────────
+               SECTION 2 — Reasons to Believe
+               ─────────────────────────────────────────────── -->
+          <div class="ac-card" role="region" aria-label="Reasons to Believe">
+
+            <div class="ac-container ac-header">
+              <div class="ac-columnSet ac-header-row">
+                <div class="ac-column ac-column-stretch" style="gap:10px;">
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder"><i class="fas fa-lightbulb" style="color:#ca5010;margin-right:6px;"></i>Reasons to Believe</span>
+                  <span class="r2-priority-badge">P0 Signals</span>
+                </div>
+                <div class="ac-column ac-column-auto">
+                  <button class="ref-banner__refresh" onclick="document.getElementById('r2-rtb-more-q').style.display = document.getElementById('r2-rtb-more-q').style.display === 'none' ? 'block' : 'none'; this.querySelector('i').classList.toggle('fa-chevron-down'); this.querySelector('i').classList.toggle('fa-chevron-up');"><i class="fas fa-chevron-down"></i> Show P1/P2 Signals</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="ac-container ac-body" style="padding-top:16px;">
+
+              <div class="r2-reasons-grid">
+                <div class="r2-reason-group">
+                  <div class="r2-reason-group__header"><i class="fas fa-dollar-sign"></i> Current Deal Financials</div>
+                  <div class="r2-reason-signal r2-reason-signal--p0">
+                    <span class="r2-reason-signal__label">Gross minus Flex</span>
+                    <span class="r2-reason-signal__value">$28,589,055</span>
+                    <span class="r2-reason-signal__tag">P0</span>
+                  </div>
+                  <div class="r2-reason-signal r2-reason-signal--p0">
+                    <span class="r2-reason-signal__label">Multi-Year Deal</span>
+                    <span class="r2-reason-signal__value">No</span>
+                    <span class="r2-reason-signal__tag">P0</span>
+                  </div>
+                </div>
+
+                <div class="r2-reason-group">
+                  <div class="r2-reason-group__header"><i class="fas fa-chart-pie"></i> Financial Cohort</div>
+                  <div class="r2-reason-signal r2-reason-signal--p0">
+                    <span class="r2-reason-signal__label">Add-On Base Ratio Bucket</span>
+                    <span class="r2-reason-signal__value">60–80% (2nd highest)</span>
+                    <span class="r2-reason-signal__tag">P0</span>
+                  </div>
+                  <div class="r2-reason-signal r2-reason-signal--p0">
+                    <span class="r2-reason-signal__label">Deal Size Bucket</span>
+                    <span class="r2-reason-signal__value">$1M–$5M</span>
+                    <span class="r2-reason-signal__tag">P0</span>
+                  </div>
+                </div>
+
+                <div class="r2-reason-group">
+                  <div class="r2-reason-group__header"><i class="fas fa-users"></i> Customer Attributes</div>
+                  <div class="r2-reason-signal r2-reason-signal--p0">
+                    <span class="r2-reason-signal__label">TP Industry</span>
+                    <span class="r2-reason-signal__value">Financial Services</span>
+                    <span class="r2-reason-signal__tag">P0</span>
+                  </div>
+                  <div class="r2-reason-signal r2-reason-signal--p0">
+                    <span class="r2-reason-signal__label">Customer Segment</span>
+                    <span class="r2-reason-signal__value">Major</span>
+                    <span class="r2-reason-signal__tag">P0</span>
+                  </div>
+                </div>
+
+                <div class="r2-reason-group">
+                  <div class="r2-reason-group__header"><i class="fas fa-history"></i> Historical Spend & Patterns</div>
+                  <div class="r2-reason-signal r2-reason-signal--p0">
+                    <span class="r2-reason-signal__label">Prior Deal Discount %</span>
+                    <span class="r2-reason-signal__value">15.2%</span>
+                    <span class="r2-reason-signal__tag">P0</span>
+                  </div>
+                  <div class="r2-reason-signal r2-reason-signal--p0">
+                    <span class="r2-reason-signal__label">ACR Growth Bucket</span>
+                    <span class="r2-reason-signal__value" style="color:#107c10;font-weight:600;">High Growth</span>
+                    <span class="r2-reason-signal__tag">P0</span>
+                  </div>
+                </div>
+              </div>
+
+              <div id="r2-rtb-more-q" style="display:none;margin-top:16px;border-top:1px solid #edebe9;padding-top:16px;">
+                <div class="r2-reasons-grid">
+                  <div class="r2-reason-group">
+                    <div class="r2-reason-group__header"><i class="fas fa-users"></i> Customer Attributes (P1)</div>
+                    <div class="r2-reason-signal">
+                      <span class="r2-reason-signal__label">New Unified Customer</span>
+                      <span class="r2-reason-signal__value">No</span>
+                      <span class="r2-reason-signal__tag r2-reason-signal__tag--p1">P1</span>
+                    </div>
+                    <div class="r2-reason-signal">
+                      <span class="r2-reason-signal__label">Customer Satisfaction (CSAT)</span>
+                      <span class="r2-reason-signal__value" style="color:#107c10;font-weight:600;">Positive</span>
+                      <span class="r2-reason-signal__tag r2-reason-signal__tag--p1">P1</span>
+                    </div>
+                  </div>
+
+                  <div class="r2-reason-group">
+                    <div class="r2-reason-group__header"><i class="fas fa-history"></i> Historical Spend (P1/P2)</div>
+                    <div class="r2-reason-signal">
+                      <span class="r2-reason-signal__label">Prior Deal Gross minus Flex</span>
+                      <span class="r2-reason-signal__value">$24,150,000</span>
+                      <span class="r2-reason-signal__tag r2-reason-signal__tag--p1">P1</span>
+                    </div>
+                    <div class="r2-reason-signal">
+                      <span class="r2-reason-signal__label">ACR (FY24)</span>
+                      <span class="r2-reason-signal__value">$3,450,000</span>
+                      <span class="r2-reason-signal__tag r2-reason-signal__tag--p2">P2</span>
+                    </div>
+                    <div class="r2-reason-signal">
+                      <span class="r2-reason-signal__label">ACR (FY25)</span>
+                      <span class="r2-reason-signal__value">$3,820,000</span>
+                      <span class="r2-reason-signal__tag r2-reason-signal__tag--p2">P2</span>
+                    </div>
+                    <div class="r2-reason-signal">
+                      <span class="r2-reason-signal__label">ACR (FY26)</span>
+                      <span class="r2-reason-signal__value">$4,100,000</span>
+                      <span class="r2-reason-signal__tag r2-reason-signal__tag--p2">P2</span>
+                    </div>
+                    <div class="r2-reason-signal">
+                      <span class="r2-reason-signal__label">FRA TTM Category</span>
+                      <span class="r2-reason-signal__value">Moderate</span>
+                      <span class="r2-reason-signal__tag r2-reason-signal__tag--p2">P2</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ───────────────────────────────────────────────
+               SECTION 3 — Simulation Preview
+               ─────────────────────────────────────────────── -->
+          <div class="ac-card r2-simulation-card" role="region" aria-label="Simulation Preview">
+
+            <div class="ac-container ac-header">
+              <div class="ac-columnSet ac-header-row">
+                <div class="ac-column ac-column-stretch" style="gap:10px;">
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder"><i class="fas fa-flask" style="color:#0f6cbd;margin-right:4px;"></i>Simulation Preview</span>
+                  <span class="r2-agent-badge"><i class="fas fa-robot"></i> Agent Only</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ac-container ac-body" style="padding-top:14px;padding-bottom:14px;">
+              <div class="ac-columnSet">
+
+                <div class="ac-column ac-column-stretch">
+                  <div class="ac-container">
+                    <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder ac-color--accent">Simulated at Recommended (18.5%)</span>
+                    <div class="ac-factSet" style="margin-top:10px;">
+                      <div class="ac-fact"><span class="ac-fact-title">Simulated Price to Customer</span><span class="ac-fact-value">$ 2,445,000.00</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Simulated Revenue</span><span class="ac-fact-value">$ 2,445,000.00</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Simulated Margin</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;">9.4 %</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Discount Amount (derived)</span><span class="ac-fact-value">$ 555,000.00</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ac-column ac-column-stretch">
+                  <div class="ac-container">
+                    <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder ac-color--accent">Guardrails Check</span>
+                    <div class="r2-guardrails" style="margin-top:10px;">
+                      <div class="r2-guardrail r2-guardrail--pass">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Total contract margin &ge; 0</span>
+                      </div>
+                      <div class="r2-guardrail r2-guardrail--pass">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Customer price &ge; 0 (deal &amp; package)</span>
+                      </div>
+                      <div class="r2-guardrail r2-guardrail--pass">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Discount % &le; 100% at package level</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ac-separator ac-separator--vertical"></div>
+
+                <div class="ac-column ac-column-auto" style="display:flex;align-items:center;">
+                  <div class="r2-agent-cta">
+                    <i class="fas fa-robot r2-agent-cta__icon"></i>
+                    <span class="ac-textBlock ac-textBlock--default ac-weight--bolder" style="text-align:center;">Run Full Simulation</span>
+                    <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="text-align:center;">Modify deal attributes, compare scenarios, and apply via Services Deal Agent</span>
+                    <button class="ac-action ac-action--primary" style="margin-top:12px;"><i class="fas fa-external-link-alt" style="margin-right:4px;font-size:11px;"></i> Open in Agent</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ───────────────────────────────────────────────
+               SECTION 4 — Approval Impact & Optimization
+               ─────────────────────────────────────────────── -->
+          <div class="ac-card" role="region" aria-label="Approval Impact &amp; Optimization">
+
+            <div class="ac-container ac-header">
+              <div class="ac-columnSet ac-header-row">
+                <div class="ac-column ac-column-stretch">
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder"><i class="fas fa-shield-alt" style="color:#0f6cbd;margin-right:4px;"></i>Approval Impact &amp; Optimization</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ac-container ac-body" style="padding-top:14px;padding-bottom:14px;">
+              <div class="ac-columnSet">
+
+                <div class="ac-column ac-column-stretch">
+                  <div class="ac-container">
+                    <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder" style="margin-bottom:12px;">Approval Path Comparison</span>
+                    <div class="r2-approval-path">
+                      <div class="r2-approval-step">
+                        <span class="r2-approval-step__label">Current (22.0%)</span>
+                        <div class="r2-approval-step__levels">
+                          <span class="r2-approval-pill r2-approval-pill--green">Green</span>
+                          <i class="fas fa-arrow-right" style="color:#a19f9d;font-size:10px;"></i>
+                          <span style="font-size:12px;color:#323130;">Seller Manager Approval</span>
+                        </div>
+                      </div>
+                      <div class="r2-approval-arrow"><i class="fas fa-long-arrow-alt-down" style="color:#107c10;font-size:18px;"></i></div>
+                      <div class="r2-approval-step">
+                        <span class="r2-approval-step__label">Recommended (18.5%)</span>
+                        <div class="r2-approval-step__levels">
+                          <span class="r2-approval-pill r2-approval-pill--blue">Blue</span>
+                          <i class="fas fa-arrow-right" style="color:#a19f9d;font-size:10px;"></i>
+                          <span style="font-size:12px;color:#323130;">Empowerment (reduced)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ac-separator ac-separator--vertical"></div>
+
+                <div class="ac-column ac-column-stretch">
+                  <div class="ac-container">
+                    <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder" style="margin-bottom:12px;">Approval Optimization <span class="r2-pilot-badge">Pilot</span></span>
+                    <div class="r2-optimization-box">
+                      <div class="r2-optimization-row">
+                        <i class="fas fa-bolt" style="color:#ca5010;"></i>
+                        <div>
+                          <span class="ac-textBlock ac-textBlock--default ac-weight--bolder">Low-Risk Deal Cohort</span>
+                          <span class="ac-textBlock ac-textBlock--small ac-color--subtle">Deal falls within safe discount band. Eligible for reduced approval or auto-approval.</span>
+                        </div>
+                      </div>
+                      <div class="r2-optimization-status">
+                        <span class="r2-status-indicator r2-status-indicator--eligible"><i class="fas fa-check"></i> Eligible for reduced approval</span>
+                      </div>
+                      <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="margin-top:4px;font-style:italic;">Pilot cohort criteria under evaluation. See Section 9.7 of PRD.</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- ───────────────────────────────────────────────
+               SECTION 5 — Offering Group Recommendations Table
+               ─────────────────────────────────────────────── -->
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <span class="toolbar-title"><i class="fas fa-layer-group"></i> Offering Group Recommendations by Contract Year</span>
+            </div>
+            <div class="toolbar-right">
+              <button class="toolbar-btn"><i class="fas fa-filter"></i> Filter</button>
+              <button class="toolbar-btn"><i class="fas fa-download"></i> Export</button>
+              <button class="toolbar-btn toolbar-btn-primary"><i class="fas fa-check-double"></i> Apply Selected</button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="col-check"><input type="checkbox"></th>
+                  <th class="col-expand"></th>
+                  <th class="col-package">Offering Group / Package <i class="fas fa-arrow-down sort-icon"></i></th>
+                  <th class="col-date">Contract Year</th>
+                  <th class="col-percent">Recommended %</th>
+                  <th class="col-percent">Min %</th>
+                  <th class="col-percent">Max %</th>
+                  <th class="col-percent">Current %</th>
+                  <th class="col-money">Deviation ($)</th>
+                  <th class="col-percent">Deviation %</th>
+                  <th class="col-status">Status</th>
+                  <th class="col-status">Guardrail</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="col-check"><input type="checkbox"></td>
+                  <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
+                  <td class="col-package">
+                    <div class="package-name-cell">
+                      <a href="#" class="package-link">USP Base Package Name 2022-23</a>
+                      <span class="badge badge-teal">USP Base</span>
+                    </div>
+                    <div class="package-tags">
+                      <span class="tag"><i class="fas fa-globe"></i> USA</span>
+                      <span class="tag"><i class="fas fa-users"></i> MSO</span>
+                    </div>
+                  </td>
+                  <td class="col-date">CY1 (FY23)</td>
+                  <td class="col-percent ref-cell--accent">17.5 %</td>
+                  <td class="col-percent">10.0 %</td>
+                  <td class="col-percent">22.0 %</td>
+                  <td class="col-percent">20.0 %</td>
+                  <td class="col-money">$ 25,000</td>
+                  <td class="col-percent ref-cell--attention">+2.5 %</td>
+                  <td class="col-status"><span class="ref-status ref-status--above">Above</span></td>
+                  <td class="col-status"><span class="r2-guardrail-cell r2-guardrail-cell--ok"><i class="fas fa-check-circle"></i></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><input type="checkbox"></td>
+                  <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
+                  <td class="col-package">
+                    <div class="package-name-cell">
+                      <a href="#" class="package-link">USP Base Package Name 2023-24</a>
+                      <span class="badge badge-teal">USP Base</span>
+                    </div>
+                    <div class="package-tags">
+                      <span class="tag"><i class="fas fa-globe"></i> USA</span>
+                      <span class="tag"><i class="fas fa-users"></i> MSO</span>
+                      <span class="tag"><i class="fas fa-layer-group"></i> Bundle</span>
+                    </div>
+                  </td>
+                  <td class="col-date">CY2 (FY24)</td>
+                  <td class="col-percent ref-cell--accent">19.0 %</td>
+                  <td class="col-percent">13.0 %</td>
+                  <td class="col-percent">25.0 %</td>
+                  <td class="col-percent">18.5 %</td>
+                  <td class="col-money">-$ 5,000</td>
+                  <td class="col-percent ref-cell--good">-0.5 %</td>
+                  <td class="col-status"><span class="ref-status ref-status--within">Within</span></td>
+                  <td class="col-status"><span class="r2-guardrail-cell r2-guardrail-cell--ok"><i class="fas fa-check-circle"></i></span></td>
+                </tr>
+                <tr>
+                  <td class="col-check"><input type="checkbox"></td>
+                  <td class="col-expand"><i class="fas fa-chevron-right expand-icon"></i></td>
+                  <td class="col-package">
+                    <div class="package-name-cell">
+                      <a href="#" class="package-link">USP Base Package Name 2024-25</a>
+                      <span class="badge badge-teal">USP Base</span>
+                    </div>
+                    <div class="package-tags">
+                      <span class="tag"><i class="fas fa-globe"></i> USA</span>
+                      <span class="tag"><i class="fas fa-users"></i> MSO</span>
+                      <span class="tag"><i class="fas fa-layer-group"></i> Bundle</span>
+                    </div>
+                  </td>
+                  <td class="col-date">CY3 (FY25)</td>
+                  <td class="col-percent ref-cell--accent">19.5 %</td>
+                  <td class="col-percent">14.0 %</td>
+                  <td class="col-percent">26.0 %</td>
+                  <td class="col-percent">24.0 %</td>
+                  <td class="col-money">$ 45,000</td>
+                  <td class="col-percent ref-cell--attention">+4.5 %</td>
+                  <td class="col-status"><span class="ref-status ref-status--above">Above</span></td>
+                  <td class="col-status"><span class="r2-guardrail-cell r2-guardrail-cell--ok"><i class="fas fa-check-circle"></i></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-bar">
+            <span class="pagination-info">Displaying <strong>1-3</strong> of <strong>3</strong> offering groups</span>
+          </div>
+
+          <!-- ───────────────────────────────────────────────
+               SECTION 6 — Feedback
+               ─────────────────────────────────────────────── -->
+          <div class="ac-card" role="region" aria-label="Feedback">
+
+            <div class="ac-container ac-header">
+              <div class="ac-columnSet ac-header-row">
+                <div class="ac-column ac-column-stretch">
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder"><i class="fas fa-comment-dots" style="color:#0f6cbd;margin-right:4px;"></i>Feedback</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ac-container ac-body" style="padding-top:14px;padding-bottom:14px;">
+              <div class="r2-feedback-row">
+                <span class="ac-textBlock ac-textBlock--default" style="color:#616161;">Was this recommendation helpful?</span>
+                <div class="r2-feedback-actions">
+                  <button class="r2-feedback-btn" title="Helpful"><i class="far fa-thumbs-up"></i> Helpful</button>
+                  <button class="r2-feedback-btn" title="Not helpful"><i class="far fa-thumbs-down"></i> Not Helpful</button>
+                </div>
+              </div>
+              <div class="r2-feedback-text-row">
+                <textarea class="r2-feedback-textarea" placeholder="Optional: Tell us more about this recommendation..." rows="2"></textarea>
+                <button class="ac-action ac-action--secondary" style="align-self:flex-end;margin-top:8px;">Submit Feedback</button>
+              </div>
+              <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="margin-top:8px;"><i class="fas fa-lock" style="font-size:10px;margin-right:4px;"></i> Feedback is tied to recommendation ID <strong>DM-2026-04-A123456</strong> and used to improve model quality.</span>
+            </div>
+
+          </div>
+
+        </div><!-- /panel-reference2 -->
+
       </div>
 
       <!-- Right Sidebar -->
@@ -557,105 +1224,6 @@
           <!-- Insights panel: Reasons to Believe -->
           <div id="sb-insights" class="sidebar-panel">
             <div class="sb-insights-content">
-
-              <div class="sb-section-header">
-                <i class="fas fa-lightbulb"></i> Reasons to Believe
-                <span class="ref-reasons__badge">8 signals</span>
-              </div>
-
-              <!-- P0: Deal Financials -->
-              <div class="sb-group">
-                <div class="sb-group__title"><i class="fas fa-chart-pie"></i> Deal Financials</div>
-                <div class="sb-signal sb-signal--p0">
-                  <span class="sb-signal__label">Gross minus Flex</span>
-                  <span class="sb-signal__value">$28,589,055.00</span>
-                  <span class="sb-signal__tag">P0</span>
-                </div>
-                <div class="sb-signal sb-signal--p0">
-                  <span class="sb-signal__label">Add-On Base Ratio Bucket</span>
-                  <span class="sb-signal__value">Second highest (60-80%)</span>
-                  <span class="sb-signal__tag">P0</span>
-                </div>
-                <div class="sb-signal sb-signal--p0">
-                  <span class="sb-signal__label">Deal Size Bucket</span>
-                  <span class="sb-signal__value">$1M - $5M</span>
-                  <span class="sb-signal__tag">P0</span>
-                </div>
-                <div class="sb-signal">
-                  <span class="sb-signal__label">Multi-Year Deal</span>
-                  <span class="sb-signal__value">No</span>
-                </div>
-              </div>
-
-              <!-- P0: Historical Patterns -->
-              <div class="sb-group">
-                <div class="sb-group__title"><i class="fas fa-history"></i> Historical Patterns</div>
-                <div class="sb-signal sb-signal--p0">
-                  <span class="sb-signal__label">Prior Deal Gross minus Flex</span>
-                  <span class="sb-signal__value">$1,589,055.00</span>
-                  <span class="sb-signal__tag">P0</span>
-                </div>
-                <div class="sb-signal sb-signal--p0">
-                  <span class="sb-signal__label">Prior Deal Discount %</span>
-                  <span class="sb-signal__value">22.2 %</span>
-                  <span class="sb-signal__tag">P0</span>
-                </div>
-                <div class="sb-signal sb-signal--p0">
-                  <span class="sb-signal__label">ACR Growth Bucket</span>
-                  <span class="sb-signal__value sb-signal__value--attention">Lowest (Bottom 20%)</span>
-                  <span class="sb-signal__tag">P0</span>
-                </div>
-              </div>
-
-              <!-- P1/P2: Customer Attributes -->
-              <div class="sb-group">
-                <div class="sb-group__title"><i class="fas fa-user-tie"></i> Customer Attributes</div>
-                <div class="sb-signal">
-                  <span class="sb-signal__label">TP Industry</span>
-                  <span class="sb-signal__value">Financial services</span>
-                </div>
-                <div class="sb-signal">
-                  <span class="sb-signal__label">Customer Segment</span>
-                  <span class="sb-signal__value">Major</span>
-                </div>
-                <div class="sb-signal">
-                  <span class="sb-signal__label">New Unified Customer</span>
-                  <span class="sb-signal__value">No</span>
-                </div>
-                <div class="sb-signal">
-                  <span class="sb-signal__label">CSAT</span>
-                  <span class="sb-signal__value sb-signal__value--good">Positive</span>
-                </div>
-              </div>
-
-              <!-- P1/P2: Azure & Revenue -->
-              <div class="sb-group">
-                <div class="sb-group__title"><i class="fas fa-cloud"></i> Azure Consumed Revenue</div>
-                <div class="sb-signal">
-                  <span class="sb-signal__label">ACR FY22</span>
-                  <span class="sb-signal__value">$28,908,433</span>
-                </div>
-                <div class="sb-signal">
-                  <span class="sb-signal__label">ACR FY23</span>
-                  <span class="sb-signal__value sb-signal__value--good">$30,300,333 <i class="fas fa-arrow-up" style="font-size:10px;"></i></span>
-                </div>
-                <div class="sb-signal">
-                  <span class="sb-signal__label">ACR FY24</span>
-                  <span class="sb-signal__value sb-signal__value--attention">$29,457,485 <i class="fas fa-arrow-down" style="font-size:10px;"></i></span>
-                </div>
-                <div class="sb-signal">
-                  <span class="sb-signal__label">FRATTM Category</span>
-                  <span class="sb-signal__value">Higher than $10M</span>
-                </div>
-              </div>
-
-              <!-- Feedback -->
-              <div class="sb-feedback">
-                <span class="sb-feedback__label">Was this helpful?</span>
-                <button class="ref-feedback__btn ref-feedback__btn--up" title="Thumbs up"><i class="far fa-thumbs-up"></i></button>
-                <button class="ref-feedback__btn ref-feedback__btn--down" title="Thumbs down"><i class="far fa-thumbs-down"></i></button>
-              </div>
-
             </div>
           </div>
 
@@ -1214,6 +1782,50 @@
           </div>
         </div>
 
+        <!-- Historical Spend -->
+        <div class="hist-section hist-section--wide">
+          <div class="hist-section__header"><i class="fas fa-money-bill-wave"></i> Historical Spend</div>
+          <div class="hist-acr-grid">
+            <div class="hist-acr-card">
+              <span class="hist-acr-card__fy">FY22</span>
+              <span class="hist-acr-card__amount">$4,250,000</span>
+            </div>
+            <div class="hist-acr-card">
+              <span class="hist-acr-card__fy">FY23</span>
+              <span class="hist-acr-card__amount">$5,120,000</span>
+              <span class="hist-acr-card__trend hist-fact__value--good"><i class="fas fa-arrow-up"></i> +20.5%</span>
+            </div>
+            <div class="hist-acr-card">
+              <span class="hist-acr-card__fy">FY24</span>
+              <span class="hist-acr-card__amount">$5,890,000</span>
+              <span class="hist-acr-card__trend hist-fact__value--good"><i class="fas fa-arrow-up"></i> +15.0%</span>
+            </div>
+            <div class="hist-acr-card">
+              <span class="hist-acr-card__fy">FY25 (YTD)</span>
+              <span class="hist-acr-card__amount">$3,410,000</span>
+              <span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> −7.2%</span>
+            </div>
+          </div>
+          <div class="hist-section__facts" style="margin-top:10px;">
+            <div class="hist-fact">
+              <span class="hist-fact__label">Total Spend (3-Year)</span>
+              <span class="hist-fact__value" style="font-weight:700;">$15,260,000</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">Avg Annual Spend</span>
+              <span class="hist-fact__value">$5,086,667</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">Spend Trend</span>
+              <span class="hist-fact__value hist-fact__value--good"><i class="fas fa-arrow-up" style="font-size:11px;"></i> Growing</span>
+            </div>
+            <div class="hist-fact">
+              <span class="hist-fact__label">Top Product</span>
+              <span class="hist-fact__value">Microsoft 365 E5</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="fui-drawer__footer">
@@ -1235,11 +1847,35 @@
 
     function updateDiscount() {
       const val = parseFloat(slider.value).toFixed(1) + '%';
-      hero.textContent = val;
+      hero.value = val;
       label.textContent = val;
     }
+    if (slider) slider.addEventListener('input', updateDiscount);
 
-    slider.addEventListener('input', updateDiscount);
+    function onHeroInput() {
+      const num = parseFloat(hero.value);
+      if (!isNaN(num)) {
+        const clamped = Math.min(100, Math.max(0, num));
+        slider.value = clamped;
+        label.textContent = clamped.toFixed(1) + '%';
+      }
+    }
+    function onHeroBlur() {
+      const num = parseFloat(hero.value);
+      if (!isNaN(num)) {
+        const clamped = Math.min(100, Math.max(0, num));
+        hero.value = clamped.toFixed(1) + '%';
+        slider.value = clamped;
+        label.textContent = clamped.toFixed(1) + '%';
+      } else {
+        hero.value = parseFloat(slider.value).toFixed(1) + '%';
+      }
+    }
+    if (hero) {
+      hero.addEventListener('input', onHeroInput);
+      hero.addEventListener('blur', onHeroBlur);
+      hero.addEventListener('keydown', function(e) { if (e.key === 'Enter') hero.blur(); });
+    }
 
     // --- Reference tab slider ---
     const refSlider = document.getElementById('ref-discount-slider');
@@ -1248,11 +1884,35 @@
 
     function updateRefDiscount() {
       const val = parseFloat(refSlider.value).toFixed(1) + '%';
-      refHero.textContent = val;
+      refHero.value = val;
       refLabel.textContent = val;
     }
+    if (refSlider) refSlider.addEventListener('input', updateRefDiscount);
 
-    refSlider.addEventListener('input', updateRefDiscount);
+    function onRefHeroInput() {
+      const num = parseFloat(refHero.value);
+      if (!isNaN(num)) {
+        const clamped = Math.min(100, Math.max(0, num));
+        refSlider.value = clamped;
+        refLabel.textContent = clamped.toFixed(1) + '%';
+      }
+    }
+    function onRefHeroBlur() {
+      const num = parseFloat(refHero.value);
+      if (!isNaN(num)) {
+        const clamped = Math.min(100, Math.max(0, num));
+        refHero.value = clamped.toFixed(1) + '%';
+        refSlider.value = clamped;
+        refLabel.textContent = clamped.toFixed(1) + '%';
+      } else {
+        refHero.value = parseFloat(refSlider.value).toFixed(1) + '%';
+      }
+    }
+    if (refHero) {
+      refHero.addEventListener('input', onRefHeroInput);
+      refHero.addEventListener('blur', onRefHeroBlur);
+      refHero.addEventListener('keydown', function(e) { if (e.key === 'Enter') refHero.blur(); });
+    }
 
     // --- Fluent 2 Drawer logic ---
     const editBtn = document.getElementById('btn-edit-deal');
@@ -1385,11 +2045,11 @@
       closeDrawer();
     }
 
-    editBtn.addEventListener('click', openDrawer);
-    drawerClose.addEventListener('click', closeDrawer);
-    drawerCancel.addEventListener('click', closeDrawer);
-    drawerSave.addEventListener('click', saveDrawer);
-    overlay.addEventListener('click', closeDrawer);
+    if (editBtn) editBtn.addEventListener('click', openDrawer);
+    if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+    if (drawerCancel) drawerCancel.addEventListener('click', closeDrawer);
+    if (drawerSave) drawerSave.addEventListener('click', saveDrawer);
+    if (overlay) overlay.addEventListener('click', closeDrawer);
 
     // --- Historical Financials Drawer ---
     var btnViewMore = document.getElementById('btn-view-more-hist');
@@ -1398,6 +2058,7 @@
     var histClose = document.getElementById('hist-drawer-close');
 
     function openHistDrawer() {
+      if (!histDrawer) return;
       histDrawer.classList.add('fui-drawer--open');
       histOverlay.classList.add('fui-drawer-overlay--visible');
       histDrawer.setAttribute('aria-hidden', 'false');
@@ -1405,15 +2066,16 @@
     }
 
     function closeHistDrawer() {
+      if (!histDrawer) return;
       histDrawer.classList.remove('fui-drawer--open');
       histOverlay.classList.remove('fui-drawer-overlay--visible');
       histDrawer.setAttribute('aria-hidden', 'true');
       histOverlay.setAttribute('aria-hidden', 'true');
     }
 
-    btnViewMore.addEventListener('click', openHistDrawer);
-    histClose.addEventListener('click', closeHistDrawer);
-    histOverlay.addEventListener('click', closeHistDrawer);
+    if (btnViewMore) btnViewMore.addEventListener('click', openHistDrawer);
+    if (histClose) histClose.addEventListener('click', closeHistDrawer);
+    if (histOverlay) histOverlay.addEventListener('click', closeHistDrawer);
 
     // --- Reasons to Believe Drawer ---
     var reasonsBtn = document.getElementById('btn-reasons-toggle');
@@ -1423,6 +2085,7 @@
     var reasonsCloseBtn = document.getElementById('reasons-drawer-close-btn');
 
     function openReasonsDrawer() {
+      if (!reasonsDrawer) return;
       reasonsDrawer.classList.add('fui-drawer--open');
       reasonsOverlay.classList.add('fui-drawer-overlay--visible');
       reasonsDrawer.setAttribute('aria-hidden', 'false');
@@ -1430,16 +2093,19 @@
     }
 
     function closeReasonsDrawer() {
+      if (!reasonsDrawer) return;
       reasonsDrawer.classList.remove('fui-drawer--open');
       reasonsOverlay.classList.remove('fui-drawer-overlay--visible');
       reasonsDrawer.setAttribute('aria-hidden', 'true');
       reasonsOverlay.setAttribute('aria-hidden', 'true');
     }
 
-    reasonsBtn.addEventListener('click', openReasonsDrawer);
-    reasonsClose.addEventListener('click', closeReasonsDrawer);
-    reasonsCloseBtn.addEventListener('click', closeReasonsDrawer);
-    reasonsOverlay.addEventListener('click', closeReasonsDrawer);
+    if (reasonsBtn) reasonsBtn.addEventListener('click', openReasonsDrawer);
+    var r2ReasonsBtn = document.getElementById('r2-btn-reasons');
+    if (r2ReasonsBtn) r2ReasonsBtn.addEventListener('click', openReasonsDrawer);
+    if (reasonsClose) reasonsClose.addEventListener('click', closeReasonsDrawer);
+    if (reasonsCloseBtn) reasonsCloseBtn.addEventListener('click', closeReasonsDrawer);
+    if (reasonsOverlay) reasonsOverlay.addEventListener('click', closeReasonsDrawer);
 
     // --- Tab Switching ---
     function switchTab(e) {
@@ -1457,7 +2123,50 @@
         var panel = document.getElementById(panelId);
         if (panel) panel.classList.add('tab-panel--active');
       }
+
+      // Close any open dropdown
+      var dd = document.getElementById('financials-dropdown');
+      if (dd) dd.classList.remove('tab-dropdown-menu--open');
+
+      // Reset R2 slider to 12%
+      if (typeof window.resetR2Slider === 'function') window.resetR2Slider();
     }
+
+    function toggleFinancialsMenu(e) {
+      e.stopPropagation();
+      var dd = document.getElementById('financials-dropdown');
+      dd.classList.toggle('tab-dropdown-menu--open');
+    }
+
+    function selectFinancialsOption(e, label) {
+      e.stopPropagation();
+      // Update active item
+      var items = document.querySelectorAll('#financials-dropdown .tab-dropdown-item');
+      items.forEach(function(it) { it.classList.remove('tab-dropdown-item--active'); });
+      e.currentTarget.classList.add('tab-dropdown-item--active');
+      // Close menu
+      document.getElementById('financials-dropdown').classList.remove('tab-dropdown-menu--open');
+      // Activate Financials tab + panel
+      var tabs = document.querySelectorAll('.tabs-bar .tab');
+      tabs.forEach(function(t) { t.classList.remove('tab-active'); });
+      var finTab = document.querySelector('.tab-dropdown-wrap .tab');
+      if (finTab) finTab.classList.add('tab-active');
+      var panels = document.querySelectorAll('.tab-panel');
+      panels.forEach(function(p) { p.classList.remove('tab-panel--active'); });
+      var fp = document.getElementById('panel-financials');
+      if (fp) fp.classList.add('tab-panel--active');
+      // Reset R2 slider to 12%
+      if (typeof window.resetR2Slider === 'function') window.resetR2Slider();
+    }
+
+    // Close financials dropdown on outside click
+    document.addEventListener('click', function(e) {
+      var wrap = document.querySelector('.tab-dropdown-wrap');
+      var dd = document.getElementById('financials-dropdown');
+      if (wrap && dd && !wrap.contains(e.target)) {
+        dd.classList.remove('tab-dropdown-menu--open');
+      }
+    });
 
     // --- Reasons to Believe toggle ---
     var reasonsToggle = document.getElementById('reasons-toggle');
@@ -1618,6 +2327,258 @@
           handleSend();
         }
       });
+    })();
+
+    // --- Reference 2: Discount Input → Slider Sync ---
+    (function() {
+      var RECOMMENDED = 12.0;
+      var DEAL_VALUE = 3000000;
+      var MIN_DISC = 12.0;
+      var MAX_DISC = 24.2;
+      var input = document.getElementById('r2-discount-input');
+      if (!input) return;
+      var slider = document.getElementById('r2-fluent-slider');
+      var recDot = document.getElementById('r2-rec-dot');
+      var minLabel = document.getElementById('r2-range-min-label');
+      var maxLabel = document.getElementById('r2-range-max-label');
+      var currentApplied = document.getElementById('r2-current-applied');
+      var deviationEl = document.getElementById('r2-deviation');
+
+      function fmt(n) { return n.toFixed(2); }
+
+      function pctPos(val) {
+        if (MAX_DISC === MIN_DISC) return 0;
+        return ((val - MIN_DISC) / (MAX_DISC - MIN_DISC)) * 100;
+      }
+
+      function updateRecDot() {
+        var pct = pctPos(RECOMMENDED);
+        recDot.style.left = 'calc(' + pct + '% + ' + (10 - pct * 0.2) + 'px)';
+      }
+
+      function updateTrackFill(val) {
+        var pct = pctPos(val);
+        slider.style.background = 'linear-gradient(to right, #0f6cbd 0%, #0f6cbd ' + pct + '%, #d1d1d1 ' + pct + '%, #d1d1d1 100%)';
+      }
+
+      function updateAll(val) {
+        slider.value = val;
+        updateTrackFill(val);
+        if (minLabel) minLabel.textContent = fmt(MIN_DISC) + '%';
+        if (maxLabel) maxLabel.textContent = fmt(MAX_DISC) + '%';
+      }
+
+      function updateDeviation(val) {
+        if (currentApplied) currentApplied.textContent = fmt(val) + ' %';
+        var devPct = val - RECOMMENDED;
+        var devAmt = Math.round(DEAL_VALUE * Math.abs(devPct) / 100);
+        var sign = devPct > 0 ? '+' : '';
+        var devAmtStr = '$' + devAmt.toLocaleString('en-US');
+        if (deviationEl) {
+          deviationEl.textContent = sign + fmt(devPct) + ' %  (' + devAmtStr + ')';
+          deviationEl.style.color = devPct > 0 ? '#d13438' : '#107c10';
+        }
+      }
+
+      function resetToDefault() {
+        input.value = fmt(RECOMMENDED);
+        updateAll(RECOMMENDED);
+        if (currentApplied) currentApplied.textContent = fmt(RECOMMENDED) + ' %';
+        if (deviationEl) {
+          deviationEl.textContent = '0.00 %  ($0)';
+          deviationEl.style.color = '#107c10';
+        }
+      }
+
+      // Slider → input sync
+      slider.addEventListener('input', function() {
+        var val = parseFloat(slider.value);
+        input.value = fmt(val);
+        updateTrackFill(val);
+        updateDeviation(val);
+      });
+
+      // Input → slider sync
+      input.addEventListener('input', function() {
+        var raw = input.value.replace(/[^0-9.\-]/g, '');
+        var val = parseFloat(raw);
+        if (isNaN(val)) return;
+        if (val < MIN_DISC) val = MIN_DISC;
+        if (val > MAX_DISC) val = MAX_DISC;
+        updateAll(val);
+        updateDeviation(val);
+      });
+
+      input.addEventListener('blur', function() {
+        var raw = input.value.replace(/[^0-9.\-]/g, '');
+        var val = parseFloat(raw);
+        if (isNaN(val)) { resetToDefault(); return; }
+        if (val < MIN_DISC) val = MIN_DISC;
+        if (val > MAX_DISC) val = MAX_DISC;
+        input.value = fmt(val);
+        updateAll(val);
+      });
+
+      // Init
+      updateRecDot();
+      updateAll(RECOMMENDED);
+
+      // Reset on tab switch to Reference 2
+      var r2Tab = document.querySelector('[data-panel="panel-reference2"]');
+      if (r2Tab) {
+        r2Tab.addEventListener('click', function() { resetToDefault(); });
+      }
+
+      // Expose reset globally
+      window.resetR2Slider = resetToDefault;
+
+      // Refresh button — show loading overlay, reset, then hide
+      var refreshBtn = document.querySelector('#panel-reference2 .ref-banner__refresh[title="Refresh recommendation"]');
+      var overlay = document.getElementById('r2-loading-overlay');
+      if (refreshBtn && overlay) {
+        refreshBtn.addEventListener('click', function() {
+          overlay.classList.add('active');
+          setTimeout(function() {
+            resetToDefault();
+            overlay.classList.remove('active');
+          }, 1500);
+        });
+      }
+
+      // Thumbs-down feedback overlay
+      var thumbsDown = document.getElementById('r2-btn-thumbs-down');
+      var fbOverlay = document.getElementById('r2-feedback-overlay');
+      var fbClose = document.getElementById('r2-feedback-overlay-close');
+      var fbCancel = document.getElementById('r2-feedback-cancel');
+      var fbSubmit = document.getElementById('r2-feedback-submit');
+      var fbTextarea = document.getElementById('r2-feedback-textarea');
+      function closeFeedback() {
+        if (fbOverlay) fbOverlay.classList.remove('active');
+        if (fbTextarea) fbTextarea.value = '';
+      }
+      if (thumbsDown && fbOverlay) {
+        thumbsDown.addEventListener('click', function() {
+          fbOverlay.classList.add('active');
+          if (fbTextarea) fbTextarea.focus();
+        });
+      }
+      if (fbClose) fbClose.addEventListener('click', closeFeedback);
+      if (fbCancel) fbCancel.addEventListener('click', closeFeedback);
+      if (fbSubmit) {
+        fbSubmit.addEventListener('click', function() {
+          closeFeedback();
+        });
+      }
+    })();
+
+    // === Financials tab Discount Intelligence slider ===
+    (function() {
+      var slider = document.getElementById('fin-fluent-slider');
+      var input = document.getElementById('fin-discount-input');
+      var recDot = document.getElementById('fin-rec-dot');
+      var devEl = document.getElementById('fin-deviation');
+      if (!slider || !input) return;
+
+      var RECOMMENDED = 12.0, MIN_DISC = 12.0, MAX_DISC = 24.2, DEAL_VALUE = 3000000;
+
+      function fmt(v) { return v.toFixed(2); }
+      function pct(v) { return ((v - MIN_DISC) / (MAX_DISC - MIN_DISC)) * 100; }
+
+      function updateAll(v) {
+        var p = pct(v);
+        slider.style.background = 'linear-gradient(to right,#0f6cbd 0%,#0f6cbd ' + p + '%,#d1d1d1 ' + p + '%,#d1d1d1 100%)';
+        var diff = v - RECOMMENDED;
+        var dollar = Math.abs(Math.round(diff / 100 * DEAL_VALUE));
+        if (devEl) {
+          devEl.textContent = (diff >= 0 ? '+' : '') + fmt(diff) + ' %  ($' + dollar.toLocaleString() + ')';
+          devEl.style.color = Math.abs(diff) < 0.01 ? '#107c10' : diff > 0 ? '#d13438' : '#ca5010';
+        }
+      }
+
+      function updateRecDot() {
+        if (!recDot) return;
+        recDot.style.left = pct(RECOMMENDED) + '%';
+      }
+
+      function resetToDefault() {
+        input.value = fmt(RECOMMENDED);
+        slider.value = RECOMMENDED;
+        updateAll(RECOMMENDED);
+      }
+
+      slider.addEventListener('input', function() {
+        var v = parseFloat(slider.value);
+        input.value = fmt(v);
+        updateAll(v);
+      });
+
+      input.addEventListener('input', function() {
+        var raw = input.value.replace(/[^0-9.]/g, '');
+        var v = parseFloat(raw);
+        if (isNaN(v)) return;
+        if (v < MIN_DISC) v = MIN_DISC;
+        if (v > MAX_DISC) v = MAX_DISC;
+        slider.value = v;
+        updateAll(v);
+      });
+
+      input.addEventListener('blur', function() {
+        var v = parseFloat(input.value.replace(/[^0-9.]/g, ''));
+        if (isNaN(v) || v < MIN_DISC) v = MIN_DISC;
+        if (v > MAX_DISC) v = MAX_DISC;
+        input.value = fmt(v);
+        slider.value = v;
+        updateAll(v);
+      });
+
+      updateRecDot();
+      updateAll(RECOMMENDED);
+
+      window.resetFinSlider = resetToDefault;
+
+      // Refresh button
+      var refreshBtn = document.getElementById('fin-btn-refresh');
+      var overlay = document.getElementById('fin-loading-overlay');
+      if (refreshBtn && overlay) {
+        refreshBtn.addEventListener('click', function() {
+          overlay.classList.add('active');
+          setTimeout(function() {
+            resetToDefault();
+            overlay.classList.remove('active');
+          }, 1500);
+        });
+      }
+
+      // Reasons to Believe button
+      var reasonsBtn = document.getElementById('fin-btn-reasons');
+      if (reasonsBtn) reasonsBtn.addEventListener('click', function() {
+        if (typeof openReasonsDrawer === 'function') openReasonsDrawer();
+      });
+
+      // Thumbs-down feedback overlay
+      var thumbsDown = document.getElementById('fin-btn-thumbs-down');
+      var fbOverlay = document.getElementById('fin-feedback-overlay');
+      var fbClose = document.getElementById('fin-feedback-overlay-close');
+      var fbCancel = document.getElementById('fin-feedback-cancel');
+      var fbSubmit = document.getElementById('fin-feedback-submit');
+      var fbTextarea = document.getElementById('fin-feedback-textarea');
+      function closeFinFeedback() {
+        if (fbOverlay) fbOverlay.classList.remove('active');
+        if (fbTextarea) fbTextarea.value = '';
+      }
+      if (thumbsDown && fbOverlay) {
+        thumbsDown.addEventListener('click', function() {
+          fbOverlay.classList.add('active');
+          if (fbTextarea) fbTextarea.focus();
+        });
+      }
+      if (fbClose) fbClose.addEventListener('click', closeFinFeedback);
+      if (fbCancel) fbCancel.addEventListener('click', closeFinFeedback);
+      if (fbSubmit) {
+        fbSubmit.addEventListener('click', function() {
+          closeFinFeedback();
+        });
+      }
     })();
 
   </script>
