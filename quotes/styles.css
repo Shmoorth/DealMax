@@ -1956,10 +1956,10 @@ input.ac-discount-hero--editable:focus {
   min-width: 0;
 }
 .agent-msg__bubble--wide .ac-card {
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  margin-top: 8px;
+  border-radius: 12px;
+  margin: 10px 0 0 0;
 }
 .agent-msg__bubble--wide .data-table {
   table-layout: auto;
