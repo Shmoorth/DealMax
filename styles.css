@@ -348,7 +348,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .table-container {
   flex: 1;
   overflow-y: auto;
-  padding: 0;
+  padding: 0 24px;
 }
 
 .data-table {
