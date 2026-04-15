@@ -1,5 +1,5 @@
-/* ================================================================
-   Quote Dashboard – 1920 × 1080 layout
+﻿/* ================================================================
+   Quote Dashboard â€“ 1920 Ã— 1080 layout
    ================================================================ */
 
 /* ---------- Reset & Base ---------- */
@@ -673,7 +673,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hist-acr-card__trend i { font-size: 10px; margin-right: 2px; }
 
 /* ================================================================
-   DealMax — Microsoft Adaptive Card Design System
+   DealMax â€” Microsoft Adaptive Card Design System
    Follows: Adaptive Card Host Config + Fluent Design tokens
    Spacing: small=4, default=8, medium=12, large=16, extraLarge=24, padding=16
    ================================================================ */
@@ -879,7 +879,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin-top: 12px;
 }
 
-/* Aligned factSet for Reference tab card — same spacing as Financials */
+/* Aligned factSet for Reference tab card â€” same spacing as Financials */
 .ref-factSet-aligned {
   grid-template-columns: auto 1fr;
   gap: 6px 30px;
@@ -992,6 +992,89 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: #0e4775; /* brand-background-1-pressed */
 }
 
+/* --- Split Button --- */
+.split-btn {
+  display: inline-flex;
+  align-items: stretch;
+  position: relative;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+.split-btn__main {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  border-radius: 4px 0 0 4px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  background: #0f6cbd;
+  color: #fff;
+  border: 1px solid #0f6cbd;
+  border-right: none;
+  transition: background 0.1s ease;
+}
+.split-btn__main:hover { background: #115ea3; }
+.split-btn__main:active { background: #0e4775; }
+.split-btn__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  padding: 0;
+  border-radius: 0 4px 4px 0;
+  font-size: 11px;
+  cursor: pointer;
+  background: #0f6cbd;
+  color: #fff;
+  border: 1px solid #0f6cbd;
+  border-left: 1px solid rgba(255,255,255,0.3);
+  transition: background 0.1s ease;
+}
+.split-btn__toggle:hover { background: #115ea3; }
+.split-btn__toggle:active { background: #0e4775; }
+.split-btn__menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid #e1dfdd;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  z-index: 50;
+  padding: 4px 0;
+}
+.split-btn__menu.is-open { display: block; }
+.split-btn__menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 400;
+  color: #242424;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  white-space: nowrap;
+}
+.split-btn__menu-item:hover {
+  background: #f5f5f5;
+}
+.split-btn__menu-item i {
+  font-size: 12px;
+  color: #616161;
+}
+
 .ac-action--secondary {
   background: #fff;
   color: #242424;
@@ -1017,6 +1100,27 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: #f5f5f5;
   color: #242424;
 }
+
+/* --- Ellipsis dropdown menu --- */
+.ellipsis-menu {
+  position: relative;
+  display: inline-flex;
+}
+.ellipsis-menu__dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  min-width: 160px;
+  background: #fff;
+  border: 1px solid #e1dfdd;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  z-index: 50;
+  padding: 4px 0;
+}
+.ellipsis-menu__dropdown.is-open { display: block; }
 
 /* --- Max Recommended Discount (custom hero block) --- */
 .ac-discount-block {
@@ -1124,7 +1228,7 @@ input.ac-discount-hero--editable:focus {
 }
 
 /* ================================================================
-   Adaptive Card – Responsive Breakpoints
+   Adaptive Card â€“ Responsive Breakpoints
    ================================================================ */
 @media (max-width: 1200px) {
   .ac-body > .ac-columnSet {
@@ -1443,7 +1547,7 @@ input.ac-discount-hero--editable:focus {
 .tab-icon-ref { margin-left: 4px; font-size: 11px; }
 
 /* ================================================================
-   Reference Tab – DealMax Discount Intelligence
+   Reference Tab â€“ DealMax Discount Intelligence
    ================================================================ */
 
 /* --- Recommendation Banner --- */
@@ -1861,6 +1965,49 @@ input.ac-discount-hero--editable:focus {
   table-layout: auto;
 }
 
+/* --- DIL card stacked layout inside agent bubble --- */
+.agent-msg__bubble .ac-header-row {
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.agent-msg__bubble .ac-body > .ac-columnSet {
+  flex-direction: column;
+  gap: 20px;
+}
+.agent-msg__bubble .ac-body > .ac-columnSet.dil-top-row {
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+}
+.agent-msg__bubble .ac-discount-block {
+  min-width: 190px;
+  align-items: flex-start;
+  text-align: left;
+  padding: 0;
+}
+.agent-msg__bubble .r2-range-visual {
+  max-width: 210px;
+}
+.agent-msg__bubble .ac-separator--vertical {
+  display: none;
+}
+.agent-msg__bubble .dil-top-row > .ac-separator--vertical {
+  display: block;
+}
+.agent-msg__bubble .ac-body {
+  padding: 12px 20px;
+}
+.agent-msg__bubble .r2-col2-grid {
+  gap: 4px 30px;
+}
+.agent-msg__bubble .r2-offering-grid {
+  gap: 2px 16px;
+}
+.agent-msg__bubble .ref-banner__actions {
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
 /* Suggestion Chips */
 .agent-suggestions {
   display: flex;
@@ -2034,6 +2181,16 @@ input.ac-discount-hero--editable:focus {
   background: #fff4ce;
   border-left-color: #d48c00;
   color: #6e4b00;
+}
+.agent-card__callout--success {
+  background: #dff6dd;
+  border-left-color: #107c10;
+  color: #0e6a0e;
+}
+.agent-card__callout--info {
+  background: #fff9e6;
+  border-left-color: #d48c00;
+  color: #835b00;
 }
 .agent-card__table {
   width: 100%;
@@ -2217,7 +2374,120 @@ input.ac-discount-hero--editable:focus {
   text-decoration: underline;
 }
 
-/* Agent Guardrail Warning */
+/* --- RTB Accordion --- */
+.rtb-accordion {
+  background: #faf9f8;
+  border: 1px solid #edebe9;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+.rtb-accordion__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 12px;
+  user-select: none;
+}
+.rtb-accordion__header::-webkit-details-marker { display: none; }
+.rtb-accordion__icon {
+  font-size: 10px;
+  color: #616161;
+  transition: transform 0.2s;
+}
+.rtb-accordion[open] > .rtb-accordion__header .rtb-accordion__icon {
+  transform: rotate(90deg);
+}
+.rtb-accordion__body {
+  padding: 0 14px 10px 32px;
+}
+
+/* --- RTB Carousel --- */
+.rtb-carousel {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.rtb-carousel__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #d1d1d1;
+  background: #fff;
+  color: #616161;
+  font-size: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.1s, border-color 0.1s;
+}
+.rtb-carousel__arrow:hover {
+  background: #f5f5f5;
+  border-color: #0f6cbd;
+  color: #0f6cbd;
+}
+.rtb-carousel__viewport {
+  flex: 1;
+  overflow: hidden;
+}
+.rtb-carousel__track {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+.rtb-carousel__page {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px 0;
+  min-width: 100%;
+  flex-shrink: 0;
+  justify-items: stretch;
+}
+.rtb-carousel__page > :nth-child(4n) {
+  padding-left: 20px;
+}
+.rtb-carousel__section-title {
+  grid-column: 1 / -1;
+}
+.rtb-carousel__section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #242424;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.rtb-carousel__section-title i {
+  color: #0f6cbd;
+  font-size: 11px;
+}
+.rtb-carousel__nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+.rtb-carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+.rtb-carousel__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d1d1d1;
+  transition: background 0.2s;
+}
+.rtb-carousel__dot--active {
+  background: #0f6cbd;
+}
 .agent-guardrail-warning {
   display: flex;
   align-items: flex-start;
@@ -2235,7 +2505,7 @@ input.ac-discount-hero--editable:focus {
   flex-shrink: 0;
 }
 
-/* ---------- Reference Tab Card – Tighter vertical spacing ---------- */
+/* ---------- Reference Tab Card â€“ Tighter vertical spacing ---------- */
 #panel-reference .ac-card {
   margin: 8px 24px;
 }
@@ -2393,7 +2663,7 @@ input.ac-discount-hero--editable:focus {
 }
 
 /* ================================================================
-   Reference 2 — Discount Intelligence Layer (PRD Design)
+   Reference 2 â€” Discount Simulation (PRD Design)
    ================================================================ */
 
 /* --- Staleness Badge --- */
@@ -2506,7 +2776,7 @@ input.ac-discount-hero--editable:focus {
   line-height: 1.6;
 }
 
-/* --- Range Visual (min–recommended–max bar) --- */
+/* --- Range Visual (minâ€“recommendedâ€“max bar) --- */
 .r2-range-visual {
   width: 100%;
   margin-top: 8px;
