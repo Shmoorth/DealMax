@@ -1554,8 +1554,13 @@
                   </details>
 
                   <div class="ac-actionSet" style="margin-top:26px;flex-wrap:wrap;gap:8px;">
-                    <button class="ac-action ac-action--primary"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button>
-                    <button class="ac-action ac-action--secondary"><i class="fas fa-plus" style="margin-right:4px;font-size:11px;"></i> Create New Quote</button>
+                    <div class="split-btn">
+                      <button class="split-btn__main"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button>
+                      <button class="split-btn__toggle" onclick="this.nextElementSibling.classList.toggle('is-open')" aria-label="More options"><i class="fas fa-chevron-down"></i></button>
+                      <div class="split-btn__menu">
+                        <button class="split-btn__menu-item"><i class="fas fa-plus"></i> Create New Quote</button>
+                      </div>
+                    </div>
                   </div>
 
                   <div class="ref-ai-disclaimer" style="margin-top:4px;">
