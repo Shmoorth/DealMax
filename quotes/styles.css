@@ -2791,6 +2791,12 @@ input.ac-discount-hero--editable:focus {
   font-weight: 400;
   line-height: 1.6;
 }
+.r2-offering-chk {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.6;
+}
 
 /* --- Range Visual (minâ€“recommendedâ€“max bar) --- */
 .r2-range-visual {

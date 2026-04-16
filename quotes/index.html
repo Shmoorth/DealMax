@@ -1361,11 +1361,6 @@
                     <div class="ac-column ac-column-stretch">
                       <div class="ac-container">
                         <div class="r2-col2-grid">
-                          <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder">Distribution Method</span>
-                          <select class="r2-select" name="agent-dil-distribution-q" style="width:100%;max-width:200px;margin-bottom:12px;">
-                            <option value="proportional" selected>Proportional</option>
-                            <option value="manual">Manual per package</option>
-                          </select>
                           <span class="ac-fact-title" style="padding-top:6px;">Min Discount</span><span class="ac-fact-value" style="padding-top:6px;">12.0 %</span>
                           <span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span>
                           <span class="ac-fact-title">Deviation</span><span class="ac-fact-value" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span>
@@ -1380,18 +1375,25 @@
                   <div class="ac-separator ac-separator--horizontal" style="margin-top:20px;"></div>
                   <div style="margin-top:16px;">
                     <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder">Offering Group by Year</span>
-                    <div class="r2-offering-grid">
-                      <span class="r2-offering-hdr">Package</span><span class="r2-offering-hdr">Year 1</span><span class="r2-offering-hdr">Year 2</span><span class="r2-offering-hdr">Year 3</span>
-                      <span class="r2-offering-title">Base Package</span><span class="r2-offering-val">14.5%</span><span class="r2-offering-val">11.2%</span><span class="r2-offering-val">8.0%</span>
-                      <span class="r2-offering-title">Enhanced solutions</span><span class="r2-offering-val">12.8%</span><span class="r2-offering-val">9.5%</span><span class="r2-offering-val">-</span>
-                      <span class="r2-offering-title">Mission critical</span><span class="r2-offering-val">10.2%</span><span class="r2-offering-val">7.8%</span><span class="r2-offering-val">6.1%</span>
-                      <span class="r2-offering-title">Value Acceleration</span><span class="r2-offering-val">16.0%</span><span class="r2-offering-val">13.4%</span><span class="r2-offering-val">-</span>
+                    <div style="margin-top:8px;margin-bottom:12px;display:flex;align-items:center;gap:12px;">
+                      <span class="ac-textBlock ac-textBlock--medium" style="white-space:nowrap;">Distribution Method</span>
+                      <select class="r2-select" name="agent-dil-distribution-q" style="width:auto;">
+                        <option value="proportional" selected>Proportional across all packages</option>
+                        <option value="manual">Manual-Based on selection</option>
+                      </select>
+                    </div>
+                    <div class="r2-offering-grid" id="agent-dil-offering-grid">
+                      <span class="r2-offering-hdr agent-dil-chk-col" style="display:none;"></span><span class="r2-offering-hdr">Package</span><span class="r2-offering-hdr">Year 1</span><span class="r2-offering-hdr">Year 2</span><span class="r2-offering-hdr">Year 3</span>
+                      <label class="r2-offering-chk agent-dil-chk-col" style="display:none;"><input type="checkbox" checked></label><span class="r2-offering-title">Base Package</span><span class="r2-offering-val">14.5%</span><span class="r2-offering-val">11.2%</span><span class="r2-offering-val">8.0%</span>
+                      <label class="r2-offering-chk agent-dil-chk-col" style="display:none;"><input type="checkbox" checked></label><span class="r2-offering-title">Enhanced solutions</span><span class="r2-offering-val">12.8%</span><span class="r2-offering-val">9.5%</span><span class="r2-offering-val">-</span>
+                      <label class="r2-offering-chk agent-dil-chk-col" style="display:none;"><input type="checkbox" checked></label><span class="r2-offering-title">Mission critical</span><span class="r2-offering-val">10.2%</span><span class="r2-offering-val">7.8%</span><span class="r2-offering-val">6.1%</span>
+                      <label class="r2-offering-chk agent-dil-chk-col" style="display:none;"><input type="checkbox" checked></label><span class="r2-offering-title">Value Acceleration</span><span class="r2-offering-val">16.0%</span><span class="r2-offering-val">13.4%</span><span class="r2-offering-val">-</span>
                     </div>
                   </div>
 
                   <div class="ac-actionSet" style="margin-top:26px;flex-wrap:wrap;gap:8px;">
                     <div class="split-btn">
-                      <button class="split-btn__main"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button>
+                      <button class="split-btn__main"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply Discount</button>
                       <button class="split-btn__toggle" onclick="this.nextElementSibling.classList.toggle('is-open')" aria-label="More options"><i class="fas fa-chevron-down"></i></button>
                       <div class="split-btn__menu">
                         <button class="split-btn__menu-item"><i class="fas fa-plus"></i> Create New Quote</button>
@@ -2895,6 +2897,23 @@
           if (step8) { step8.style.display = ''; step8.classList.add('agent-msg--visible'); chatArea.scrollTop = chatArea.scrollHeight; }
         }, 900);
       });
+    })();
+
+    // --- Distribution Method dropdown: toggle checkbox column ---
+    (function() {
+      var sel = document.querySelector('select[name="agent-dil-distribution-q"]');
+      if (!sel) return;
+      function toggleChk() {
+        var show = sel.value === 'manual';
+        var grid = document.getElementById('agent-dil-offering-grid');
+        if (!grid) return;
+        grid.querySelectorAll('.agent-dil-chk-col').forEach(function(el) {
+          el.style.display = show ? '' : 'none';
+        });
+        // update grid-template-columns
+        grid.style.gridTemplateColumns = show ? '28px 1fr repeat(3, 80px)' : '';
+      }
+      sel.addEventListener('change', toggleChk);
     })();
 
     // --- Split-button & ellipsis-menu: close on outside click ---
