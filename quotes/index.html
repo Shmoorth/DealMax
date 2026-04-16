@@ -146,7 +146,7 @@
         <div id="panel-financials" class="tab-panel tab-panel--active">
 
         <!-- Discount Intelligence Card -->
-        <div class="ac-card" role="region" aria-label="Discount Simulation" id="fin-card" style="position:relative;">
+        <div class="ac-card" role="region" aria-label="Discount Recommendation" id="fin-card" style="position:relative;">
 
           <div class="r2-loading-overlay" id="fin-loading-overlay">
             <i class="fas fa-spinner fa-spin"></i>
@@ -156,17 +156,21 @@
           <div class="ac-container ac-header">
             <div class="ac-columnSet ac-header-row">
               <div class="ac-column ac-column-stretch" style="gap:10px;">
-                <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Simulation</span>
+                <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
                 <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
               </div>
               <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
-                <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Last Refreshed: 15 Apr 2026, 09:15 AM &nbsp;Â·&nbsp; <code style="font-size:11px;background:#f3f2f1;padding:1px 5px;border-radius:3px;">DM-2026-04-A123456</code></span>
+                <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Last Refreshed: 15 Apr 2026, 09:15 AM</span>
                 <div class="ref-banner__actions">
                   <button class="ref-banner__refresh" title="Refresh recommendation" id="fin-btn-refresh"><i class="fas fa-sync-alt"></i> Refresh</button>
                   <button class="ref-banner__refresh" id="fin-btn-reasons" title="Reasons to Believe"><i class="fas fa-lightbulb"></i> Reasons to Believe</button>
-                  <button class="ref-banner__refresh" title="Training & help"><i class="fas fa-graduation-cap"></i> Help</button>
                 </div>
-                <button class="ac-action ac-action--icon" title="More options" aria-label="More options"><i class="fas fa-ellipsis-h"></i></button>
+                <div class="ellipsis-menu">
+                  <button class="ac-action ac-action--icon" title="More options" aria-label="More options" onclick="this.nextElementSibling.classList.toggle('is-open')"><i class="fas fa-ellipsis-h"></i></button>
+                  <div class="ellipsis-menu__dropdown">
+                    <button class="split-btn__menu-item"><i class="fas fa-graduation-cap"></i> Help</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -176,34 +180,38 @@
 
               <div class="ac-column ac-column-auto">
                 <div class="ac-container ac-discount-block">
-                  <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px;">
-                    <span class="ac-textBlock ac-textBlock--default ac-weight--bolder">Recommended Discount</span>
+                  <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:4px;">
+                    <span class="ac-textBlock ac-textBlock--default ac-weight--bolder" style="text-align:left;padding-top:8px;">Recommended<br>Discount</span>
                     <div class="r2-hero-input-wrap">
-                      <div class="r2-hero-input-container">
-                        <input type="text" id="fin-discount-input" class="r2-hero-input" value="12.00" inputmode="decimal">
-                        <span class="r2-hero-input-suffix">%</span>
+                      <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="r2-hero-input-container">
+                          <input type="text" id="fin-discount-input" class="r2-hero-input" value="12.00" inputmode="decimal">
+                          <span class="r2-hero-input-suffix">%</span>
+                        </div>
+                        <button class="r2-revert-btn" id="fin-revert-btn" title="Revert to recommended" onclick="window.resetFinSlider()"><i class="fas fa-undo"></i></button>
                       </div>
-                      <button class="r2-revert-btn" id="fin-revert-btn" title="Revert to recommended" onclick="window.resetFinSlider()"><i class="fas fa-undo"></i></button>
+                      <span class="fin-input-error" id="fin-input-error">Current value is beyond Max. Discount.</span>
                     </div>
                   </div>
                   <div class="r2-range-visual" id="fin-range-visual">
-                    <div class="fluent-slider-wrap">
-                      <input type="range" id="fin-fluent-slider" class="fluent-slider" min="12" max="24.2" step="0.01" value="12">
-                      <div class="fluent-slider-rec-dot" id="fin-rec-dot" title="Recommended: 12.0%"></div>
+                    <div class="static-range-bar" id="fin-range-bar">
+                      <div class="static-range-track">
+                        <div class="static-range-fill" id="fin-range-fill"></div>
+                        <div class="static-range-fill-error" id="fin-range-fill-error"></div>
+                        <div class="static-range-marker static-range-marker--rec" id="fin-rec-marker" title="Recommended: 12.0%"></div>
+                        <div class="static-range-marker static-range-marker--max" id="fin-max-marker" title="Max: 24.20%"></div>
+                        <div class="static-range-marker static-range-marker--current" id="fin-current-marker" title="Current: 12.0%"></div>
+                      </div>
                     </div>
-                    <div class="r2-range-labels">
-                      <span id="fin-range-min-label">12.00%</span>
-                      <span id="fin-range-max-label">24.20%</span>
-                    </div>
-                    <div class="r2-range-legend">
-                      <span><span class="r2-range-dot r2-range-dot--rec"></span> Recommended</span>
-                      <span><span class="r2-range-dot r2-range-dot--current"></span> Current</span>
+                    <div class="r2-range-labels" id="fin-range-labels">
+                      <span id="fin-range-min-label">Min<br>12.00%</span>
+                      <span id="fin-range-max-label">Max Limit<br>24.20%</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="ac-separator ac-separator--vertical" style="margin-left:50px;"></div>
+              <div class="ac-separator ac-separator--vertical" style="margin-left:16px;"></div>
 
               <div class="ac-column ac-column-stretch">
                 <div class="ac-container">
@@ -237,23 +245,26 @@
 
             </div>
 
-            <div class="ac-actionSet" style="margin-top:32px;flex-wrap:wrap;gap:8px;">
-              <div class="split-btn">
-                <button class="split-btn__main"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button>
-                <button class="split-btn__toggle" onclick="this.nextElementSibling.classList.toggle('is-open')" aria-label="More options"><i class="fas fa-chevron-down"></i></button>
-                <div class="split-btn__menu">
-                  <button class="split-btn__menu-item"><i class="fas fa-plus"></i> Create New Quote</button>
-                </div>
-              </div>
-              <button class="ac-action ac-action--secondary"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate with Agent</button>
-            </div>
+            <hr style="border:none;border-top:1px solid #e1dfdd;margin:12px 0 0 0;">
 
-            <div class="ref-ai-disclaimer" style="margin-top:4px;">
-              <i class="fas fa-info-circle" style="color:#0f6cbd;font-size:12px;flex-shrink:0;"></i>
-              <span class="ref-ai-disclaimer__text">Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
-              <div class="ref-ai-disclaimer__feedback">
-                <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
-                <button class="ref-ai-disclaimer__btn" title="Not helpful" id="fin-btn-thumbs-down"><i class="far fa-thumbs-down"></i></button>
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:100px;margin-top:8px;">
+              <div class="ac-actionSet" style="flex-wrap:wrap;gap:8px;margin:0;">
+                <div class="split-btn">
+                  <button class="split-btn__main"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button>
+                  <button class="split-btn__toggle" onclick="this.nextElementSibling.classList.toggle('is-open')" aria-label="More options"><i class="fas fa-chevron-down"></i></button>
+                  <div class="split-btn__menu">
+                    <button class="split-btn__menu-item"><i class="fas fa-plus"></i> Create New Quote</button>
+                  </div>
+                </div>
+                <button class="ac-action ac-action--secondary"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate with Agent</button>
+              </div>
+
+              <div class="ref-ai-disclaimer" style="margin-top:0;min-width:0;flex-shrink:1;margin-left:auto;">
+                <span class="ref-ai-disclaimer__text" title="Applying recommended discount reduces approval from Green (Seller Manager) to Blue Empowerment. Financial locking and editing rules will be honored.">Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
+                <div class="ref-ai-disclaimer__feedback">
+                  <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
+                  <button class="ref-ai-disclaimer__btn" title="Not helpful" id="fin-btn-thumbs-down"><i class="far fa-thumbs-down"></i></button>
+                </div>
               </div>
             </div>
           </div>
@@ -519,7 +530,12 @@
                     <span class="ac-textBlock ac-textBlock--default ac-weight--bolder ac-color--default">Recommended Discount %</span>
                     <input id="ref-discount-hero" class="ac-textBlock ac-textBlock--extraLarge ac-weight--bolder ac-discount-hero ac-discount-hero--editable" type="text" value="18.5%">
                     <div class="ac-slider-row">
-                      <input type="range" id="ref-discount-slider" class="ac-range-slider" min="0" max="100" step="0.1" value="18.5">
+                      <div class="static-range-bar" style="flex:1;max-width:180px;">
+                        <div class="static-range-track">
+                          <div class="static-range-fill" id="ref-range-fill" style="width:18.5%;"></div>
+                          <div class="static-range-marker static-range-marker--rec" id="ref-rec-marker" style="left:18.5%;" title="Recommended: 18.5%"></div>
+                        </div>
+                      </div>
                       <span id="ref-discount-label" class="ac-textBlock ac-textBlock--small ac-slider-value">18.5%</span>
                     </div>
                   </div>
@@ -665,7 +681,7 @@
           <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                SECTION 1 â€” Deal-Level Discount Recommendation
                â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-          <div class="ac-card" role="region" aria-label="Discount Simulation" id="r2-card">
+          <div class="ac-card" role="region" aria-label="Discount Recommendation" id="r2-card">
 
             <!-- Loading Overlay -->
             <div class="r2-loading-overlay" id="r2-loading-overlay">
@@ -676,11 +692,11 @@
             <div class="ac-container ac-header">
               <div class="ac-columnSet ac-header-row">
                 <div class="ac-column ac-column-stretch" style="gap:10px;">
-                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Simulation</span>
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
                   <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
                 </div>
                 <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
-                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Last Refreshed: 15 Apr 2026, 09:15 AM &nbsp;Â·&nbsp; <code style="font-size:11px;background:#f3f2f1;padding:1px 5px;border-radius:3px;">DM-2026-04-A123456</code></span>
+                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Last Refreshed: 15 Apr 2026, 09:15 AM</span>
                   <div class="ref-banner__actions">
                     <button class="ref-banner__refresh" title="Refresh recommendation"><i class="fas fa-sync-alt"></i> Refresh</button>
                     <button class="ref-banner__refresh" id="r2-btn-reasons" title="Reasons to Believe"><i class="fas fa-lightbulb"></i> Reasons to Believe</button>
@@ -1913,24 +1929,22 @@
       hero.addEventListener('keydown', function(e) { if (e.key === 'Enter') hero.blur(); });
     }
 
-    // --- Reference tab slider ---
-    const refSlider = document.getElementById('ref-discount-slider');
+    // --- Reference tab range bar ---
+    const refFill = document.getElementById('ref-range-fill');
+    const refRecMarker = document.getElementById('ref-rec-marker');
     const refHero = document.getElementById('ref-discount-hero');
     const refLabel = document.getElementById('ref-discount-label');
 
-    function updateRefDiscount() {
-      const val = parseFloat(refSlider.value).toFixed(1) + '%';
-      refHero.value = val;
-      refLabel.textContent = val;
+    function updateRefRange(val) {
+      const clamped = Math.min(100, Math.max(0, val));
+      if (refFill) refFill.style.width = clamped + '%';
+      if (refRecMarker) refRecMarker.style.left = clamped + '%';
+      if (refLabel) refLabel.textContent = clamped.toFixed(1) + '%';
     }
-    if (refSlider) refSlider.addEventListener('input', updateRefDiscount);
-
     function onRefHeroInput() {
       const num = parseFloat(refHero.value);
       if (!isNaN(num)) {
-        const clamped = Math.min(100, Math.max(0, num));
-        refSlider.value = clamped;
-        refLabel.textContent = clamped.toFixed(1) + '%';
+        updateRefRange(num);
       }
     }
     function onRefHeroBlur() {
@@ -1938,10 +1952,10 @@
       if (!isNaN(num)) {
         const clamped = Math.min(100, Math.max(0, num));
         refHero.value = clamped.toFixed(1) + '%';
-        refSlider.value = clamped;
-        refLabel.textContent = clamped.toFixed(1) + '%';
+        updateRefRange(clamped);
       } else {
-        refHero.value = parseFloat(refSlider.value).toFixed(1) + '%';
+        refHero.value = '18.5%';
+        updateRefRange(18.5);
       }
     }
     if (refHero) {
@@ -2502,67 +2516,131 @@
       }
     })();
 
-    // === Financials tab Discount Intelligence slider ===
+    // === Financials tab Discount Intelligence range bar ===
     (function() {
-      var slider = document.getElementById('fin-fluent-slider');
+      var fill = document.getElementById('fin-range-fill');
+      var fillError = document.getElementById('fin-range-fill-error');
+      var recMarker = document.getElementById('fin-rec-marker');
+      var maxMarker = document.getElementById('fin-max-marker');
+      var currentMarker = document.getElementById('fin-current-marker');
       var input = document.getElementById('fin-discount-input');
-      var recDot = document.getElementById('fin-rec-dot');
       var devEl = document.getElementById('fin-deviation');
-      if (!slider || !input) return;
+      var errorEl = document.getElementById('fin-input-error');
+      var legendError = document.getElementById('fin-legend-error');
+      var labelsEl = document.getElementById('fin-range-labels');
+      var minLabel = document.getElementById('fin-range-min-label');
+      var maxLabel = document.getElementById('fin-range-max-label');
+      if (!fill || !input) return;
 
       var RECOMMENDED = 12.0, MIN_DISC = 12.0, MAX_DISC = 24.2, DEAL_VALUE = 3000000;
 
       function fmt(v) { return v.toFixed(2); }
+      // Normal pct within min-max range
       function pct(v) { return ((v - MIN_DISC) / (MAX_DISC - MIN_DISC)) * 100; }
+      // Extended pct when value exceeds max — scale so max sits at ~55% and current at end
+      function pctExtended(v, extMax) { return ((v - MIN_DISC) / (extMax - MIN_DISC)) * 100; }
+
+      function setError(show, rawVal) {
+        if (show) {
+          input.classList.add('r2-hero-input--error');
+          if (errorEl) errorEl.classList.add('is-visible');
+          if (currentMarker) currentMarker.classList.add('is-error');
+          if (legendError) legendError.classList.add('is-visible');
+        } else {
+          input.classList.remove('r2-hero-input--error');
+          if (errorEl) errorEl.classList.remove('is-visible');
+          if (currentMarker) currentMarker.classList.remove('is-error');
+          if (legendError) legendError.classList.remove('is-visible');
+        }
+      }
 
       function updateAll(v) {
-        var p = pct(v);
-        slider.style.background = 'linear-gradient(to right,#0f6cbd 0%,#0f6cbd ' + p + '%,#d1d1d1 ' + p + '%,#d1d1d1 100%)';
+        var isOver = v > MAX_DISC;
         var diff = v - RECOMMENDED;
         var dollar = Math.abs(Math.round(diff / 100 * DEAL_VALUE));
+
+        if (isOver) {
+          // Extend the bar: recalculate positions with extended scale
+          var extMax = v + (v - MIN_DISC) * 0.15; // add padding beyond current
+          var recPct = pctExtended(RECOMMENDED, extMax);
+          var maxPct = pctExtended(MAX_DISC, extMax);
+          var curPct = pctExtended(v, extMax);
+
+          fill.style.width = maxPct + '%';
+          if (fillError) {
+            fillError.style.left = maxPct + '%';
+            fillError.style.width = (curPct - maxPct) + '%';
+            fillError.style.display = '';
+          }
+          if (recMarker) recMarker.style.left = recPct + '%';
+          if (maxMarker) maxMarker.style.left = maxPct + '%';
+          if (currentMarker) { currentMarker.style.left = curPct + '%'; currentMarker.classList.add('is-error'); currentMarker.style.display = ''; }
+          // Update labels: Min, Max Limit at maxPct, Current at curPct
+          if (labelsEl) {
+            labelsEl.innerHTML = '<span style="position:absolute;left:0;">Min<br>' + fmt(MIN_DISC) + '%</span>' +
+              '<span style="position:absolute;left:' + maxPct + '%;transform:translateX(-50%);">Max Limit<br>' + fmt(MAX_DISC) + '%</span>' +
+              '<span style="position:absolute;left:' + curPct + '%;transform:translateX(-50%);color:#d13438;font-weight:600;">Current<br>' + fmt(v) + '%</span>';
+            labelsEl.style.position = 'relative';
+            labelsEl.style.height = '32px';
+            labelsEl.style.justifyContent = '';
+          }
+        } else {
+          // Normal state — show rec and max limit markers, hide current marker
+          var p = pct(v);
+          fill.style.width = p + '%';
+          if (fillError) { fillError.style.width = '0'; fillError.style.display = 'none'; }
+          if (recMarker) recMarker.style.left = pct(RECOMMENDED) + '%';
+          if (maxMarker) maxMarker.style.left = '100%';
+          if (currentMarker) { currentMarker.style.display = 'none'; currentMarker.classList.remove('is-error'); }
+          // Reset labels
+          if (labelsEl) {
+            labelsEl.innerHTML = '<span>Min<br>' + fmt(MIN_DISC) + '%</span><span>Max Limit<br>' + fmt(MAX_DISC) + '%</span>';
+            labelsEl.style.position = '';
+            labelsEl.style.height = '';
+            labelsEl.style.justifyContent = 'space-between';
+          }
+        }
+
         if (devEl) {
           devEl.textContent = (diff >= 0 ? '+' : '') + fmt(diff) + ' %  ($' + dollar.toLocaleString() + ')';
           devEl.style.color = Math.abs(diff) < 0.01 ? '#107c10' : diff > 0 ? '#d13438' : '#ca5010';
         }
       }
 
-      function updateRecDot() {
-        if (!recDot) return;
-        recDot.style.left = pct(RECOMMENDED) + '%';
-      }
-
       function resetToDefault() {
         input.value = fmt(RECOMMENDED);
-        slider.value = RECOMMENDED;
+        setError(false);
         updateAll(RECOMMENDED);
       }
-
-      slider.addEventListener('input', function() {
-        var v = parseFloat(slider.value);
-        input.value = fmt(v);
-        updateAll(v);
-      });
 
       input.addEventListener('input', function() {
         var raw = input.value.replace(/[^0-9.]/g, '');
         var v = parseFloat(raw);
         if (isNaN(v)) return;
+        if (v > MAX_DISC) {
+          setError(true, v);
+          updateAll(v);
+          return;
+        }
+        setError(false);
         if (v < MIN_DISC) v = MIN_DISC;
-        if (v > MAX_DISC) v = MAX_DISC;
-        slider.value = v;
         updateAll(v);
       });
 
       input.addEventListener('blur', function() {
         var v = parseFloat(input.value.replace(/[^0-9.]/g, ''));
         if (isNaN(v) || v < MIN_DISC) v = MIN_DISC;
-        if (v > MAX_DISC) v = MAX_DISC;
+        if (v > MAX_DISC) {
+          setError(true, v);
+          input.value = fmt(v);
+          updateAll(v);
+          return;
+        }
+        setError(false);
         input.value = fmt(v);
-        slider.value = v;
         updateAll(v);
       });
 
-      updateRecDot();
       updateAll(RECOMMENDED);
 
       window.resetFinSlider = resetToDefault;

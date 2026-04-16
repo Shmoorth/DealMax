@@ -815,7 +815,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* --- Body Container --- */
 .ac-body {
-  padding: 12px 20px 8px 20px;
+  padding: 12px 20px 12px 20px;
 }
 
 /* --- ColumnSet & Column --- */
@@ -893,12 +893,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .ref-ai-disclaimer {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   margin-top: 12px;
   padding: 8px 12px 8px 0;
   background: transparent;
   border-radius: 6px;
   border: none;
+  min-width: 0;
 }
 .ref-ai-disclaimer__icon {
   color: #616161;
@@ -910,11 +911,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: #616161;
   line-height: 1.4;
   font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  margin-right: 20px;
 }
 .ref-ai-disclaimer__feedback {
   display: flex;
   gap: 4px;
-  margin-left: auto;
   opacity: 0;
   transition: opacity 0.15s ease;
   flex-shrink: 0;
@@ -1180,7 +1185,9 @@ input.ac-discount-hero--editable:focus {
   background: #d1d1d1;
   border-radius: 999px;
   outline: none;
-  cursor: pointer;
+  pointer-events: none;
+  opacity: 0.85;
+  cursor: default;
 }
 .ac-range-slider::-webkit-slider-runnable-track {
   height: 4px;
@@ -1195,7 +1202,7 @@ input.ac-discount-hero--editable:focus {
   border-radius: 50%;
   box-shadow: 0 0 0 1px rgba(0,0,0,0.14);
   margin-top: -6px;
-  cursor: pointer;
+  cursor: default;
 }
 .ac-range-slider::-moz-range-track {
   height: 4px;
@@ -1208,7 +1215,7 @@ input.ac-discount-hero--editable:focus {
   border: 2px solid #fff;
   border-radius: 50%;
   box-shadow: 0 0 0 1px rgba(0,0,0,0.14);
-  cursor: pointer;
+  cursor: default;
 }
 .ac-range-slider::-moz-range-progress {
   background: #0f6cbd;
@@ -2798,7 +2805,9 @@ input.ac-discount-hero--editable:focus {
   background: #d1d1d1;
   outline: none;
   margin: 0;
-  cursor: pointer;
+  pointer-events: none;
+  opacity: 0.85;
+  cursor: default;
 }
 .fluent-slider::-webkit-slider-runnable-track {
   height: 4px;
@@ -2813,20 +2822,10 @@ input.ac-discount-hero--editable:focus {
   background: #fff;
   border: 2px solid #0f6cbd;
   box-shadow: 0 0 0 1px rgba(0,0,0,.05), 0 2px 4px rgba(0,0,0,.12);
-  cursor: grab;
+  cursor: default;
   margin-top: -8px;
-  transition: box-shadow 0.1s ease, border-color 0.1s ease;
   position: relative;
   z-index: 3;
-}
-.fluent-slider::-webkit-slider-thumb:hover {
-  border-color: #0f6cbd;
-  box-shadow: 0 0 0 2px rgba(15,108,189,.2), 0 2px 4px rgba(0,0,0,.12);
-}
-.fluent-slider::-webkit-slider-thumb:active {
-  cursor: grabbing;
-  background: #0f6cbd;
-  border-color: #0f6cbd;
 }
 .fluent-slider::-moz-range-track {
   height: 4px;
@@ -2840,11 +2839,7 @@ input.ac-discount-hero--editable:focus {
   background: #fff;
   border: 2px solid #0f6cbd;
   box-shadow: 0 0 0 1px rgba(0,0,0,.05), 0 2px 4px rgba(0,0,0,.12);
-  cursor: grab;
-}
-.fluent-slider::-moz-range-thumb:active {
-  cursor: grabbing;
-  background: #0f6cbd;
+  cursor: default;
 }
 .fluent-slider::-moz-range-progress {
   height: 4px;
@@ -2870,6 +2865,7 @@ input.ac-discount-hero--editable:focus {
   justify-content: space-between;
   font-size: 11px;
   color: #616161;
+  text-align: left;
 }
 .r2-range-legend {
   display: flex;
@@ -2888,13 +2884,85 @@ input.ac-discount-hero--editable:focus {
 }
 .r2-range-dot--rec { background: #0f6cbd; }
 .r2-range-dot--current { background: #fff; border: 2px solid #0f6cbd; }
+.r2-range-dot--max-limit { background: #fff; border: 2px solid #0f6cbd; }
+.r2-range-dot--error { background: #d13438; }
+.r2-range-legend-error {
+  display: none;
+  color: #d13438;
+  font-weight: 600;
+}
+.r2-range-legend-error.is-visible {
+  display: inline;
+}
+
+/* --- Static Range Bar (FYI visual) --- */
+.static-range-bar {
+  position: relative;
+  padding: 10px 0;
+  overflow: visible;
+}
+.static-range-track {
+  position: relative;
+  height: 4px;
+  background: #d1d1d1;
+  border-radius: 2px;
+  overflow: visible;
+}
+.static-range-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #0f6cbd;
+  border-radius: 2px;
+  transition: width 0.2s ease;
+}
+.static-range-fill-error {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: #d13438;
+  border-radius: 0 2px 2px 0;
+  transition: left 0.2s ease, width 0.2s ease;
+  width: 0;
+}
+.static-range-marker {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  transition: left 0.2s ease;
+}
+.static-range-marker--rec {
+  background: #0f6cbd;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.static-range-marker--max {
+  background: #fff;
+  border: 2px solid #0f6cbd;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.static-range-marker--current {
+  background: #fff;
+  border: 2px solid #0f6cbd;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.static-range-marker--current.is-error {
+  background: #d13438;
+  border-color: #d13438;
+}
+}
 
 /* --- Hero Discount Input Box --- */
 .r2-hero-input-wrap {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
   margin: 6px 0 10px;
 }
 .r2-revert-btn {
@@ -2922,7 +2990,7 @@ input.ac-discount-hero--editable:focus {
   font-weight: 700;
   color: #242424;
   text-align: left;
-  width: 155px;
+  width: 260px;
   border: 2px solid #d1d1d1;
   border-bottom: 2px solid #0f6cbd;
   background: transparent;
@@ -2946,6 +3014,35 @@ input.ac-discount-hero--editable:focus {
   border: 2px solid #0f6cbd;
   background: #fff;
   box-shadow: 0 0 0 2px rgba(15,108,189,0.15);
+}
+.r2-hero-input--error {
+  border: 2px solid #d13438 !important;
+  border-bottom: 2px solid #d13438 !important;
+  background: #fdf3f4 !important;
+}
+.r2-hero-input--error:hover {
+  border-color: #d13438 !important;
+  background: #fdf3f4 !important;
+}
+.r2-hero-input--error:focus {
+  border: 2px solid #d13438 !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 2px rgba(209,52,56,0.15) !important;
+}
+.fin-input-error {
+  display: block;
+  font-size: 12px;
+  color: #d13438;
+  margin-top: 4px;
+  margin-left: 2px;
+  visibility: hidden;
+  line-height: 16px;
+  min-height: 16px;
+  text-align: left;
+  align-self: flex-start;
+}
+.fin-input-error.is-visible {
+  visibility: visible;
 }
 .r2-hero-input-suffix {
   position: absolute;
