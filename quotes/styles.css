@@ -920,12 +920,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .ref-ai-disclaimer__feedback {
   display: flex;
   gap: 4px;
-  opacity: 0;
-  transition: opacity 0.15s ease;
   flex-shrink: 0;
-}
-.ref-ai-disclaimer:hover .ref-ai-disclaimer__feedback {
-  opacity: 1;
 }
 .ref-ai-disclaimer__btn {
   width: 28px; height: 28px;
@@ -1987,13 +1982,21 @@ input.ac-discount-hero--editable:focus {
   align-items: flex-start;
 }
 .agent-msg__bubble .ac-discount-block {
-  min-width: 190px;
+  width: 210px;
+  min-width: unset;
   align-items: flex-start;
   text-align: left;
   padding: 0;
 }
 .agent-msg__bubble .r2-range-visual {
+  width: 210px;
   max-width: 210px;
+}
+.agent-msg__bubble .r2-hero-input-container {
+  width: 100%;
+}
+.agent-msg__bubble .r2-hero-input {
+  width: 100%;
 }
 .agent-msg__bubble .ac-separator--vertical {
   display: none;
@@ -2355,12 +2358,12 @@ input.ac-discount-hero--editable:focus {
   flex-direction: column;
 }
 .agent-reasons-summary__label {
-  font-size: 11px;
+  font-size: 13px;
   color: #616161;
   font-weight: 600;
 }
 .agent-reasons-summary__value {
-  font-size: 12px;
+  font-size: 14px;
   color: #242424;
   font-weight: 700;
 }
@@ -2383,9 +2386,9 @@ input.ac-discount-hero--editable:focus {
 
 /* --- RTB Accordion --- */
 .rtb-accordion {
-  background: #faf9f8;
-  border: 1px solid #edebe9;
-  border-radius: 8px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
   margin-top: 16px;
 }
 .rtb-accordion__header {
@@ -2472,12 +2475,18 @@ input.ac-discount-hero--editable:focus {
   color: #0f6cbd;
   font-size: 11px;
 }
+.rtb-section-header {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f6cbd;
+  letter-spacing: 0.1px;
+}
 .rtb-carousel__nav {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 6px;
-  margin-top: 8px;
+  margin-top: 38px;
 }
 .rtb-carousel__dots {
   display: flex;

@@ -256,10 +256,10 @@
                     <button class="split-btn__menu-item"><i class="fas fa-plus"></i> Create New Quote</button>
                   </div>
                 </div>
-                <button class="ac-action ac-action--secondary"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate with Agent</button>
+                <button class="ac-action ac-action--secondary" onclick="(function(){ document.querySelectorAll('.sidebar-nav-btn').forEach(function(b){b.classList.remove('sidebar-nav-btn--active');}); var btn=document.getElementById('nav-btn-agent'); if(btn) btn.classList.add('sidebar-nav-btn--active'); document.querySelectorAll('.nav-panel').forEach(function(p){p.classList.remove('nav-panel--active');}); var panel=document.getElementById('nav-agent'); if(panel) panel.classList.add('nav-panel--active'); })()"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate with Agent</button>
               </div>
 
-              <div class="ref-ai-disclaimer" style="margin-top:0;min-width:0;flex-shrink:1;margin-left:auto;">
+              <div class="ref-ai-disclaimer" style="margin-top:0;min-width:0;flex:1 1 0;overflow:hidden;margin-left:auto;">
                 <span class="ref-ai-disclaimer__text" title="Applying recommended discount reduces approval from Green (Seller Manager) to Blue Empowerment. Financial locking and editing rules will be honored.">Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
                 <div class="ref-ai-disclaimer__feedback">
                   <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
@@ -824,7 +824,7 @@
             <div class="ac-container ac-header">
               <div class="ac-columnSet ac-header-row">
                 <div class="ac-column ac-column-stretch" style="gap:10px;">
-                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder"><i class="fas fa-lightbulb" style="color:#ca5010;margin-right:6px;"></i>Reasons to Believe</span>
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Reasons to Believe</span>
                   <span class="r2-priority-badge">P0 Signals</span>
                 </div>
                 <div class="ac-column ac-column-auto">
@@ -1302,7 +1302,7 @@
                 <div class="ac-container ac-header">
                   <div class="ac-columnSet ac-header-row">
                     <div class="ac-column ac-column-stretch" style="gap:10px;">
-                      <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Simulation</span>
+                      <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
                       <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
                     </div>
                     <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
@@ -1325,32 +1325,38 @@
 
                     <div class="ac-column ac-column-auto">
                       <div class="ac-container ac-discount-block">
-                        <span class="ac-textBlock ac-textBlock--default ac-weight--bolder">Recommended Discount</span>
-                        <div class="r2-hero-input-wrap" style="margin-top:4px;">
-                          <div class="r2-hero-input-container">
-                            <input type="text" id="agent-dil-discount-input" class="r2-hero-input" value="12.00" inputmode="decimal">
-                            <span class="r2-hero-input-suffix">%</span>
+                        <span class="ac-textBlock ac-textBlock--default ac-weight--bolder" style="margin-bottom:6px;">Recommended Discount</span>
+                        <div style="margin-bottom:4px;">
+                          <div class="r2-hero-input-wrap">
+                            <div style="display:flex;align-items:center;gap:10px;">
+                              <div class="r2-hero-input-container">
+                                <input type="text" id="agent-dil-discount-input" class="r2-hero-input" value="12.00" inputmode="decimal">
+                                <span class="r2-hero-input-suffix">%</span>
+                              </div>
+                              <button class="r2-revert-btn" id="agent-dil-revert-btn" title="Revert to recommended" onclick="window.resetAgentDilSlider()"><i class="fas fa-undo"></i></button>
+                            </div>
+                            <span class="fin-input-error" id="agent-dil-input-error">Current value is beyond Max. Discount.</span>
                           </div>
-                          <button class="r2-revert-btn" id="agent-dil-revert-btn" title="Revert to recommended"><i class="fas fa-undo"></i></button>
                         </div>
-                        <div class="r2-range-visual">
-                          <div class="fluent-slider-wrap">
-                            <input type="range" id="agent-dil-slider" class="fluent-slider" min="12" max="24.2" step="0.01" value="12">
-                            <div class="fluent-slider-rec-dot" title="Recommended: 12.0%"></div>
+                        <div class="r2-range-visual" id="agent-dil-range-visual">
+                          <div class="static-range-bar" id="agent-dil-range-bar">
+                            <div class="static-range-track">
+                              <div class="static-range-fill" id="agent-dil-range-fill"></div>
+                              <div class="static-range-fill-error" id="agent-dil-range-fill-error"></div>
+                              <div class="static-range-marker static-range-marker--rec" id="agent-dil-rec-marker" title="Recommended: 12.0%"></div>
+                              <div class="static-range-marker static-range-marker--max" id="agent-dil-max-marker" title="Max: 24.20%"></div>
+                              <div class="static-range-marker static-range-marker--current" id="agent-dil-current-marker" title="Current: 12.0%"></div>
+                            </div>
                           </div>
-                          <div class="r2-range-labels">
-                            <span>12.00%</span>
-                            <span>24.20%</span>
-                          </div>
-                          <div class="r2-range-legend">
-                            <span><span class="r2-range-dot r2-range-dot--rec"></span> Recommended</span>
-                            <span><span class="r2-range-dot r2-range-dot--current"></span> Current</span>
+                          <div class="r2-range-labels" id="agent-dil-range-labels">
+                            <span id="agent-dil-range-min-label">Min<br>12.00%</span>
+                            <span id="agent-dil-range-max-label">Max Limit<br>24.20%</span>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="ac-separator ac-separator--vertical" style="margin-left:50px;"></div>
+                    <div class="ac-separator ac-separator--vertical" style="margin-left:16px;"></div>
 
                     <div class="ac-column ac-column-stretch">
                       <div class="ac-container">
@@ -1382,71 +1388,6 @@
                       <span class="r2-offering-title">Value Acceleration</span><span class="r2-offering-val">16.0%</span><span class="r2-offering-val">13.4%</span><span class="r2-offering-val">-</span>
                     </div>
                   </div>
-
-                  <!-- Reasons to Believe (Accordion + Carousel) -->
-                  <details class="rtb-accordion">
-                    <summary class="rtb-accordion__header">
-                      <i class="fas fa-chevron-right rtb-accordion__icon"></i>
-                      <svg width="16" height="16" viewBox="0 0 20 20" fill="#0f6cbd" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 6.50238C9.5 6.22624 9.72386 6.00238 10 6.00238C10.2761 6.00238 10.5 6.22624 10.5 6.50238V7.50391C10.5 7.78005 10.2761 8.00391 10 8.00391C9.72386 8.00391 9.5 7.78005 9.5 7.50391V6.50238ZM12.8506 7.44332C12.6553 7.24806 12.3388 7.24806 12.1435 7.44332L11.4353 8.15151C11.2401 8.34677 11.2401 8.66335 11.4353 8.85861C11.6306 9.05388 11.9472 9.05388 12.1424 8.85861L12.8506 8.15043C13.0459 7.95517 13.0459 7.63858 12.8506 7.44332ZM7.8521 7.44332C7.65684 7.24806 7.34026 7.24806 7.145 7.44332C6.94973 7.63858 6.94973 7.95517 7.145 8.15043L7.85318 8.85861C8.04844 9.05388 8.36503 9.05388 8.56029 8.85861C8.75555 8.66335 8.75555 8.34677 8.56029 8.15151L7.8521 7.44332ZM10 2C13.3137 2 16 4.59693 16 7.80041C16 9.47737 15.2546 11.0164 13.7961 12.3942C13.7324 12.4544 13.6831 12.5269 13.6512 12.6065L13.6251 12.6883L12.6891 16.6051C12.5048 17.3763 11.8236 17.935 11.0181 17.9947L10.8748 18H9.12546C8.30655 18 7.59 17.4839 7.34866 16.7385L7.31108 16.6047L6.37626 12.6886C6.34955 12.5766 6.29016 12.4745 6.20516 12.3942C4.8153 11.0819 4.07265 9.62354 4.00507 8.03903L4 7.80041L4.00321 7.60894C4.1077 4.49409 6.75257 2 10 2ZM7.955 15L8.27386 16.3344L8.30004 16.4305C8.39695 16.7298 8.67583 16.9517 9.0116 16.993L9.12546 17L10.8379 17.0007L10.9442 16.9974C11.2865 16.9721 11.5726 16.7609 11.6854 16.4718L11.7165 16.3727L12.045 15H7.955ZM10 3C7.36782 3 5.21188 4.95301 5.0151 7.41357L5.00307 7.62569L4.99977 7.77916L5.00416 7.99642C5.05977 9.30026 5.67758 10.5208 6.89167 11.6671C7.07995 11.8449 7.22191 12.0647 7.30572 12.3078L7.34894 12.4564L7.716 14H9.50024V9.49707C9.50024 9.22093 9.7241 8.99707 10.0002 8.99707C10.2764 8.99707 10.5002 9.22093 10.5002 9.49707V14H12.285L12.6722 12.3851L12.7231 12.2343C12.8091 12.0198 12.9409 11.8265 13.1094 11.6673C14.3825 10.4646 15 9.18054 15 7.80041C15 5.15693 12.7689 3 10 3Z"/></svg>
-                      <span class="ac-textBlock ac-textBlock--small ac-weight--bolder">Reasons to Believe - <span id="agent-rtb-section-q">Historical Spend</span></span>
-                    </summary>
-                    <div class="rtb-accordion__body">
-                      <div class="rtb-carousel" id="agent-rtb-carousel-q">
-                        <div class="rtb-carousel__viewport">
-                          <div class="rtb-carousel__track">
-                            <!-- 1. Historical Spend (8 items, 2 rows) -->
-                            <div class="rtb-carousel__page" style="gap:24px 0;">
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY22</span><span class="agent-reasons-summary__value">$4,250,000</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY23</span><span class="agent-reasons-summary__value" style="color:#107c10;">$5,120,000 <i class="fas fa-arrow-up" style="font-size:9px;"></i> +20.5%</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY24</span><span class="agent-reasons-summary__value" style="color:#107c10;">$5,890,000 <i class="fas fa-arrow-up" style="font-size:9px;"></i> +15.0%</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY25 (YTD)</span><span class="agent-reasons-summary__value agent-rec-value--attention">$3,410,000 <i class="fas fa-arrow-down" style="font-size:9px;"></i> âˆ’7.2%</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Total Spend (3-Year)</span><span class="agent-reasons-summary__value" style="font-weight:700;">$15,260,000</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Avg Annual Spend</span><span class="agent-reasons-summary__value">$5,086,667</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Spend Trend</span><span class="agent-reasons-summary__value" style="color:#107c10;"><i class="fas fa-arrow-up" style="font-size:9px;"></i> Growing</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Top Product</span><span class="agent-reasons-summary__value">Microsoft 365 E5</span></div>
-                            </div>
-                            <!-- 2. Deal Financials (4 items) -->
-                            <div class="rtb-carousel__page">
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Gross minus Flex</span><span class="agent-reasons-summary__value">$28,589,055</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Add-On Base Ratio</span><span class="agent-reasons-summary__value">Second highest (60-80%)</span></div>
-                              <div class="agent-reasons-summary__group" style="margin-left:30px;"><span class="agent-reasons-summary__label">Deal Size Bucket</span><span class="agent-reasons-summary__value">$1M â€“ $5M</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Multi-Year Deal</span><span class="agent-reasons-summary__value">No</span></div>
-                            </div>
-                            <!-- 3. Customer Attributes (4 items) -->
-                            <div class="rtb-carousel__page">
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">TP Industry</span><span class="agent-reasons-summary__value">Financial services</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Customer Segment</span><span class="agent-reasons-summary__value">Major</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">New Unified Customer</span><span class="agent-reasons-summary__value">No</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">CSAT</span><span class="agent-reasons-summary__value" style="color:#107c10;">Positive</span></div>
-                            </div>
-                            <!-- 4. Prior Deal + ACR Growth (3+1 = 4 items) -->
-                            <div class="rtb-carousel__page">
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Gross minus Flex</span><span class="agent-reasons-summary__value">$1,589,055</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Discount %</span><span class="agent-reasons-summary__value">22.2%</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Deal Type</span><span class="agent-reasons-summary__value">Renewal</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">ACR Growth Bucket</span><span class="agent-reasons-summary__value agent-rec-value--attention">Lowest (Bottom 20%)</span></div>
-                            </div>
-                            <!-- 5. Azure Consumed Revenue + FRATTM (3+1 = 4 items) -->
-                            <div class="rtb-carousel__page">
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY22</span><span class="agent-reasons-summary__value">$28,908,433</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY23</span><span class="agent-reasons-summary__value" style="color:#107c10;">$30,300,333 <i class="fas fa-arrow-up" style="font-size:9px;"></i> +4.8%</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY24</span><span class="agent-reasons-summary__value agent-rec-value--attention">$29,457,485 <i class="fas fa-arrow-down" style="font-size:9px;"></i> âˆ’2.8%</span></div>
-                              <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FRATTM Category</span><span class="agent-reasons-summary__value">Higher than $10M</span></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="rtb-carousel__nav" id="agent-rtb-dots-q">
-                        <button class="rtb-carousel__arrow rtb-carousel__arrow--prev" id="agent-rtb-prev-q" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-                        <span class="rtb-carousel__dot rtb-carousel__dot--active"></span>
-                        <span class="rtb-carousel__dot"></span>
-                        <span class="rtb-carousel__dot"></span>
-                        <span class="rtb-carousel__dot"></span>
-                        <span class="rtb-carousel__dot"></span>
-                        <button class="rtb-carousel__arrow rtb-carousel__arrow--next" id="agent-rtb-next-q" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
-                      </div>
-                    </div>
-                  </details>
 
                   <div class="ac-actionSet" style="margin-top:26px;flex-wrap:wrap;gap:8px;">
                     <div class="split-btn">
@@ -1484,21 +1425,100 @@
             <div class="agent-msg__bubble">
               <p>Would you like to explore further?</p>
               <div class="agent-suggestions" style="margin-top:10px;">
-                <button class="agent-suggestion-chip">View Approval Impact</button>
+                <button class="agent-suggestion-chip" id="chip-view-approval">View Approval Impact</button>
                 <button class="agent-suggestion-chip">Create a new quote with this discount</button>
-                <button class="agent-suggestion-chip">Simulate on my deal</button>
+                <button class="agent-suggestion-chip" id="chip-view-rtb">View Reasons to Believe</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Agent RTB card (shown on chip click) -->
+          <div class="agent-msg agent-msg--system" id="agent-rtb-msg" style="display:none;">
+            <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
+            <div class="agent-msg__bubble agent-msg__bubble--wide">
+              <p>Here are the Reasons to Believe for the recommended 12.0% discount on Quote A123456:</p>
+              <div class="agent-card" style="margin-top:10px;">
+                <h2 class="agent-card__title">Reasons to Believe</h2>
+                <p class="agent-card__subtitle">Quote A123456 &nbsp;|&nbsp; Recommended Discount: 12.0%</p>
+                <div style="margin-top:16px;">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                    <span class="rtb-section-header"><span id="agent-rtb2-section">Historical Spend</span></span>
+                  </div>
+                  <div>
+                    <div class="rtb-carousel" id="agent-rtb2-carousel">
+                      <div class="rtb-carousel__viewport">
+                        <div class="rtb-carousel__track">
+                          <!-- 1. Historical Spend -->
+                          <div class="rtb-carousel__page" style="gap:24px 0;">
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY22</span><span class="agent-reasons-summary__value">$4,250,000</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY23</span><span class="agent-reasons-summary__value" style="color:#107c10;">$5,120,000 <i class="fas fa-arrow-up" style="font-size:9px;"></i> +20.5%</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY24</span><span class="agent-reasons-summary__value" style="color:#107c10;">$5,890,000 <i class="fas fa-arrow-up" style="font-size:9px;"></i> +15.0%</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY25 (YTD)</span><span class="agent-reasons-summary__value agent-rec-value--attention">$3,410,000 <i class="fas fa-arrow-down" style="font-size:9px;"></i> −7.2%</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Total Spend (3-Year)</span><span class="agent-reasons-summary__value" style="font-weight:700;">$15,260,000</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Avg Annual Spend</span><span class="agent-reasons-summary__value">$5,086,667</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Spend Trend</span><span class="agent-reasons-summary__value" style="color:#107c10;"><i class="fas fa-arrow-up" style="font-size:9px;"></i> Growing</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Top Product</span><span class="agent-reasons-summary__value">Microsoft 365 E5</span></div>
+                          </div>
+                          <!-- 2. Deal Financials -->
+                          <div class="rtb-carousel__page">
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Gross minus Flex</span><span class="agent-reasons-summary__value">$28,589,055</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Add-On Base Ratio</span><span class="agent-reasons-summary__value">Second highest (60-80%)</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Deal Size Bucket</span><span class="agent-reasons-summary__value">$1M – $5M</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Multi-Year Deal</span><span class="agent-reasons-summary__value">No</span></div>
+                          </div>
+                          <!-- 3. Customer Attributes -->
+                          <div class="rtb-carousel__page">
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">TP Industry</span><span class="agent-reasons-summary__value">Financial services</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Customer Segment</span><span class="agent-reasons-summary__value">Major</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">New Unified Customer</span><span class="agent-reasons-summary__value">No</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">CSAT</span><span class="agent-reasons-summary__value" style="color:#107c10;">Positive</span></div>
+                          </div>
+                          <!-- 4. Prior Deal + ACR Growth -->
+                          <div class="rtb-carousel__page">
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Gross minus Flex</span><span class="agent-reasons-summary__value">$1,589,055</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Discount %</span><span class="agent-reasons-summary__value">22.2%</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Deal Type</span><span class="agent-reasons-summary__value">Renewal</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">ACR Growth Bucket</span><span class="agent-reasons-summary__value agent-rec-value--attention">Lowest (Bottom 20%)</span></div>
+                          </div>
+                          <!-- 5. Azure Consumed Revenue + FRATTM -->
+                          <div class="rtb-carousel__page">
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY22</span><span class="agent-reasons-summary__value">$28,908,433</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY23</span><span class="agent-reasons-summary__value" style="color:#107c10;">$30,300,333 <i class="fas fa-arrow-up" style="font-size:9px;"></i> +4.8%</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY24</span><span class="agent-reasons-summary__value agent-rec-value--attention">$29,457,485 <i class="fas fa-arrow-down" style="font-size:9px;"></i> −2.8%</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FRATTM Category</span><span class="agent-reasons-summary__value">Higher than $10M</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="rtb-carousel__nav" id="agent-rtb2-dots">
+                      <button class="rtb-carousel__arrow rtb-carousel__arrow--prev" id="agent-rtb2-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                      <span class="rtb-carousel__dot rtb-carousel__dot--active"></span>
+                      <span class="rtb-carousel__dot"></span>
+                      <span class="rtb-carousel__dot"></span>
+                      <span class="rtb-carousel__dot"></span>
+                      <span class="rtb-carousel__dot"></span>
+                      <button class="rtb-carousel__arrow rtb-carousel__arrow--next" id="agent-rtb2-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="agent-card__disclaimer" style="margin-top:8px;">AI-generated content may be incorrect. Make sure AI-generated content is accurate and appropriate before using. <a href="#">See terms</a></div>
+              <div class="agent-feedback">
+                <span class="agent-feedback__label">Was this helpful?</span>
+                <button class="agent-feedback__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
+                <button class="agent-feedback__btn" title="Not helpful"><i class="far fa-thumbs-down"></i></button>
               </div>
             </div>
           </div>
 
           <!-- User message: approval impact -->
-          <div class="agent-msg agent-msg--user" data-step="3">
+          <div class="agent-msg agent-msg--user" data-step="3" style="display:none;">
             <div class="agent-msg__avatar agent-msg__avatar--user">S</div>
             <div class="agent-msg__bubble">View Approval Impact</div>
           </div>
 
           <!-- Agent follow-up: Approval Impact -->
-          <div class="agent-msg agent-msg--system" data-step="4">
+          <div class="agent-msg agent-msg--system" data-step="4" style="display:none;">
             <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
             <div class="agent-msg__bubble agent-msg__bubble--wide">
               <p>Here's the approval impact of applying the recommended 12.0% discount:</p>
@@ -1583,13 +1603,13 @@
           </div>
 
           <!-- Separator: No recommendation scenario -->
-          <div class="agent-msg agent-msg--user" data-step="7" style="margin-top:12px;">
+          <div class="agent-msg agent-msg--user" data-step="7" style="margin-top:12px;display:none;">
             <div class="agent-msg__avatar agent-msg__avatar--user">S</div>
             <div class="agent-msg__bubble">What is the DealMax recommended discount for deal D-FED-9021?</div>
           </div>
 
           <!-- Agent response: No Recommendation Available -->
-          <div class="agent-msg agent-msg--system" data-step="8">
+          <div class="agent-msg agent-msg--system" data-step="8" style="display:none;">
             <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
             <div class="agent-msg__bubble">
               <div class="agent-no-rec">
@@ -2272,8 +2292,6 @@
       var groups = [
         [0, 1],       // User asks -> recommendation card
         [2],          // Agent suggestion chips
-        [3, 4],       // User picks View Approval Impact -> approval card
-        [7, 8]        // Fed deal question -> no rec
       ];
       var currentGroup = 0;
 
@@ -2346,6 +2364,12 @@
                     advanceFlow();
                   });
                 });
+              }
+              // After the last agent step in group 0, auto-show chips after 2s
+              if (groupIndex === 0 && i === agentSteps.length - 1) {
+                setTimeout(function() {
+                  revealGroup(1);
+                }, 2000);
               }
             }, delay * (i + 1));
           });
@@ -2690,39 +2714,110 @@
       }
     })();
 
-    // --- Agent DIL card: slider, revert, refresh ---
+    // === Agent DIL Discount Intelligence range bar ===
     (function() {
-      var slider = document.getElementById('agent-dil-slider');
+      var fill = document.getElementById('agent-dil-range-fill');
+      var fillError = document.getElementById('agent-dil-range-fill-error');
+      var recMarker = document.getElementById('agent-dil-rec-marker');
+      var maxMarker = document.getElementById('agent-dil-max-marker');
+      var currentMarker = document.getElementById('agent-dil-current-marker');
       var input = document.getElementById('agent-dil-discount-input');
-      var revertBtn = document.getElementById('agent-dil-revert-btn');
+      var errorEl = document.getElementById('agent-dil-input-error');
+      var labelsEl = document.getElementById('agent-dil-range-labels');
+      if (!fill || !input) return;
+
+      var RECOMMENDED = 12.0, MIN_DISC = 12.0, MAX_DISC = 24.2, DEAL_VALUE = 3000000;
+
+      function fmt(v) { return v.toFixed(2); }
+      function pct(v) { return ((v - MIN_DISC) / (MAX_DISC - MIN_DISC)) * 100; }
+      function pctExtended(v, extMax) { return ((v - MIN_DISC) / (extMax - MIN_DISC)) * 100; }
+
+      function setError(show) {
+        if (show) {
+          input.classList.add('r2-hero-input--error');
+          if (errorEl) errorEl.classList.add('is-visible');
+          if (currentMarker) currentMarker.classList.add('is-error');
+        } else {
+          input.classList.remove('r2-hero-input--error');
+          if (errorEl) errorEl.classList.remove('is-visible');
+          if (currentMarker) currentMarker.classList.remove('is-error');
+        }
+      }
+
+      function updateAll(v) {
+        var isOver = v > MAX_DISC;
+        if (isOver) {
+          var extMax = v + (v - MIN_DISC) * 0.15;
+          var recPct = pctExtended(RECOMMENDED, extMax);
+          var maxPct = pctExtended(MAX_DISC, extMax);
+          var curPct = pctExtended(v, extMax);
+          fill.style.width = maxPct + '%';
+          if (fillError) {
+            fillError.style.left = maxPct + '%';
+            fillError.style.width = (curPct - maxPct) + '%';
+            fillError.style.display = '';
+          }
+          if (recMarker) recMarker.style.left = recPct + '%';
+          if (maxMarker) maxMarker.style.left = maxPct + '%';
+          if (currentMarker) { currentMarker.style.left = curPct + '%'; currentMarker.classList.add('is-error'); currentMarker.style.display = ''; }
+          if (labelsEl) {
+            labelsEl.innerHTML = '<span style="position:absolute;left:0;">Min<br>' + fmt(MIN_DISC) + '%</span>' +
+              '<span style="position:absolute;left:' + maxPct + '%;transform:translateX(-50%);">Max Limit<br>' + fmt(MAX_DISC) + '%</span>' +
+              '<span style="position:absolute;left:' + curPct + '%;transform:translateX(-50%);color:#d13438;font-weight:600;">Current<br>' + fmt(v) + '%</span>';
+            labelsEl.style.position = 'relative';
+            labelsEl.style.height = '32px';
+            labelsEl.style.justifyContent = '';
+          }
+        } else {
+          var p = pct(v);
+          fill.style.width = p + '%';
+          if (fillError) { fillError.style.width = '0'; fillError.style.display = 'none'; }
+          if (recMarker) recMarker.style.left = pct(RECOMMENDED) + '%';
+          if (maxMarker) maxMarker.style.left = '100%';
+          if (currentMarker) { currentMarker.style.display = 'none'; currentMarker.classList.remove('is-error'); }
+          if (labelsEl) {
+            labelsEl.innerHTML = '<span>Min<br>' + fmt(MIN_DISC) + '%</span><span>Max Limit<br>' + fmt(MAX_DISC) + '%</span>';
+            labelsEl.style.position = '';
+            labelsEl.style.height = '';
+            labelsEl.style.justifyContent = 'space-between';
+          }
+        }
+      }
+
+      function resetToDefault() {
+        input.value = fmt(RECOMMENDED);
+        setError(false);
+        updateAll(RECOMMENDED);
+      }
+
+      input.addEventListener('input', function() {
+        var raw = input.value.replace(/[^0-9.]/g, '');
+        var v = parseFloat(raw);
+        if (isNaN(v)) return;
+        if (v > MAX_DISC) { setError(true); updateAll(v); return; }
+        setError(false);
+        if (v < MIN_DISC) v = MIN_DISC;
+        updateAll(v);
+      });
+
+      input.addEventListener('blur', function() {
+        var v = parseFloat(input.value.replace(/[^0-9.]/g, ''));
+        if (isNaN(v) || v < MIN_DISC) v = MIN_DISC;
+        if (v > MAX_DISC) { setError(true); input.value = fmt(v); updateAll(v); return; }
+        setError(false);
+        input.value = fmt(v);
+        updateAll(v);
+      });
+
+      updateAll(RECOMMENDED);
+      window.resetAgentDilSlider = resetToDefault;
+
       var refreshBtn = document.getElementById('agent-dil-btn-refresh');
       var overlay = document.getElementById('agent-dil-loading-overlay');
-      var RECOMMENDED = 12;
-      function fmt(v) { return v.toFixed(2); }
-      function resetToDefault() {
-        if (slider) slider.value = RECOMMENDED;
-        if (input) input.value = fmt(RECOMMENDED);
-      }
-      if (slider && input) {
-        slider.addEventListener('input', function() {
-          input.value = fmt(parseFloat(slider.value));
-        });
-        input.addEventListener('blur', function() {
-          var v = parseFloat(input.value.replace(/[^0-9.]/g, ''));
-          if (isNaN(v) || v < 12) v = 12;
-          if (v > 24.2) v = 24.2;
-          input.value = fmt(v);
-          slider.value = v;
-        });
-      }
-      if (revertBtn) revertBtn.addEventListener('click', resetToDefault);
       if (refreshBtn && overlay) {
         refreshBtn.addEventListener('click', function() {
           overlay.classList.add('active');
-          setTimeout(function() {
-            resetToDefault();
-            overlay.classList.remove('active');
-          }, 1500);
+          setTimeout(function() { resetToDefault(); overlay.classList.remove('active'); }, 1500);
         });
       }
     })();
@@ -2750,6 +2845,56 @@
         next.addEventListener('click', function() { idx = (idx + 1) % pages.length; update(); });
       }
       initCarousel('agent-rtb-q', 'agent-rtb-section-q');
+      initCarousel('agent-rtb2', 'agent-rtb2-section');
+    })();
+
+    // --- View Approval Impact chip ---
+    (function() {
+      var chip = document.getElementById('chip-view-approval');
+      var chatArea = document.querySelector('.agent-chat-area');
+      if (!chip) return;
+      chip.addEventListener('click', function() {
+        chip.disabled = true;
+        chip.classList.add('chip--used');
+        var step3 = chatArea.querySelector('[data-step="3"]');
+        var step4 = chatArea.querySelector('[data-step="4"]');
+        if (step3) { step3.style.display = ''; step3.classList.add('agent-msg--visible'); chatArea.scrollTop = chatArea.scrollHeight; }
+        setTimeout(function() {
+          if (step4) { step4.style.display = ''; step4.classList.add('agent-msg--visible'); chatArea.scrollTop = chatArea.scrollHeight; }
+        }, 900);
+      });
+    })();
+
+    // --- View Reasons to Believe chip ---
+    (function() {
+      var chip = document.getElementById('chip-view-rtb');
+      var msg = document.getElementById('agent-rtb-msg');
+      var chatArea = document.querySelector('.agent-chat-area');
+      if (chip && msg) {
+        chip.addEventListener('click', function() {
+          chip.disabled = true;
+          chip.classList.add('chip--used');
+          msg.style.display = '';
+          msg.classList.add('agent-msg--visible');
+          if (chatArea) chatArea.scrollTop = chatArea.scrollHeight;
+        });
+      }
+    })();
+
+    // --- Attach button: show fed deal question ---
+    (function() {
+      var btn = document.getElementById('btn-attach');
+      var chatArea = document.querySelector('.agent-chat-area');
+      if (!btn || !chatArea) return;
+      btn.addEventListener('click', function() {
+        btn.disabled = true;
+        var step7 = chatArea.querySelector('[data-step="7"]');
+        var step8 = chatArea.querySelector('[data-step="8"]');
+        if (step7) { step7.style.display = ''; step7.classList.add('agent-msg--visible'); chatArea.scrollTop = chatArea.scrollHeight; }
+        setTimeout(function() {
+          if (step8) { step8.style.display = ''; step8.classList.add('agent-msg--visible'); chatArea.scrollTop = chatArea.scrollHeight; }
+        }, 900);
+      });
     })();
 
     // --- Split-button & ellipsis-menu: close on outside click ---
