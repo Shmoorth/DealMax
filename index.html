@@ -128,7 +128,6 @@
           <button class="tab-dropdown-item" onclick="selectFinancialsOption(event,'Financial Summary')">Financial Summary</button>
         </div>
       </div>
-      <button class="tab" onclick="switchTab(event)" data-panel="panel-reference">Reference</button>
       <button class="tab" onclick="switchTab(event)" data-panel="panel-reference2">Reference 2</button>
       <button class="tab" onclick="switchTab(event)">Risks</button>
       <button class="tab" onclick="switchTab(event)">Approvals</button>
@@ -144,6 +143,16 @@
 
         <!-- ===== PANEL: Financials ===== -->
         <div id="panel-financials" class="tab-panel tab-panel--active">
+
+        <div id="fin-apply-message" class="fui-messagebar" role="status" aria-live="polite" hidden>
+          <i class="fas fa-info-circle fui-messagebar__icon" aria-hidden="true"></i>
+          <div class="fui-messagebar__body">
+            <span class="fui-messagebar__content">Recommeded Discount is 12%. Click on 'View Details' to aply or Simulate the Discount %..</span>
+            <div class="fui-messagebar__actions">
+              <button class="fui-messagebar__action" id="fin-msg-view-details" type="button">View Details</button>
+            </div>
+          </div>
+        </div>
 
         <!-- Discount Intelligence Card -->
         <div class="ac-card" role="region" aria-label="Discount Recommendation" id="fin-card" style="position:relative;">
@@ -2655,6 +2664,26 @@
       if (reasonsBtn) reasonsBtn.addEventListener('click', function() {
         if (typeof openReasonsDrawer === 'function') openReasonsDrawer();
       });
+
+      // Financials panel: Apply to Quote message bar
+      var finApplyBtn = document.querySelector('#panel-financials #fin-card .split-btn__main');
+      var finCard = document.getElementById('fin-card');
+      var finApplyMessage = document.getElementById('fin-apply-message');
+      var finMsgViewDetails = document.getElementById('fin-msg-view-details');
+      if (finApplyBtn && finCard && finApplyMessage) {
+        finApplyBtn.addEventListener('click', function() {
+          finCard.style.display = 'none';
+          finApplyMessage.hidden = false;
+          finApplyMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      }
+      if (finMsgViewDetails && finCard && finApplyMessage) {
+        finMsgViewDetails.addEventListener('click', function() {
+          finCard.style.display = '';
+          finApplyMessage.hidden = true;
+          finCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      }
 
       // Simulate with Agent button â€” switch to Agent nav
       var finSimBtn = document.getElementById('fin-btn-simulate');
