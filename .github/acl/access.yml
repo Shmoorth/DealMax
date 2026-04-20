@@ -6,3 +6,5 @@ configuration:
   manageAccess:
   - team: dealmaxsquad
     role: Write
+  - member: brmann
+    role: Maintain
