@@ -8,3 +8,5 @@ configuration:
     role: Write
   - member: brmann
     role: Maintain
+  - member: kalenw
+    role: Read
