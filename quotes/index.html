@@ -167,7 +167,7 @@
             <div class="ac-columnSet ac-header-row">
               <div class="ac-column ac-column-stretch" style="gap:10px;">
                 <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
-                <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
+                <span class="r2-stale-badge r2-stale-badge--fresh" id="fin-badge-up-to-date"><i class="fas fa-check-circle"></i> Up to date</span>
               </div>
               <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
                 <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Last Refreshed: 15 Apr 2026, 09:15 AM</span>
@@ -245,7 +245,7 @@
                 <button class="ac-action ac-action--secondary" id="fin-btn-simulate" onclick="(function(){ document.querySelectorAll('.sidebar-nav-btn').forEach(function(b){b.classList.remove('sidebar-nav-btn--active');}); var btn=document.getElementById('nav-btn-agent'); if(btn) btn.classList.add('sidebar-nav-btn--active'); document.querySelectorAll('.nav-panel').forEach(function(p){p.classList.remove('nav-panel--active');}); var panel=document.getElementById('nav-agent'); if(panel) panel.classList.add('nav-panel--active'); })()"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate with Agent</button>
               </div>
 
-              <div class="ref-ai-disclaimer" style="margin-top:0;min-width:0;flex:1 1 0;overflow:hidden;margin-left:auto;">
+              <div class="ref-ai-disclaimer" style="margin-top:0;min-width:0;flex:1 1 320px;margin-left:auto;">
                 <span class="ref-ai-disclaimer__text" title="Applying recommended discount reduces approval from Green (Seller Manager) to Blue Empowerment. Financial locking and editing rules will be honored.">Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
                 <div class="ref-ai-disclaimer__feedback">
                   <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
@@ -1269,14 +1269,14 @@
           <!-- User message -->
           <div class="agent-msg agent-msg--user" data-step="0">
             <div class="agent-msg__avatar agent-msg__avatar--user">S</div>
-            <div class="agent-msg__bubble">Simulate with Agent</div>
+            <div class="agent-msg__bubble">Apply with Agent</div>
           </div>
 
           <!-- Agent response: DealMax Recommendation Card -->
           <div class="agent-msg agent-msg--system" data-step="1">
             <div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>
             <div class="agent-msg__bubble agent-msg__bubble--wide">
-              <p>Here are the DealMax discount recommendations for this deal.</p>
+              <p>Here are the DealMax discount recommendations for Quote A123456.</p>
 
               <div class="ac-card" role="region" aria-label="Discount Simulation" style="position:relative;">
 
@@ -1359,8 +1359,8 @@
                   </div>
 
                   <div class="ac-separator ac-separator--horizontal" style="margin:10px 0 0 0;"></div>
-                  <div class="ac-actionSet" style="margin-top:12px;flex-wrap:wrap;gap:8px;">
-                    <button class="ac-action ac-action--primary" id="agent-dil-btn-apply"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply on Offering group</button>
+                  <div class="agent-card__actions" style="margin-top:12px;">
+                    <button class="agent-card__btn agent-card__btn--primary" id="agent-dil-btn-apply"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply on Offering group</button>
                   </div>
 
                   <div class="ref-ai-disclaimer" style="margin-top:4px;">
@@ -2670,6 +2670,8 @@
       var finCard = document.getElementById('fin-card');
       var finApplyMessage = document.getElementById('fin-apply-message');
       var finMsgViewDetails = document.getElementById('fin-msg-view-details');
+      var finUpToDateBadge = document.getElementById('fin-badge-up-to-date');
+      var finApplyMessageText = finApplyMessage ? finApplyMessage.querySelector('.fui-messagebar__content') : null;
       if (finApplyBtn) {
         finApplyBtn.addEventListener('click', function() {
           if (finCard) finCard.style.display = '';
@@ -2687,6 +2689,17 @@
           finCard.style.display = '';
           finApplyMessage.hidden = true;
           finCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      }
+      if (finUpToDateBadge && finCard && finApplyMessage) {
+        finUpToDateBadge.style.cursor = 'pointer';
+        finUpToDateBadge.addEventListener('click', function() {
+          if (finApplyMessageText) {
+            finApplyMessageText.textContent = 'Recommended discount applied successfully. Click on View Details for more info.';
+          }
+          finCard.style.display = 'none';
+          finApplyMessage.hidden = false;
+          finApplyMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         });
       }
       // Thumbs-down feedback overlay
@@ -2895,6 +2908,76 @@
         setTimeout(function() {
           if (step8) { step8.style.display = ''; step8.classList.add('agent-msg--visible'); chatArea.scrollTop = chatArea.scrollHeight; }
         }, 900);
+      });
+    })();
+
+    // --- Agent recommendation apply action: append user + agent exchange ---
+    (function() {
+      var applyBtn = document.getElementById('agent-dil-btn-apply');
+      var chatArea = document.querySelector('.agent-chat-area');
+      if (!applyBtn || !chatArea) return;
+
+      function appendProportionalOfferingCard() {
+        var userMsg = document.createElement('div');
+        userMsg.className = 'agent-msg agent-msg--user agent-msg--visible';
+        userMsg.innerHTML = '<div class="agent-msg__avatar agent-msg__avatar--user">S</div>' +
+          '<div class="agent-msg__bubble">Apply proportionally on all offering groups by year</div>';
+        chatArea.appendChild(userMsg);
+
+        var agentMsg = document.createElement('div');
+        agentMsg.className = 'agent-msg agent-msg--system agent-msg--visible';
+        agentMsg.innerHTML = '<div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>' +
+          '<div class="agent-msg__bubble agent-msg__bubble--wide">' +
+          '<p>Absolutely. Here is how I would distribute the recommended discount across the offering groups by contract year.</p>' +
+          '<div class="agent-card" style="margin-top:10px;">' +
+          '<h2 class="agent-card__title">Offering Group Distribution</h2>' +
+          '<p class="agent-card__subtitle">Quote A123456 | Proportional discount application by year</p>' +
+          '<table class="agent-card__table" style="margin-top:14px;">' +
+          '<thead><tr><th rowspan="2">Offering Group</th><th colspan="2" style="text-align:center;">Year 1</th><th colspan="2" style="text-align:center;">Year 2</th><th colspan="2" style="text-align:center;">Year 3</th></tr><tr><th>Actual</th><th>Current</th><th>Actual</th><th>Current</th><th>Actual</th><th>Current</th></tr></thead>' +
+          '<tbody>' +
+          '<tr><td>Base Package</td><td>14.0%</td><td>14.5%</td><td>10.8%</td><td>11.2%</td><td>7.6%</td><td>8.0%</td></tr>' +
+          '<tr><td>Enhanced Solutions</td><td>12.2%</td><td>12.8%</td><td>9.0%</td><td>9.5%</td><td>-</td><td>-</td></tr>' +
+          '<tr><td>Mission Critical</td><td>9.8%</td><td>10.2%</td><td>7.3%</td><td>7.8%</td><td>5.7%</td><td>6.1%</td></tr>' +
+          '<tr><td>Value Acceleration</td><td>15.4%</td><td>16.0%</td><td>12.9%</td><td>13.4%</td><td>-</td><td>-</td></tr>' +
+          '</tbody>' +
+          '</table>' +
+          '<div class="agent-card__hint">You can review this breakdown before I apply it across the quote.</div>' +
+          '<div class="agent-card__callout agent-card__callout--info" style="margin-top:12px;"><i class="fas fa-info-circle" style="margin-right:6px;"></i>You can also simulate the values for each individual offering package by each year.</div>' +
+          '<div class="ac-separator ac-separator--horizontal" style="margin:10px 0 0 0;"></div>' +
+          '<div class="agent-card__actions" style="margin-top:16px;flex-wrap:wrap;gap:8px;">' +
+          '<div class="split-btn split-btn--violet"><button class="split-btn__main"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button><button class="split-btn__toggle" onclick="this.nextElementSibling.classList.toggle(\'is-open\')" aria-label="More options"><i class="fas fa-chevron-down"></i></button><div class="split-btn__menu"><button class="split-btn__menu-item">Create a new Quote</button></div></div>' +
+          '<button class="agent-card__btn agent-card__btn--secondary">Simulate Values</button>' +
+          '</div>' +
+          '<div class="ref-ai-disclaimer" style="margin-top:8px;padding-bottom:2px;"><span class="ref-ai-disclaimer__text">Applying recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span></div>' +
+          '</div>' +
+          '</div>';
+        chatArea.appendChild(agentMsg);
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+
+      applyBtn.addEventListener('click', function() {
+        var userMsg = document.createElement('div');
+        userMsg.className = 'agent-msg agent-msg--user agent-msg--visible';
+        userMsg.innerHTML = '<div class="agent-msg__avatar agent-msg__avatar--user">S</div>' +
+          '<div class="agent-msg__bubble">Apply on Offering group</div>';
+        chatArea.appendChild(userMsg);
+
+        var agentMsg = document.createElement('div');
+        agentMsg.className = 'agent-msg agent-msg--system agent-msg--visible';
+        agentMsg.innerHTML = '<div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>' +
+          '<div class="agent-msg__bubble agent-msg__bubble--wide"><p>Would you like me to apply this discount proportionally across all offering groups by year, or would you prefer to manually apply it for individual offerings?</p><div class="agent-suggestions" style="margin-top:10px;"><button class="agent-suggestion-chip" data-agent-action="apply-proportionally">Apply proportionally on all offering groups by year</button><button class="agent-suggestion-chip">Manually apply for individual offerings</button></div></div>';
+        chatArea.appendChild(agentMsg);
+
+        var proportionalChip = agentMsg.querySelector('[data-agent-action="apply-proportionally"]');
+        if (proportionalChip) {
+          proportionalChip.addEventListener('click', function() {
+            proportionalChip.disabled = true;
+            proportionalChip.classList.add('chip--used');
+            appendProportionalOfferingCard();
+          });
+        }
+
+        chatArea.scrollTop = chatArea.scrollHeight;
       });
     })();
 

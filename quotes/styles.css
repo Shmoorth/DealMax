@@ -1036,6 +1036,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .split-btn__toggle:hover { background: #115ea3; }
 .split-btn__toggle:active { background: #0e4775; }
+.split-btn--violet .split-btn__main {
+  background: #5b5fc7;
+  border-color: #5b5fc7;
+}
+.split-btn--violet .split-btn__main:hover { background: #4f52b2; }
+.split-btn--violet .split-btn__main:active { background: #44479c; }
+.split-btn--violet .split-btn__toggle {
+  background: #5b5fc7;
+  border-color: #5b5fc7;
+  border-left: 1px solid rgba(255,255,255,0.3);
+}
+.split-btn--violet .split-btn__toggle:hover { background: #4f52b2; }
+.split-btn--violet .split-btn__toggle:active { background: #44479c; }
 .split-btn__main:disabled,
 .split-btn__toggle:disabled,
 .ac-action:disabled,
@@ -1602,6 +1615,13 @@ input.ac-discount-hero--editable:focus {
 .fui-messagebar__action:focus-visible {
   outline: 2px solid #0f6cbd;
   outline-offset: 2px;
+}
+#fin-apply-message .fui-messagebar__body {
+  align-items: center;
+}
+#fin-apply-message .fui-messagebar__icon {
+  margin-top: 0;
+  align-self: center;
 }
 .fui-messagebar--success {
   border-color: #9fd89f;
@@ -3183,8 +3203,26 @@ input.ac-discount-hero--editable:focus {
   overflow: visible;
 }
 #panel-financials #fin-card .ref-ai-disclaimer {
-  margin-top: 4px;
-  padding: 4px 8px 4px 0;
+  margin-top: 0;
+  margin-left: auto;
+  width: auto;
+  justify-content: flex-end;
+  padding: 4px 0;
+  min-width: 0;
+  flex: 1 1 320px;
+}
+#panel-financials #fin-card .ref-ai-disclaimer__text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+  margin-right: 8px;
+  max-width: none;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+#panel-financials #fin-card .ref-ai-disclaimer__feedback {
+  margin-left: auto;
 }
 #panel-financials #fin-card .split-btn {
   position: relative;
