@@ -128,6 +128,7 @@
           <button class="tab-dropdown-item" onclick="selectFinancialsOption(event,'Financial Summary')">Financial Summary</button>
         </div>
       </div>
+      <button class="tab" onclick="switchTab(event)" data-panel="panel-financials">Old</button>
       <button class="tab" onclick="switchTab(event)" data-panel="panel-reference2">Reference 2</button>
       <button class="tab" onclick="switchTab(event)">Risks</button>
       <button class="tab" onclick="switchTab(event)">Approvals</button>
@@ -2587,12 +2588,22 @@
       var input = document.getElementById('fin-discount-input');
       var recDot = document.getElementById('fin-rec-dot');
       var devEl = document.getElementById('fin-deviation');
+      var finApplyActionBtn = document.querySelector('#panel-financials #fin-card .split-btn__main');
+      var finSimulateActionBtn = document.getElementById('fin-btn-simulate');
       if (!slider || !input) return;
 
-      var RECOMMENDED = 12.0, MIN_DISC = 12.0, MAX_DISC = 24.2, DEAL_VALUE = 3000000;
+      var RECOMMENDED = 12.0, MIN_DISC = 12.0, MAX_DISC = 24.2, BUTTON_DISABLE_THRESHOLD = 24.5, DEAL_VALUE = 3000000;
 
       function fmt(v) { return v.toFixed(2); }
       function pct(v) { return ((v - MIN_DISC) / (MAX_DISC - MIN_DISC)) * 100; }
+
+      function setFinancialsActionsDisabled(disabled) {
+        [finApplyActionBtn, finSimulateActionBtn].forEach(function(btn) {
+          if (!btn) return;
+          btn.disabled = disabled;
+          btn.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+        });
+      }
 
       function updateAll(v) {
         var p = pct(v);
@@ -2613,6 +2624,7 @@
       function resetToDefault() {
         input.value = fmt(RECOMMENDED);
         slider.value = RECOMMENDED;
+        setFinancialsActionsDisabled(false);
         updateAll(RECOMMENDED);
       }
 
@@ -2626,6 +2638,7 @@
         var raw = input.value.replace(/[^0-9.]/g, '');
         var v = parseFloat(raw);
         if (isNaN(v)) return;
+        setFinancialsActionsDisabled(v > BUTTON_DISABLE_THRESHOLD);
         if (v < MIN_DISC) v = MIN_DISC;
         if (v > MAX_DISC) v = MAX_DISC;
         slider.value = v;
@@ -2635,13 +2648,16 @@
       input.addEventListener('blur', function() {
         var v = parseFloat(input.value.replace(/[^0-9.]/g, ''));
         if (isNaN(v) || v < MIN_DISC) v = MIN_DISC;
+        setFinancialsActionsDisabled(v > BUTTON_DISABLE_THRESHOLD);
         if (v > MAX_DISC) v = MAX_DISC;
         input.value = fmt(v);
         slider.value = v;
+        if (v <= BUTTON_DISABLE_THRESHOLD) setFinancialsActionsDisabled(false);
         updateAll(v);
       });
 
       updateRecDot();
+      setFinancialsActionsDisabled(false);
       updateAll(RECOMMENDED);
 
       window.resetFinSlider = resetToDefault;

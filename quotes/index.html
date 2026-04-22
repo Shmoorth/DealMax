@@ -128,6 +128,7 @@
           <button class="tab-dropdown-item" onclick="selectFinancialsOption(event,'Financial Summary')">Financial Summary</button>
         </div>
       </div>
+      <button class="tab" onclick="switchTab(event)" data-panel="panel-financials">Old</button>
       <button class="tab" onclick="switchTab(event)" data-panel="panel-reference2">Reference 2</button>
       <button class="tab" onclick="switchTab(event)">Risks</button>
       <button class="tab" onclick="switchTab(event)">Approvals</button>
@@ -2562,18 +2563,28 @@
       var devEl = document.getElementById('fin-deviation');
       var errorEl = document.getElementById('fin-input-error');
       var legendError = document.getElementById('fin-legend-error');
+      var finApplyActionBtn = document.querySelector('#panel-financials #fin-card .split-btn__main');
+      var finSimulateActionBtn = document.getElementById('fin-btn-simulate');
       var labelsEl = document.getElementById('fin-range-labels');
       var minLabel = document.getElementById('fin-range-min-label');
       var maxLabel = document.getElementById('fin-range-max-label');
       if (!fill || !input) return;
 
-      var RECOMMENDED = 12.0, MIN_DISC = 12.0, MAX_DISC = 24.2, DEAL_VALUE = 3000000;
+      var RECOMMENDED = 12.0, MIN_DISC = 12.0, MAX_DISC = 24.2, BUTTON_DISABLE_THRESHOLD = 24.5, DEAL_VALUE = 3000000;
 
       function fmt(v) { return v.toFixed(2); }
       // Normal pct within min-max range
       function pct(v) { return ((v - MIN_DISC) / (MAX_DISC - MIN_DISC)) * 100; }
       // Extended pct when value exceeds max — scale so max sits at ~55% and current at end
       function pctExtended(v, extMax) { return ((v - MIN_DISC) / (extMax - MIN_DISC)) * 100; }
+
+      function setFinancialsActionsDisabled(disabled) {
+        [finApplyActionBtn, finSimulateActionBtn].forEach(function(btn) {
+          if (!btn) return;
+          btn.disabled = disabled;
+          btn.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+        });
+      }
 
       function setError(show, rawVal) {
         if (show) {
@@ -2587,6 +2598,8 @@
           if (currentMarker) currentMarker.classList.remove('is-error');
           if (legendError) legendError.classList.remove('is-visible');
         }
+        var effectiveVal = typeof rawVal === 'number' && !isNaN(rawVal) ? rawVal : parseFloat(input.value);
+        setFinancialsActionsDisabled(effectiveVal > BUTTON_DISABLE_THRESHOLD);
       }
 
       function updateAll(v) {
@@ -2676,6 +2689,7 @@
         updateAll(v);
       });
 
+      setFinancialsActionsDisabled(false);
       updateAll(RECOMMENDED);
 
       window.resetFinSlider = resetToDefault;
