@@ -187,7 +187,7 @@
               <div class="ac-column ac-column-auto">
                 <div class="ac-container ac-discount-block">
                   <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px;">
-                    <span class="ac-textBlock ac-textBlock--default ac-weight--bolder">Recommended Discount</span>
+                    <span class="ac-textBlock ac-textBlock--default ac-weight--bolder">Recommended Min. Discount</span>
                     <div class="r2-hero-input-wrap">
                       <div class="r2-hero-input-container">
                         <input type="text" id="fin-discount-input" class="r2-hero-input" value="12.00" inputmode="decimal">
@@ -217,44 +217,20 @@
 
               <div class="ac-column ac-column-stretch">
                 <div class="ac-container">
-                  <div class="r2-col2-grid">
-                    <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder">Distribution Method</span>
-                    <div style="display:flex;align-items:center;gap:12px;">
-                      <label class="r2-radio-label"><input type="radio" name="fin-distribution" value="proportional" checked class="r2-radio"> Proportional</label>
-                      <label class="r2-radio-label"><input type="radio" name="fin-distribution" value="manual" class="r2-radio"> Manual per package</label>
-                    </div>
-                    <span class="ac-fact-title" style="padding-top:6px;">Min Discount</span><span class="ac-fact-value" style="padding-top:6px;">12.0 %</span>
-                    <span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span>
-                    <span class="ac-fact-title">Deviation</span><span class="ac-fact-value" id="fin-deviation" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span>
-                    <span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span>
-                    <span class="ac-fact-title">Contract stage impact</span><span class="ac-fact-value">None</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="ac-column ac-column-stretch">
-                <div class="ac-container">
-                  <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder">Offering Group by Year</span>
-                  <div class="r2-offering-grid">
-                    <span class="r2-offering-hdr">Package</span><span class="r2-offering-hdr">Year 1</span><span class="r2-offering-hdr">Year 2</span><span class="r2-offering-hdr">Year 3</span>
-                    <span class="r2-offering-title">Base Package</span><span class="r2-offering-val">14.5%</span><span class="r2-offering-val">11.2%</span><span class="r2-offering-val">8.0%</span>
-                    <span class="r2-offering-title">Enhanced solutions</span><span class="r2-offering-val">12.8%</span><span class="r2-offering-val">9.5%</span><span class="r2-offering-val">-</span>
-                    <span class="r2-offering-title">Mission critical</span><span class="r2-offering-val">10.2%</span><span class="r2-offering-val">7.8%</span><span class="r2-offering-val">6.1%</span>
-                    <span class="r2-offering-title">Value Acceleration</span><span class="r2-offering-val">16.0%</span><span class="r2-offering-val">13.4%</span><span class="r2-offering-val">-</span>
+                  <div class="r2-col3-metrics">
+                    <div class="r2-metric-item"><span class="ac-fact-title">Min Discount</span><span class="ac-fact-value">12.0 %</span></div>
+                    <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" id="fin-deviation" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span></div>
+                    <div class="r2-metric-item"><span class="ac-fact-title">Contract stage impact</span><span class="ac-fact-value">None</span></div>
+                    <div class="r2-metric-item"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
+                    <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span></div>
                   </div>
                 </div>
               </div>
 
             </div>
 
-            <div class="ac-actionSet" style="margin-top:32px;flex-wrap:wrap;gap:8px;">
-              <div class="split-btn">
-                <button class="split-btn__main"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button>
-                <button class="split-btn__toggle" onclick="this.nextElementSibling.classList.toggle('is-open')" aria-label="More options"><i class="fas fa-chevron-down"></i></button>
-                <div class="split-btn__menu">
-                  <button class="split-btn__menu-item"><i class="fas fa-plus"></i> Create New Quote</button>
-                </div>
-              </div>
+            <div class="ac-actionSet" style="margin-top:12px;flex-wrap:wrap;gap:8px;">
+              <button class="ac-action ac-action--primary" id="fin-btn-apply"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply with Agent</button>
               <button class="ac-action ac-action--secondary" id="fin-btn-simulate"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate with Agent</button>
             </div>
 
@@ -1432,7 +1408,7 @@
                       </div>
                     </div>
                   </div>
-                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="margin-top:4px;">Quote A123456 &nbsp;|&nbsp; Recommended Discount: 12.0%</span>
+                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="margin-top:4px;">Quote A123456 &nbsp;|&nbsp; Last Refreshed: 22 Apr 2026, 11:17 AM</span>
                 </div>
 
                 <div class="ac-container ac-body">
@@ -1440,7 +1416,7 @@
 
                     <div class="ac-column ac-column-auto">
                       <div class="ac-container ac-discount-block">
-                        <span class="ac-textBlock ac-textBlock--default ac-weight--bolder">Recommended Discount</span>
+                        <span class="ac-textBlock ac-textBlock--default ac-weight--bolder">Recommended Min. Discount</span>
                         <div class="r2-hero-input-wrap" style="margin-top:4px;">
                           <div class="r2-hero-input-container">
                             <input type="text" id="agent-dil-discount-input" class="r2-hero-input" value="12.00" inputmode="decimal">
@@ -1448,7 +1424,7 @@
                           </div>
                           <button class="r2-revert-btn" id="agent-dil-revert-btn" title="Revert to recommended"><i class="fas fa-undo"></i></button>
                         </div>
-                        <div class="r2-range-visual">
+                        <div class="r2-range-visual" id="agent-dil-range-visual">
                           <div class="fluent-slider-wrap">
                             <input type="range" id="agent-dil-slider" class="fluent-slider" min="12" max="24.2" step="0.01" value="12">
                             <div class="fluent-slider-rec-dot" title="Recommended: 12.0%"></div>
@@ -1469,33 +1445,16 @@
 
                     <div class="ac-column ac-column-stretch">
                       <div class="ac-container">
-                        <div class="r2-col2-grid">
-                          <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder">Distribution Method</span>
-                          <select class="r2-select" name="agent-dil-distribution" style="width:100%;max-width:200px;margin-bottom:12px;">
-                            <option value="proportional" selected>Proportional</option>
-                            <option value="manual">Manual per package</option>
-                          </select>
-                          <span class="ac-fact-title" style="padding-top:6px;">Min Discount</span><span class="ac-fact-value" style="padding-top:6px;">12.0 %</span>
-                          <span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span>
-                          <span class="ac-fact-title">Deviation</span><span class="ac-fact-value" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span>
-                          <span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span>
-                          <span class="ac-fact-title">Contract stage impact</span><span class="ac-fact-value">None</span>
+                        <div class="r2-col3-metrics">
+                          <div class="r2-metric-item"><span class="ac-fact-title">Min Discount</span><span class="ac-fact-value">12.0 %</span></div>
+                          <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span></div>
+                          <div class="r2-metric-item"><span class="ac-fact-title">Contract stage impact</span><span class="ac-fact-value">None</span></div>
+                          <div class="r2-metric-item"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
+                          <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span></div>
                         </div>
                       </div>
                     </div>
 
-                  </div>
-
-                  <div class="ac-separator ac-separator--horizontal" style="margin-top:20px;"></div>
-                  <div style="margin-top:16px;">
-                    <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder">Offering Group by Year</span>
-                    <div class="r2-offering-grid">
-                      <span class="r2-offering-hdr">Package</span><span class="r2-offering-hdr">Year 1</span><span class="r2-offering-hdr">Year 2</span><span class="r2-offering-hdr">Year 3</span>
-                      <span class="r2-offering-title">Base Package</span><span class="r2-offering-val">14.5%</span><span class="r2-offering-val">11.2%</span><span class="r2-offering-val">8.0%</span>
-                      <span class="r2-offering-title">Enhanced solutions</span><span class="r2-offering-val">12.8%</span><span class="r2-offering-val">9.5%</span><span class="r2-offering-val">-</span>
-                      <span class="r2-offering-title">Mission critical</span><span class="r2-offering-val">10.2%</span><span class="r2-offering-val">7.8%</span><span class="r2-offering-val">6.1%</span>
-                      <span class="r2-offering-title">Value Acceleration</span><span class="r2-offering-val">16.0%</span><span class="r2-offering-val">13.4%</span><span class="r2-offering-val">-</span>
-                    </div>
                   </div>
 
                   <!-- Reasons to Believe (Accordion + Carousel) -->
@@ -1563,14 +1522,9 @@
                     </div>
                   </details>
 
-                  <div class="ac-actionSet" style="margin-top:26px;flex-wrap:wrap;gap:8px;">
-                    <div class="split-btn">
-                      <button class="split-btn__main"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply to Quote</button>
-                      <button class="split-btn__toggle" onclick="this.nextElementSibling.classList.toggle('is-open')" aria-label="More options"><i class="fas fa-chevron-down"></i></button>
-                      <div class="split-btn__menu">
-                        <button class="split-btn__menu-item"><i class="fas fa-plus"></i> Create New Quote</button>
-                      </div>
-                    </div>
+                  <div class="ac-separator ac-separator--horizontal" style="margin:10px 0 0 0;"></div>
+                  <div class="ac-actionSet" style="margin-top:12px;flex-wrap:wrap;gap:8px;">
+                    <button class="ac-action ac-action--primary" id="agent-dil-btn-apply"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Apply on Offering group</button>
                   </div>
 
                   <div class="ref-ai-disclaimer" style="margin-top:4px;">
@@ -2588,7 +2542,7 @@
       var input = document.getElementById('fin-discount-input');
       var recDot = document.getElementById('fin-rec-dot');
       var devEl = document.getElementById('fin-deviation');
-      var finApplyActionBtn = document.querySelector('#panel-financials #fin-card .split-btn__main');
+      var finApplyActionBtn = document.getElementById('fin-btn-apply');
       var finSimulateActionBtn = document.getElementById('fin-btn-simulate');
       if (!slider || !input) return;
 
@@ -2681,16 +2635,21 @@
         if (typeof openReasonsDrawer === 'function') openReasonsDrawer();
       });
 
-      // Financials panel: Apply to Quote message bar
-      var finApplyBtn = document.querySelector('#panel-financials #fin-card .split-btn__main');
+      // Financials panel: Apply with Agent -> navigate to Services Deal Agent
+      var finApplyBtn = document.getElementById('fin-btn-apply');
       var finCard = document.getElementById('fin-card');
       var finApplyMessage = document.getElementById('fin-apply-message');
       var finMsgViewDetails = document.getElementById('fin-msg-view-details');
-      if (finApplyBtn && finCard && finApplyMessage) {
+      if (finApplyBtn) {
         finApplyBtn.addEventListener('click', function() {
-          finCard.style.display = 'none';
-          finApplyMessage.hidden = false;
-          finApplyMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          if (finCard) finCard.style.display = '';
+          if (finApplyMessage) finApplyMessage.hidden = true;
+          document.querySelectorAll('.sidebar-nav-btn').forEach(function(b) { b.classList.remove('sidebar-nav-btn--active'); });
+          var agentNavBtn = document.getElementById('nav-btn-agent');
+          if (agentNavBtn) agentNavBtn.classList.add('sidebar-nav-btn--active');
+          document.querySelectorAll('.nav-panel').forEach(function(p) { p.classList.remove('nav-panel--active'); });
+          var agentPanel = document.getElementById('nav-agent');
+          if (agentPanel) agentPanel.classList.add('nav-panel--active');
         });
       }
       if (finMsgViewDetails && finCard && finApplyMessage) {

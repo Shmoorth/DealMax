@@ -1036,6 +1036,26 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .split-btn__toggle:hover { background: #115ea3; }
 .split-btn__toggle:active { background: #0e4775; }
+.split-btn__main:disabled,
+.split-btn__toggle:disabled,
+.ac-action:disabled,
+.split-btn__main[aria-disabled="true"],
+.split-btn__toggle[aria-disabled="true"],
+.ac-action[aria-disabled="true"] {
+  background: #f3f2f1;
+  color: #a19f9d;
+  border-color: #edebe9;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.split-btn__main:disabled:hover,
+.split-btn__toggle:disabled:hover,
+.ac-action:disabled:hover,
+.split-btn__main[aria-disabled="true"]:hover,
+.split-btn__toggle[aria-disabled="true"]:hover,
+.ac-action[aria-disabled="true"]:hover {
+  background: #f3f2f1;
+}
 .split-btn__menu {
   display: none;
   position: absolute;
@@ -3050,6 +3070,10 @@ input.ac-discount-hero--editable:focus {
   border-color: #d13438;
 }
 
+#panel-financials #fin-card #fin-range-visual {
+  display: none;
+}
+
 /* --- Hero Discount Input Box --- */
 .r2-hero-input-wrap {
   display: flex;
@@ -3136,6 +3160,69 @@ input.ac-discount-hero--editable:focus {
 }
 .fin-input-error.is-visible {
   visibility: visible;
+}
+#panel-financials #fin-card .ac-header {
+  padding: 6px 14px;
+}
+#panel-financials #fin-card {
+  overflow: visible;
+}
+#panel-financials #fin-card .ac-body {
+  padding: 8px 14px 6px;
+}
+#panel-financials #fin-card .ac-columnSet {
+  gap: 14px;
+}
+#panel-financials #fin-card .r2-hero-input-wrap {
+  margin: 2px 0 4px;
+}
+#panel-financials #fin-card .ac-actionSet {
+  margin-top: 8px;
+  position: relative;
+  z-index: 40;
+  overflow: visible;
+}
+#panel-financials #fin-card .ref-ai-disclaimer {
+  margin-top: 4px;
+  padding: 4px 8px 4px 0;
+}
+#panel-financials #fin-card .split-btn {
+  position: relative;
+  z-index: 60;
+}
+#panel-financials #fin-card .split-btn__menu {
+  z-index: 120;
+}
+#nav-agent #agent-dil-range-visual {
+  display: none;
+}
+#nav-agent .r2-col3-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 14px;
+}
+#nav-agent .r2-metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+#nav-agent .r2-metric-item .ac-fact-title,
+#nav-agent .r2-metric-item .ac-fact-value {
+  line-height: 1.25;
+}
+#panel-financials #fin-card .r2-col3-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 14px;
+}
+#panel-financials #fin-card .r2-metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+#panel-financials #fin-card .r2-metric-item .ac-fact-title,
+#panel-financials #fin-card .r2-metric-item .ac-fact-value {
+  line-height: 1.25;
 }
 .r2-hero-input-suffix {
   position: absolute;
