@@ -128,7 +128,6 @@
           <button class="tab-dropdown-item" onclick="selectFinancialsOption(event,'Financial Summary')">Financial Summary</button>
         </div>
       </div>
-      <button class="tab" onclick="switchTab(event)" data-panel="panel-financials">Old</button>
       <button class="tab" onclick="switchTab(event)" data-panel="panel-reference2">Reference 2</button>
       <button class="tab" onclick="switchTab(event)">Risks</button>
       <button class="tab" onclick="switchTab(event)">Approvals</button>
@@ -270,6 +269,24 @@
             </div>
           </div>
 
+        </div>
+
+        <div class="ac-card fin-empty-card" id="fin-empty-card" role="region" aria-label="Additional financial card" hidden>
+          <div class="fin-empty-card__body">
+            <i class="far fa-clone fin-empty-card__icon" aria-hidden="true"></i>
+            <p class="fin-empty-card__title">No content in this card yet</p>
+            <p class="fin-empty-card__text">Use the carousel to navigate additional financial cards when they are available.</p>
+          </div>
+        </div>
+
+        <div class="fin-card-carousel-controls" aria-label="Financial cards carousel controls">
+          <button class="rtb-carousel__arrow" aria-label="Previous card"><i class="fas fa-chevron-left"></i></button>
+          <div class="fin-card-carousel-controls__dots" aria-hidden="true">
+            <span class="rtb-carousel__dot rtb-carousel__dot--active"></span>
+            <span class="rtb-carousel__dot"></span>
+            <span class="rtb-carousel__dot"></span>
+          </div>
+          <button class="rtb-carousel__arrow" aria-label="Next card"><i class="fas fa-chevron-right"></i></button>
         </div>
 
         <!-- Toolbar -->
@@ -2996,6 +3013,64 @@
         grid.style.gridTemplateColumns = show ? '28px 1fr repeat(3, 80px)' : '';
       }
       sel.addEventListener('change', toggleChk);
+    })();
+
+    (function() {
+      var controls = document.querySelector('#panel-financials .fin-card-carousel-controls');
+      var finCard = document.getElementById('fin-card');
+      var emptyCard = document.getElementById('fin-empty-card');
+      if (!controls || !finCard || !emptyCard) return;
+
+      var dots = controls.querySelectorAll('.rtb-carousel__dot');
+      var arrows = controls.querySelectorAll('.rtb-carousel__arrow');
+
+      function setDots(activeIdx) {
+        dots.forEach(function(dot, idx) {
+          dot.classList.toggle('rtb-carousel__dot--active', idx === activeIdx);
+        });
+      }
+
+      function syncEmptyCardHeight() {
+        var h = finCard.getBoundingClientRect().height;
+        if (h > 0) {
+          emptyCard.style.height = h + 'px';
+        }
+      }
+
+      function showDiscountCard() {
+        finCard.classList.remove('fin-card--hidden');
+        emptyCard.hidden = true;
+        setDots(0);
+        syncEmptyCardHeight();
+      }
+
+      function showEmptyCard() {
+        syncEmptyCardHeight();
+        finCard.classList.add('fin-card--hidden');
+        emptyCard.hidden = false;
+        setDots(1);
+      }
+
+      if (arrows[0]) {
+        arrows[0].addEventListener('click', function() {
+          showDiscountCard();
+        });
+      }
+      if (arrows[1]) {
+        arrows[1].addEventListener('click', function() {
+          showEmptyCard();
+        });
+      }
+
+      dots.forEach(function(dot, idx) {
+        dot.addEventListener('click', function() {
+          if (idx === 0) showDiscountCard();
+          else showEmptyCard();
+        });
+      });
+
+      syncEmptyCardHeight();
+      window.addEventListener('resize', syncEmptyCardHeight);
     })();
 
     // --- Split-button & ellipsis-menu: close on outside click ---

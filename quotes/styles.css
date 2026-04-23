@@ -2623,6 +2623,60 @@ input.ac-discount-hero--editable:focus {
 .rtb-carousel__dot--active {
   background: #0f6cbd;
 }
+
+.fin-card-carousel-controls {
+  margin: -2px 24px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #616161;
+}
+.fin-card-carousel-controls__dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.fin-card-carousel-controls .rtb-carousel__arrow {
+  width: 22px;
+  height: 22px;
+}
+
+.fin-card--hidden {
+  display: none;
+}
+.fin-empty-card {
+  margin: 12px 24px;
+}
+.fin-empty-card__body {
+  min-height: 0;
+  height: calc(100% - 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  border: 1px dashed #d1d1d1;
+  border-radius: 6px;
+  margin: 16px;
+  background: #faf9f8;
+}
+.fin-empty-card__icon {
+  font-size: 22px;
+  color: #0f6cbd;
+}
+.fin-empty-card__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #323130;
+}
+.fin-empty-card__text {
+  font-size: 12px;
+  color: #605e5c;
+  max-width: 460px;
+}
+
 .agent-guardrail-warning {
   display: flex;
   align-items: flex-start;
