@@ -3408,8 +3408,10 @@ input.ac-discount-hero--editable:focus {
 }
 #nav-agent .r2-col3-metrics {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px 14px;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+  gap: 14px 18px;
 }
 #nav-agent .r2-metric-item {
   display: flex;
@@ -3422,8 +3424,10 @@ input.ac-discount-hero--editable:focus {
 }
 #panel-financials #fin-card .r2-col3-metrics {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px 14px;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+  gap: 14px 18px;
 }
 #panel-financials #fin-card .r2-metric-item {
   display: flex;
