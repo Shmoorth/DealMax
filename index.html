@@ -232,7 +232,6 @@
                     <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" id="fin-deviation" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span></div>
                     <div class="r2-metric-item"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
                     <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span></div>
-                    <div class="r2-metric-item"><span class="ac-fact-title">Contract stage impact</span><span class="ac-fact-value">None</span></div>
                   </div>
                 </div>
               </div>
@@ -243,7 +242,7 @@
 
             <div style="display:flex;align-items:center;flex-wrap:wrap;gap:24px;margin-top:4px;">
               <div class="ac-actionSet" style="flex-wrap:wrap;gap:8px;margin:0;">
-                <button class="ac-action ac-action--primary" id="fin-btn-simulate" onclick="(function(){ document.querySelectorAll('.sidebar-nav-btn').forEach(function(b){b.classList.remove('sidebar-nav-btn--active');}); var btn=document.getElementById('nav-btn-agent'); if(btn) btn.classList.add('sidebar-nav-btn--active'); document.querySelectorAll('.nav-panel').forEach(function(p){p.classList.remove('nav-panel--active');}); var panel=document.getElementById('nav-agent'); if(panel) panel.classList.add('nav-panel--active'); })()"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate & Apply</button>
+                <button class="ac-action ac-action--primary" id="fin-btn-simulate" onclick="(function(){ document.querySelectorAll('.sidebar-nav-btn').forEach(function(b){b.classList.remove('sidebar-nav-btn--active');}); var btn=document.getElementById('nav-btn-agent'); if(btn) btn.classList.add('sidebar-nav-btn--active'); document.querySelectorAll('.nav-panel').forEach(function(p){p.classList.remove('nav-panel--active');}); var panel=document.getElementById('nav-agent'); if(panel) panel.classList.add('nav-panel--active'); })()"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate</button>
               </div>
 
               <div class="ref-ai-disclaimer" style="margin-top:0;min-width:0;flex:1 1 320px;margin-left:auto;">
@@ -682,6 +681,128 @@
 
         <!-- ===== PANEL: Reference 2 (Discount Simulation â€” PRD Design) ===== -->
         <div id="panel-reference2" class="tab-panel">
+
+          <!-- Cloned Discount Intelligence Card (from Financials tab) -->
+          <div class="ac-card" role="region" aria-label="Discount Recommendation" id="r2fin-card" style="position:relative;">
+
+            <div class="r2-loading-overlay" id="r2fin-loading-overlay">
+              <i class="fas fa-spinner fa-spin"></i>
+              <span>Refreshing recommendationsâ€¦</span>
+            </div>
+
+            <div class="ac-container ac-header">
+              <div class="ac-columnSet ac-header-row">
+                <div class="ac-column ac-column-stretch" style="gap:10px;">
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
+                  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                    <span class="r2-stale-badge r2-stale-badge--fresh" id="r2fin-badge-up-to-date"><i class="fas fa-check-circle"></i> Up to date</span>
+                    <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Last Refreshed: 15 Apr 2026, 09:15 AM</span>
+                  </div>
+                </div>
+                <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
+                  <div class="ref-banner__actions">
+                    <button class="ref-banner__refresh" id="r2fin-btn-reasons" title="Refresh"><i class="fas fa-undo"></i> Refresh</button>
+                    <button class="ref-banner__refresh" title="Offering Details" id="r2fin-btn-refresh"><i class="fas fa-eye"></i> Offering Details</button>
+                  </div>
+                  <div class="ellipsis-menu">
+                    <button class="ac-action ac-action--icon" title="More options" aria-label="More options" onclick="this.nextElementSibling.classList.toggle('is-open')"><i class="fas fa-ellipsis-h"></i></button>
+                    <div class="ellipsis-menu__dropdown">
+                      <button class="split-btn__menu-item"><i class="fas fa-graduation-cap"></i> Help</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ac-container ac-body">
+              <div class="ac-columnSet">
+
+                <div class="ac-column ac-column-auto">
+                  <div class="ac-container ac-discount-block">
+                    <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:4px;">
+                      <span class="ac-textBlock ac-textBlock--default ac-weight--bolder" style="text-align:left;padding-top:8px;">Discount %</span>
+                      <div class="r2-hero-input-wrap">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                          <div class="r2-hero-input-container">
+                            <input type="text" id="r2fin-discount-input" class="r2-hero-input" value="15.25" inputmode="decimal">
+                            <span class="r2-hero-input-suffix">%</span>
+                          </div>
+                          <button class="r2-revert-btn" id="r2fin-revert-btn" title="Reset to recommended" onclick="if(window.resetR2FinSlider){window.resetR2FinSlider();}" aria-label="Reset to recommended"><svg class="fluent-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.78033 2.71967C7.07322 3.01256 7.07322 3.48744 6.78033 3.78033L4.56066 6H13.25C17.5302 6 21 9.46979 21 13.75C21 18.0302 17.5302 21.5 13.25 21.5C8.96979 21.5 5.5 18.0302 5.5 13.75C5.5 13.3358 5.83579 13 6.25 13C6.66421 13 7 13.3358 7 13.75C7 17.2018 9.79822 20 13.25 20C16.7018 20 19.5 17.2018 19.5 13.75C19.5 10.2982 16.7018 7.5 13.25 7.5H4.56066L6.78033 9.71967C7.07322 10.0126 7.07322 10.4874 6.78033 10.7803C6.48744 11.0732 6.01256 11.0732 5.71967 10.7803L2.21967 7.28033C1.92678 6.98744 1.92678 6.51256 2.21967 6.21967L5.71967 2.71967C6.01256 2.42678 6.48744 2.42678 6.78033 2.71967Z" fill="currentColor"/></svg></button>
+                        </div>
+                        <span class="fin-input-error" id="r2fin-input-error">Current value is beyond Max. Discount.</span>
+                        <div class="r2fin-inline-actions">
+                          <button type="button" class="r2fin-reset-link" id="r2fin-reset-link" onclick="if(window.resetR2FinSlider){window.resetR2FinSlider();}" aria-label="Reset to recommended"><i class="fas fa-undo" aria-hidden="true"></i> Reset</button>
+                          <button type="button" class="r2fin-reset-link r2fin-apply-link" id="r2fin-apply-link" aria-label="Apply discount"><i class="fas fa-check" aria-hidden="true"></i> Apply</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="r2-range-visual" id="r2fin-range-visual">
+                      <div class="static-range-bar" id="r2fin-range-bar">
+                        <div class="static-range-track">
+                          <div class="static-range-fill" id="r2fin-range-fill"></div>
+                          <div class="static-range-fill-error" id="r2fin-range-fill-error"></div>
+                          <div class="static-range-marker static-range-marker--rec" id="r2fin-rec-marker" title="Recommended: 15.25%"></div>
+                          <div class="static-range-marker static-range-marker--max" id="r2fin-max-marker" title="Max: 24.20%"></div>
+                          <div class="static-range-marker static-range-marker--current" id="r2fin-current-marker" title="Current: 15.25%"></div>
+                        </div>
+                      </div>
+                      <div class="r2-range-labels" id="r2fin-range-labels">
+                        <span id="r2fin-range-min-label">Min<br>12.00%</span>
+                        <span id="r2fin-range-max-label">Max Limit<br>24.20%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ac-separator ac-separator--vertical" style="margin-left:16px;"></div>
+
+                <div class="ac-column ac-column-stretch">
+                  <div class="ac-container">
+                    <div class="r2-col3-metrics">
+                      <div class="r2-metric-item"><span class="ac-fact-title">Recommended Discount</span><span class="ac-fact-value">15.25 %</span></div>
+                      <div class="r2-metric-item"><span class="ac-fact-title">Min Discount</span><span class="ac-fact-value">12.0 %</span></div>
+                      <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" id="r2fin-deviation" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span></div>
+                      <div class="r2-metric-item"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
+                      <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value"><i class="fas fa-arrow-down" style="font-size:11px;"></i> <a href="#" class="r2fin-impact-trigger" id="r2fin-impact-trigger">Reduced approval effort</a></span></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <hr style="border:none;border-top:1px solid #e1dfdd;margin:6px 0 0 0;">
+
+              <div style="display:flex;align-items:center;flex-wrap:wrap;gap:24px;margin-top:4px;">
+                <div class="ac-actionSet" style="flex-wrap:wrap;gap:8px;margin:0;">
+                  <button class="ac-action ac-action--primary" id="r2fin-btn-simulate"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate</button>
+                </div>
+
+                <div class="ref-ai-disclaimer" style="margin-top:0;min-width:0;flex:1 1 320px;margin-left:auto;">
+                  <span class="ref-ai-disclaimer__text" id="r2fin-disclaimer-text" title="Applying 15.25% recommended discount reduces approval from Green (Seller Manager) to Blue Empowerment. Financial locking and editing rules will be honored.">Applying <strong class="disclaimer-pct">15.25%</strong> recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
+                  <div class="ref-ai-disclaimer__feedback">
+                    <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
+                    <button class="ref-ai-disclaimer__btn" title="Not helpful" id="r2fin-btn-thumbs-down"><i class="far fa-thumbs-down"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="r2-feedback-overlay" id="r2fin-feedback-overlay">
+              <div class="r2-feedback-overlay-card">
+                <div class="r2-feedback-overlay-header">
+                  <span><i class="far fa-thumbs-down" style="margin-right:6px;"></i>What went wrong?</span>
+                  <button class="r2-feedback-overlay-close" id="r2fin-feedback-overlay-close" title="Close"><i class="fas fa-times"></i></button>
+                </div>
+                <textarea class="r2-feedback-textarea" id="r2fin-feedback-textarea" placeholder="Tell us what could be improvedâ€¦" rows="3"></textarea>
+                <p class="r2-feedback-disclaimer"><i class="fas fa-info-circle"></i> Feedback is tied to recommendation ID DM-2026-04-A123456 and used to improve model quality.</p>
+                <div class="r2-feedback-overlay-actions">
+                  <button class="ac-action ac-action--primary" id="r2fin-feedback-submit">Submit</button>
+                  <button class="ac-action ac-action--secondary" id="r2fin-feedback-cancel">Cancel</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
 
           <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                SECTION 1 â€” Deal-Level Discount Recommendation
@@ -1373,13 +1494,10 @@
                 <div class="ac-container ac-header">
                   <div class="ac-columnSet ac-header-row">
                     <div class="ac-column ac-column-stretch" style="gap:10px;">
-                      <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
+                      <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">DealMax Discount Recommendation</span>
                       <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
                     </div>
                     <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
-                      <div class="ref-banner__actions">
-                        <button class="ref-banner__refresh" title="Refresh" id="agent-dil-btn-refresh"><i class="fas fa-undo"></i> Refresh</button>
-                      </div>
                       <div class="ellipsis-menu">
                         <button class="ac-action ac-action--icon" title="More options" aria-label="More options" onclick="this.nextElementSibling.classList.toggle('is-open')"><i class="fas fa-ellipsis-h"></i></button>
                         <div class="ellipsis-menu__dropdown">
@@ -1437,7 +1555,6 @@
                           <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span></div>
                           <div class="r2-metric-item"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
                           <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span></div>
-                          <div class="r2-metric-item"><span class="ac-fact-title">Contract stage impact</span><span class="ac-fact-value">None</span></div>
                         </div>
                       </div>
                     </div>
@@ -1449,7 +1566,7 @@
                     <span class="ref-ai-disclaimer__text" id="agent-dil-disclaimer-text">Applying <strong class="disclaimer-pct">15.25%</strong> recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
                   </div>
                   <div class="agent-card__actions" style="margin-top:12px;">
-                    <button class="agent-card__btn agent-card__btn--primary" id="agent-dil-btn-apply"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Simulate & Apply</button>
+                    <button class="agent-card__btn agent-card__btn--primary" id="agent-dil-btn-apply"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Simulate</button>
                     <button class="agent-card__btn agent-card__btn--secondary" id="agent-dil-btn-offering-level" style="padding-left:12px;"><svg class="fluent-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="margin-right:6px;vertical-align:-2px;"><path d="M4 4.25C4 3.00736 5.00736 2 6.25 2H10.6312C11.2279 2 11.8002 2.23705 12.2221 2.65901L16.841 7.27786C17.2629 7.69981 17.5 8.27211 17.5 8.86885V17.25C17.5 18.4926 16.4926 19.5 15.25 19.5H6.25C5.00736 19.5 4 18.4926 4 17.25V4.25ZM6.25 3.5C5.83579 3.5 5.5 3.83579 5.5 4.25V17.25C5.5 17.6642 5.83579 18 6.25 18H15.25C15.6642 18 16 17.6642 16 17.25V8.99753H12.7539C11.5113 8.99753 10.5039 7.99017 10.5039 6.74753V3.5H6.25ZM12.0039 4.56209V6.74753C12.0039 7.16174 12.3397 7.49753 12.7539 7.49753H14.9393L12.0039 4.56209Z" fill="currentColor"/><path d="M6.62891 20.5C6.93778 21.3739 7.77121 22 8.75088 22H15.2509C17.8742 22 20.0009 19.8734 20.0009 17.25V11.3689C20.0009 10.7721 19.7638 10.1998 19.3419 9.77788L18.5009 8.93689V17.25C18.5009 19.0449 17.0458 20.5 15.2509 20.5H6.62891Z" fill="currentColor"/></svg> Offering Level Discount</button>
                   </div>
                 </div>
@@ -1954,6 +2071,64 @@
     </div>
   </aside>
 
+  <!-- Fluent 2 Drawer - Approval Impact (medium 600px) -->
+  <div class="fui-drawer-overlay" id="approval-drawer-overlay" aria-hidden="true"></div>
+  <aside class="fui-drawer fui-drawer--medium" id="approval-drawer" role="dialog" aria-label="Approval Impact" aria-hidden="true">
+    <div class="fui-drawer__header">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <i class="fas fa-shield-alt" style="color:#0f6cbd;font-size:16px;"></i>
+        <h2 class="fui-drawer__title">Approval Impact</h2>
+      </div>
+      <button class="fui-drawer__close" id="approval-drawer-close" aria-label="Close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="fui-drawer__body">
+      <p style="margin:0 0 16px 0;color:#616161;font-size:13px;">Applying the recommended <strong>15.25%</strong> discount on Quote A123456 reduces the approval level required.</p>
+
+      <div style="margin-bottom:20px;">
+        <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder" style="display:block;margin-bottom:12px;">Approval Path Comparison</span>
+        <div class="r2-approval-path">
+          <div class="r2-approval-step">
+            <span class="r2-approval-step__label">Current</span>
+            <div class="r2-approval-step__levels">
+              <span class="r2-approval-pill r2-approval-pill--green">Green</span>
+              <i class="fas fa-arrow-right" style="color:#a19f9d;font-size:10px;"></i>
+              <span style="font-size:12px;color:#323130;">Seller Manager Approval</span>
+            </div>
+          </div>
+          <div class="r2-approval-arrow"><i class="fas fa-long-arrow-alt-down" style="color:#107c10;font-size:18px;"></i></div>
+          <div class="r2-approval-step">
+            <span class="r2-approval-step__label">Recommended (15.25%)</span>
+            <div class="r2-approval-step__levels">
+              <span class="r2-approval-pill r2-approval-pill--blue">Blue</span>
+              <i class="fas fa-arrow-right" style="color:#a19f9d;font-size:10px;"></i>
+              <span style="font-size:12px;color:#323130;">Empowerment (reduced)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span class="ac-textBlock ac-textBlock--medium ac-weight--bolder" style="display:block;margin-bottom:12px;">Approval Optimization</span>
+        <div class="r2-optimization-box">
+          <div class="r2-optimization-row">
+            <i class="fas fa-bolt" style="color:#ca5010;"></i>
+            <div>
+              <span class="ac-textBlock ac-textBlock--default ac-weight--bolder">Low-Risk Deal Cohort</span>
+              <span class="ac-textBlock ac-textBlock--small ac-color--subtle">Deal falls within safe discount band. Eligible for reduced approval or auto-approval.</span>
+            </div>
+          </div>
+          <div class="r2-optimization-status">
+            <span class="r2-status-indicator r2-status-indicator--eligible"><i class="fas fa-check"></i> Eligible for reduced approval</span>
+          </div>
+          <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="margin-top:4px;font-style:italic;">Financial locking and editing rules will be honored.</span>
+        </div>
+      </div>
+    </div>
+    <div class="fui-drawer__footer">
+      <button class="fui-btn fui-btn--secondary" id="approval-drawer-close-btn">Close</button>
+    </div>
+  </aside>
+
   <!-- Fluent 2 Drawer - Offering Group Distribution (medium 600px) -->
   <div class="fui-drawer-overlay" id="offerings-drawer-overlay" aria-hidden="true"></div>
   <aside class="fui-drawer fui-drawer--medium" id="offerings-drawer" role="dialog" aria-label="Offering Group Distribution" aria-hidden="true">
@@ -2346,6 +2521,32 @@
     if (reasonsClose) reasonsClose.addEventListener('click', closeReasonsDrawer);
     if (reasonsCloseBtn) reasonsCloseBtn.addEventListener('click', closeReasonsDrawer);
     if (reasonsOverlay) reasonsOverlay.addEventListener('click', closeReasonsDrawer);
+
+    // --- Approval Impact Drawer ---
+    var approvalDrawer = document.getElementById('approval-drawer');
+    var approvalOverlay = document.getElementById('approval-drawer-overlay');
+    var approvalClose = document.getElementById('approval-drawer-close');
+    var approvalCloseBtn = document.getElementById('approval-drawer-close-btn');
+    function openApprovalDrawer(e) {
+      if (e) e.preventDefault();
+      if (!approvalDrawer) return;
+      approvalDrawer.classList.add('fui-drawer--open');
+      approvalOverlay.classList.add('fui-drawer-overlay--visible');
+      approvalDrawer.setAttribute('aria-hidden', 'false');
+      approvalOverlay.setAttribute('aria-hidden', 'false');
+    }
+    function closeApprovalDrawer() {
+      if (!approvalDrawer) return;
+      approvalDrawer.classList.remove('fui-drawer--open');
+      approvalOverlay.classList.remove('fui-drawer-overlay--visible');
+      approvalDrawer.setAttribute('aria-hidden', 'true');
+      approvalOverlay.setAttribute('aria-hidden', 'true');
+    }
+    var impactTrigger = document.getElementById('r2fin-impact-trigger');
+    if (impactTrigger) impactTrigger.addEventListener('click', openApprovalDrawer);
+    if (approvalClose) approvalClose.addEventListener('click', closeApprovalDrawer);
+    if (approvalCloseBtn) approvalCloseBtn.addEventListener('click', closeApprovalDrawer);
+    if (approvalOverlay) approvalOverlay.addEventListener('click', closeApprovalDrawer);
 
     // --- Offerings Drawer ---
     var offeringsDrawer = document.getElementById('offerings-drawer');
@@ -2979,6 +3180,196 @@
       }
     })();
 
+    // === Reference 2 panel: cloned Discount Intelligence card (independent) ===
+    (function() {
+      var fill = document.getElementById('r2fin-range-fill');
+      var fillError = document.getElementById('r2fin-range-fill-error');
+      var recMarker = document.getElementById('r2fin-rec-marker');
+      var maxMarker = document.getElementById('r2fin-max-marker');
+      var currentMarker = document.getElementById('r2fin-current-marker');
+      var input = document.getElementById('r2fin-discount-input');
+      var devEl = document.getElementById('r2fin-deviation');
+      var errorEl = document.getElementById('r2fin-input-error');
+      var simulateBtn = document.getElementById('r2fin-btn-simulate');
+      var labelsEl = document.getElementById('r2fin-range-labels');
+      if (!fill || !input) return;
+
+      var RECOMMENDED = 15.25, MIN_DISC = 12.0, MAX_DISC = 24.2, BUTTON_DISABLE_THRESHOLD = 24.5, DEAL_VALUE = 3000000;
+
+      function fmt(v) { return v.toFixed(2); }
+      function pct(v) { return ((v - MIN_DISC) / (MAX_DISC - MIN_DISC)) * 100; }
+      function pctExtended(v, extMax) { return ((v - MIN_DISC) / (extMax - MIN_DISC)) * 100; }
+
+      function setActionsDisabled(disabled) {
+        if (!simulateBtn) return;
+        simulateBtn.disabled = disabled;
+        simulateBtn.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+      }
+
+      function setError(show, rawVal) {
+        if (show) {
+          input.classList.add('r2-hero-input--error');
+          if (errorEl) errorEl.classList.add('is-visible');
+          if (currentMarker) currentMarker.classList.add('is-error');
+        } else {
+          input.classList.remove('r2-hero-input--error');
+          if (errorEl) errorEl.classList.remove('is-visible');
+          if (currentMarker) currentMarker.classList.remove('is-error');
+        }
+        var effectiveVal = typeof rawVal === 'number' && !isNaN(rawVal) ? rawVal : parseFloat(input.value);
+        setActionsDisabled(effectiveVal > BUTTON_DISABLE_THRESHOLD);
+      }
+
+      function updateAll(v) {
+        var isOver = v > MAX_DISC;
+        var diff = v - RECOMMENDED;
+        var dollar = Math.abs(Math.round(diff / 100 * DEAL_VALUE));
+
+        if (isOver) {
+          var extMax = v + (v - MIN_DISC) * 0.15;
+          var recPct = pctExtended(RECOMMENDED, extMax);
+          var maxPct = pctExtended(MAX_DISC, extMax);
+          var curPct = pctExtended(v, extMax);
+
+          fill.style.width = maxPct + '%';
+          if (fillError) {
+            fillError.style.left = maxPct + '%';
+            fillError.style.width = (curPct - maxPct) + '%';
+            fillError.style.display = '';
+          }
+          if (recMarker) recMarker.style.left = recPct + '%';
+          if (maxMarker) maxMarker.style.left = maxPct + '%';
+          if (currentMarker) { currentMarker.style.left = curPct + '%'; currentMarker.classList.add('is-error'); currentMarker.style.display = ''; }
+          if (labelsEl) {
+            labelsEl.innerHTML = '<span style="position:absolute;left:0;">Min<br>' + fmt(MIN_DISC) + '%</span>' +
+              '<span style="position:absolute;left:' + maxPct + '%;transform:translateX(-50%);">Max Limit<br>' + fmt(MAX_DISC) + '%</span>' +
+              '<span style="position:absolute;left:' + curPct + '%;transform:translateX(-50%);color:#d13438;font-weight:600;">Current<br>' + fmt(v) + '%</span>';
+            labelsEl.style.position = 'relative';
+            labelsEl.style.height = '32px';
+            labelsEl.style.justifyContent = '';
+          }
+        } else {
+          var p = pct(v);
+          fill.style.width = p + '%';
+          if (fillError) { fillError.style.width = '0'; fillError.style.display = 'none'; }
+          if (recMarker) recMarker.style.left = pct(RECOMMENDED) + '%';
+          if (maxMarker) maxMarker.style.left = '100%';
+          if (currentMarker) { currentMarker.style.display = 'none'; currentMarker.classList.remove('is-error'); }
+          if (labelsEl) {
+            labelsEl.innerHTML = '<span>Min<br>' + fmt(MIN_DISC) + '%</span><span>Max Limit<br>' + fmt(MAX_DISC) + '%</span>';
+            labelsEl.style.position = '';
+            labelsEl.style.height = '';
+            labelsEl.style.justifyContent = 'space-between';
+          }
+        }
+
+        if (devEl) {
+          devEl.textContent = (diff >= 0 ? '+' : '') + fmt(diff) + ' %  ($' + dollar.toLocaleString() + ')';
+          devEl.style.color = Math.abs(diff) < 0.01 ? '#107c10' : diff > 0 ? '#d13438' : '#ca5010';
+        }
+      }
+
+      function resetToDefault() {
+        input.value = fmt(RECOMMENDED);
+        setError(false);
+        updateAll(RECOMMENDED);
+      }
+
+      input.addEventListener('input', function() {
+        var raw = input.value.replace(/[^0-9.]/g, '');
+        var v = parseFloat(raw);
+        if (isNaN(v)) return;
+        if (v > MAX_DISC) {
+          setError(true, v);
+          updateAll(v);
+          return;
+        }
+        setError(false);
+        if (v < MIN_DISC) v = MIN_DISC;
+        updateAll(v);
+      });
+
+      input.addEventListener('blur', function() {
+        var v = parseFloat(input.value.replace(/[^0-9.]/g, ''));
+        if (isNaN(v) || v < MIN_DISC) v = MIN_DISC;
+        if (v > MAX_DISC) {
+          setError(true, v);
+          input.value = fmt(v);
+          updateAll(v);
+          return;
+        }
+        setError(false);
+        input.value = fmt(v);
+        updateAll(v);
+      });
+
+      setActionsDisabled(false);
+      updateAll(RECOMMENDED);
+
+      window.resetR2FinSlider = resetToDefault;
+
+      // Disable Reset/Apply links until input value differs from RECOMMENDED
+      var resetLink = document.getElementById('r2fin-reset-link');
+      var applyLink = document.getElementById('r2fin-apply-link');
+      function syncDirtyState() {
+        var v = parseFloat((input.value || '').replace(/[^0-9.]/g, ''));
+        var dirty = !isNaN(v) && Math.abs(v - RECOMMENDED) > 0.0001;
+        [resetLink, applyLink].forEach(function(btn) {
+          if (!btn) return;
+          btn.disabled = !dirty;
+          btn.setAttribute('aria-disabled', dirty ? 'false' : 'true');
+        });
+      }
+      input.addEventListener('input', syncDirtyState);
+      input.addEventListener('blur', syncDirtyState);
+      // Wrap reset to refresh dirty state after reset
+      var origReset = resetToDefault;
+      window.resetR2FinSlider = function() { origReset(); syncDirtyState(); };
+      if (resetLink) resetLink.onclick = function() { window.resetR2FinSlider(); };
+      syncDirtyState();
+
+      function runRefresh() {
+        var overlay = document.getElementById('r2fin-loading-overlay');
+        if (!overlay) { resetToDefault(); return; }
+        overlay.classList.add('active');
+        setTimeout(function() {
+          resetToDefault();
+          overlay.classList.remove('active');
+        }, 1500);
+      }
+
+      var refreshBtn = document.getElementById('r2fin-btn-reasons');
+      if (refreshBtn) refreshBtn.addEventListener('click', runRefresh);
+
+      var viewOfferingBtn = document.getElementById('r2fin-btn-refresh');
+      if (viewOfferingBtn) {
+        viewOfferingBtn.addEventListener('click', function() {
+          if (typeof openOfferingsDrawer === 'function') openOfferingsDrawer();
+        });
+      }
+
+      // Thumbs-down feedback overlay (independent)
+      var thumbsDown = document.getElementById('r2fin-btn-thumbs-down');
+      var fbOverlay = document.getElementById('r2fin-feedback-overlay');
+      var fbClose = document.getElementById('r2fin-feedback-overlay-close');
+      var fbCancel = document.getElementById('r2fin-feedback-cancel');
+      var fbSubmit = document.getElementById('r2fin-feedback-submit');
+      var fbTextarea = document.getElementById('r2fin-feedback-textarea');
+      function closeFb() {
+        if (fbOverlay) fbOverlay.classList.remove('active');
+        if (fbTextarea) fbTextarea.value = '';
+      }
+      if (thumbsDown && fbOverlay) {
+        thumbsDown.addEventListener('click', function() {
+          fbOverlay.classList.add('active');
+          if (fbTextarea) fbTextarea.focus();
+        });
+      }
+      if (fbClose) fbClose.addEventListener('click', closeFb);
+      if (fbCancel) fbCancel.addEventListener('click', closeFb);
+      if (fbSubmit) fbSubmit.addEventListener('click', closeFb);
+    })();
+
     // === Agent DIL Discount Intelligence range bar ===
     (function() {
       var fill = document.getElementById('agent-dil-range-fill');
@@ -3534,6 +3925,17 @@
         if (!m.parentElement.contains(e.target)) m.classList.remove('is-open');
       });
     });
+
+    // Reference 2: swap order of 2nd card (Discount Recommendation #r2-card) and 3rd card (Reasons to Believe)
+    (function(){
+      var panel = document.getElementById('panel-reference2');
+      if (!panel) return;
+      var r2Card = panel.querySelector('#r2-card');
+      var reasonsCard = panel.querySelector('.ac-card[aria-label="Reasons to Believe"]');
+      if (r2Card && reasonsCard && r2Card.compareDocumentPosition(reasonsCard) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        r2Card.parentNode.insertBefore(reasonsCard, r2Card);
+      }
+    })();
 
   </script>
 </body>

@@ -3255,7 +3255,98 @@ input.ac-discount-hero--editable:focus {
   border-color: #d13438;
 }
 
-#panel-financials #fin-card #fin-range-visual {
+#panel-financials #fin-card #fin-range-visual,
+#panel-reference2 #r2fin-card #r2fin-range-visual {
+  display: none;
+}
+
+/* Reference 2 cloned card: small text Reset button below the input, right-aligned */
+#panel-reference2 #r2fin-card .r2-hero-input-wrap {
+  gap: 0;
+  margin: 2px 0 0;
+}
+#panel-reference2 #r2fin-card .fin-input-error {
+  min-height: 0;
+  line-height: 0;
+  margin-top: 0;
+}
+#panel-reference2 #r2fin-card .fin-input-error.is-visible {
+  min-height: 16px;
+  line-height: 16px;
+  margin-top: 4px;
+}
+#panel-reference2 #r2fin-card .r2fin-inline-actions {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+#panel-reference2 #r2fin-card .r2fin-reset-link {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  padding: 0 4px;
+  margin-top: 2px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0f6cbd;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+#panel-reference2 #r2fin-card .r2fin-reset-link:hover {
+  background: #f0f6ff;
+  text-decoration: underline;
+}
+#panel-reference2 #r2fin-card .r2fin-reset-link:focus-visible {
+  outline: 2px solid #0f6cbd;
+  outline-offset: 1px;
+}
+#panel-reference2 #r2fin-card .r2fin-reset-link:disabled,
+#panel-reference2 #r2fin-card .r2fin-reset-link[aria-disabled="true"] {
+  color: #a19f9d;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: none;
+  text-decoration: none;
+}
+#panel-reference2 #r2fin-card .r2fin-impact-link-wrap {
+  display: block;
+  /* Indent so the link aligns with the start of the "Reduced approval effort" text,
+     i.e. past the down-arrow icon (~11px font + 4px space). */
+  padding-left: 16px;
+  margin-top: -2px;
+  line-height: 1;
+}
+#panel-reference2 #r2fin-card .r2fin-impact-link {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0f6cbd;
+  text-decoration: none;
+}
+#panel-reference2 #r2fin-card .r2fin-impact-link:hover {
+  text-decoration: underline;
+}
+#panel-reference2 #r2fin-card .r2fin-impact-trigger {
+  color: #0f6cbd;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: inherit;
+}
+#panel-reference2 #r2fin-card .r2fin-impact-trigger:hover,
+#panel-reference2 #r2fin-card .r2fin-impact-trigger:focus-visible {
+  text-decoration: underline;
+}
+/* Hide the icon-only revert button on the cloned card in favor of the text reset link */
+#panel-reference2 #r2fin-card #r2fin-revert-btn {
   display: none;
 }
 
@@ -3346,28 +3437,38 @@ input.ac-discount-hero--editable:focus {
 .fin-input-error.is-visible {
   visibility: visible;
 }
-#panel-financials #fin-card .ac-header {
+#panel-financials #fin-card .ac-header,
+#panel-reference2 #r2fin-card .ac-header {
   padding: 6px 14px;
 }
-#panel-financials #fin-card {
+#panel-financials #fin-card,
+#panel-reference2 #r2fin-card {
   overflow: visible;
 }
-#panel-financials #fin-card .ac-body {
+#panel-financials #fin-card .ac-body,
+#panel-reference2 #r2fin-card .ac-body {
   padding: 8px 14px 6px;
 }
-#panel-financials #fin-card .ac-columnSet {
+#panel-reference2 #r2fin-card .ac-body {
+  padding-top: 14px;
+}
+#panel-financials #fin-card .ac-columnSet,
+#panel-reference2 #r2fin-card .ac-columnSet {
   gap: 14px;
 }
-#panel-financials #fin-card .r2-hero-input-wrap {
+#panel-financials #fin-card .r2-hero-input-wrap,
+#panel-reference2 #r2fin-card .r2-hero-input-wrap {
   margin: 2px 0 4px;
 }
-#panel-financials #fin-card .ac-actionSet {
+#panel-financials #fin-card .ac-actionSet,
+#panel-reference2 #r2fin-card .ac-actionSet {
   margin-top: 8px;
   position: relative;
   z-index: 40;
   overflow: visible;
 }
-#panel-financials #fin-card .ref-ai-disclaimer {
+#panel-financials #fin-card .ref-ai-disclaimer,
+#panel-reference2 #r2fin-card .ref-ai-disclaimer {
   margin-top: 0;
   margin-left: auto;
   width: auto;
@@ -3376,7 +3477,8 @@ input.ac-discount-hero--editable:focus {
   min-width: 0;
   flex: 1 1 320px;
 }
-#panel-financials #fin-card .ref-ai-disclaimer__text {
+#panel-financials #fin-card .ref-ai-disclaimer__text,
+#panel-reference2 #r2fin-card .ref-ai-disclaimer__text {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3386,20 +3488,35 @@ input.ac-discount-hero--editable:focus {
   min-width: 0;
   flex: 1 1 auto;
 }
-#panel-financials #fin-card .ref-ai-disclaimer__feedback {
+#panel-financials #fin-card .ref-ai-disclaimer__feedback,
+#panel-reference2 #r2fin-card .ref-ai-disclaimer__feedback {
   margin-left: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
 }
-#panel-financials #fin-card .split-btn {
+#panel-financials #fin-card:hover .ref-ai-disclaimer__feedback,
+#panel-financials #fin-card:focus-within .ref-ai-disclaimer__feedback,
+#panel-reference2 #r2fin-card:hover .ref-ai-disclaimer__feedback,
+#panel-reference2 #r2fin-card:focus-within .ref-ai-disclaimer__feedback {
+  opacity: 1;
+  visibility: visible;
+}
+#panel-financials #fin-card .split-btn,
+#panel-reference2 #r2fin-card .split-btn {
   position: relative;
   z-index: 60;
 }
-#panel-financials #fin-card .split-btn__menu {
+#panel-financials #fin-card .split-btn__menu,
+#panel-reference2 #r2fin-card .split-btn__menu {
   z-index: 120;
 }
-#panel-financials #fin-card .ref-banner__actions {
+#panel-financials #fin-card .ref-banner__actions,
+#panel-reference2 #r2fin-card .ref-banner__actions {
   gap: 0;
 }
-#panel-financials #fin-card .ref-banner__refresh {
+#panel-financials #fin-card .ref-banner__refresh,
+#panel-reference2 #r2fin-card .ref-banner__refresh {
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -3422,20 +3539,24 @@ input.ac-discount-hero--editable:focus {
 #nav-agent .r2-metric-item .ac-fact-value {
   line-height: 1.25;
 }
-#panel-financials #fin-card .r2-col3-metrics {
+#panel-financials #fin-card .r2-col3-metrics,
+#panel-reference2 #r2fin-card .r2-col3-metrics {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr;
   grid-template-rows: repeat(2, auto);
   grid-auto-flow: column;
   gap: 14px 18px;
 }
-#panel-financials #fin-card .r2-metric-item {
+#panel-financials #fin-card .r2-metric-item,
+#panel-reference2 #r2fin-card .r2-metric-item {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 #panel-financials #fin-card .r2-metric-item .ac-fact-title,
-#panel-financials #fin-card .r2-metric-item .ac-fact-value {
+#panel-financials #fin-card .r2-metric-item .ac-fact-value,
+#panel-reference2 #r2fin-card .r2-metric-item .ac-fact-title,
+#panel-reference2 #r2fin-card .r2-metric-item .ac-fact-value {
   line-height: 1.25;
 }
 .r2-hero-input-suffix {
