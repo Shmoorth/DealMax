@@ -1,0 +1,10 @@
+name: Access control list
+description: List of users and teams and their permission levels
+resource: repository
+where:
+configuration:
+  manageAccess:
+  - team: dealmaxsquad
+    role: Write
+  - member: brmann
+    role: Maintain
