@@ -128,6 +128,7 @@
           <button class="tab-dropdown-item" onclick="selectFinancialsOption(event,'Financial Summary')">Financial Summary</button>
         </div>
       </div>
+      <button class="tab" onclick="switchTab(event)" data-panel="panel-option2">Option 2</button>
       <button class="tab" onclick="switchTab(event)" data-panel="panel-reference2">Reference 2</button>
       <button class="tab" onclick="switchTab(event)">Risks</button>
       <button class="tab" onclick="switchTab(event)">Approvals</button>
@@ -473,6 +474,241 @@
         </div>
 
         </div><!-- /panel-financials -->
+
+        <!-- ===== PANEL: Option 2 (Copy of Financials) ===== -->
+        <div id="panel-option2" class="tab-panel">
+
+        <!-- Discount Recommendation Card -->
+        <div class="ac-card" role="region" aria-label="Discount Recommendation" id="opt2-card" style="position:relative;">
+
+          <div class="ac-container ac-header">
+            <div class="ac-columnSet ac-header-row">
+              <div class="ac-column ac-column-stretch" style="gap:4px;">
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
+                  <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
+                </div>
+                <span class="ac-textBlock ac-textBlock--small ac-color--subtle">As of 11:00 PM 04-Apr-2023</span>
+              </div>
+              <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
+                <div class="ref-banner__actions">
+                  <button class="ref-banner__refresh" title="Refresh"><i class="fas fa-undo"></i> Refresh</button>
+                  <button class="ref-banner__refresh" title="Offering Details" onclick="if(typeof openOfferingsDrawer==='function') openOfferingsDrawer()"><i class="fas fa-eye"></i> Offering Details</button>
+                </div>
+                <div class="ellipsis-menu">
+                  <button class="ac-action ac-action--icon" title="More options" aria-label="More options" onclick="this.nextElementSibling.classList.toggle('is-open')"><i class="fas fa-ellipsis-h"></i></button>
+                  <div class="ellipsis-menu__dropdown">
+                    <button class="split-btn__menu-item"><i class="fas fa-graduation-cap"></i> Help</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr style="border:none;border-top:1px solid #e1dfdd;margin:0;">
+
+          <div class="ac-container ac-body">
+            <div style="margin-bottom:12px;">
+              <span class="ac-textBlock ac-textBlock--small ac-color--subtle">Recommended Discount</span>
+              <div style="font-size:32px;font-weight:700;color:#242424;line-height:1.2;">11.20%</div>
+            </div>
+
+            <div class="r2-col3-metrics">
+              <div class="r2-metric-item"><span class="ac-fact-title">Min. Discount</span><span class="ac-fact-value">10.02%</span></div>
+              <div class="r2-metric-item"><span class="ac-fact-title">Max. Discount</span><span class="ac-fact-value">15.25%</span></div>
+              <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value">+0.00%</span></div>
+              <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value">Reduced Approval effort</span></div>
+              <div style="border-left:1px solid #e1dfdd;height:auto;align-self:stretch;margin:0 0 0 0;"></div>
+              <div class="r2-metric-item" style="border-left:none;padding-left:24px;flex:1;"><span class="ac-fact-value" style="font-size:12px;color:#616161;font-weight:400;white-space:normal;line-height:1.5;">Applying 15.25% recommended discount reduces approval from Green (Seller Manager) to Blue Empowerment. Financial locking and editing rules will be honored.</span></div>
+            </div>
+
+            <hr style="border:none;border-top:1px solid #e1dfdd;margin:16px 0 12px 0;">
+
+            <div class="ac-actionSet" style="flex-wrap:wrap;gap:12px;margin:0;">
+              <button class="ac-action ac-action--primary"><i class="fas fa-robot" style="margin-right:6px;font-size:12px;"></i> Simulate Financials</button>
+              <button class="ac-action ac-action--secondary" style="border:none;background:none;color:#0f6cbd;font-weight:600;padding:8px 12px;"><i class="fas fa-robot" style="margin-right:6px;font-size:12px;"></i> Simulate Approval Impact</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <button class="toolbar-btn toolbar-btn-primary"><i class="fas fa-plus-circle"></i> Add Packages <i class="fas fa-chevron-down"></i></button>
+            <button class="toolbar-btn"><i class="fas fa-file-export"></i> Export</button>
+            <button class="toolbar-btn" disabled><i class="far fa-copy"></i> Copy Packages</button>
+            <button class="toolbar-btn" disabled><i class="far fa-calendar-alt"></i> Dates</button>
+            <button class="toolbar-btn" disabled><i class="fas fa-globe"></i> Geo</button>
+            <button class="toolbar-btn" disabled><i class="far fa-trash-alt"></i> Delete Package</button>
+          </div>
+          <div class="toolbar-right">
+            <button class="toolbar-btn"><i class="fas fa-pencil-alt"></i> Open modeling view</button>
+            <button class="toolbar-btn"><i class="fas fa-filter"></i> Filter</button>
+          </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="table-container">
+          <table class="data-table data-table--responsive">
+            <thead>
+              <tr>
+                <th class="col-pkg-name">Package Name (6)</th>
+                <th class="col-actions">Actions</th>
+                <th class="col-date">Start Date</th>
+                <th class="col-date">End Date</th>
+                <th class="col-money">Customer Price (USD)</th>
+                <th class="col-money">Revenue (USD)</th>
+                <th class="col-money">Delivery Cost (USD)</th>
+                <th class="col-percent">Sold Margin</th>
+                <th class="col-percent">Discount</th>
+                <th class="col-fee">Fee Arrangement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col-pkg-name">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">Unified Enterprise Support - 2025-26</a>
+                    <span class="badge badge-teal">USP</span>
+                    <span class="badge badge-year badge-year1">Year 1</span>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn"><i class="fas fa-ellipsis-h"></i></button></td>
+                <td class="col-date">01-Jul-2025</td>
+                <td class="col-date">30-Jun-2026</td>
+                <td class="col-money">897,834.46</td>
+                <td class="col-money">897,834.46</td>
+                <td class="col-money">243,746.00</td>
+                <td class="col-percent">65.07%</td>
+                <td class="col-percent">10.00%</td>
+                <td class="col-fee">Fixed Fee</td>
+              </tr>
+              <tr>
+                <td class="col-pkg-name">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">Unified Proactive Services Add on | Unified Proactive Svcs Enterprise Apps &amp; Innov - 2025-26</a>
+                    <span class="badge badge-year badge-year1">Year 1</span>
+                    <i class="fas fa-exclamation-triangle pkg-warning"></i>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn"><i class="fas fa-ellipsis-h"></i></button></td>
+                <td class="col-date">01-Jul-2025</td>
+                <td class="col-date">30-Jun-2026</td>
+                <td class="col-money">326,000.00</td>
+                <td class="col-money">326,000.00</td>
+                <td class="col-money">231,000.00</td>
+                <td class="col-percent">29.14%</td>
+                <td class="col-percent">0.00%</td>
+                <td class="col-fee">Fixed Fee</td>
+              </tr>
+              <tr>
+                <td class="col-pkg-name">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">Yr 2 Unified Enterprise Support</a>
+                    <span class="badge badge-teal">USP</span>
+                    <span class="badge badge-year badge-year2">Year 2</span>
+                    <i class="fas fa-exclamation-triangle pkg-warning"></i>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn"><i class="fas fa-ellipsis-h"></i></button></td>
+                <td class="col-date">01-Jul-2026</td>
+                <td class="col-date">30-Jun-2027</td>
+                <td class="col-money">713,341.89</td>
+                <td class="col-money">713,341.89</td>
+                <td class="col-money">243,746.00</td>
+                <td class="col-percent">65.83%</td>
+                <td class="col-percent">8.00%</td>
+                <td class="col-fee">Fixed Fee</td>
+              </tr>
+              <tr>
+                <td class="col-pkg-name">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">Unified Proactive Services Add on | Unified Proactive Svcs Enterprise Apps &amp; Innov - yr 2</a>
+                    <span class="badge badge-year badge-year2">Year 2</span>
+                    <i class="fas fa-exclamation-triangle pkg-warning"></i>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn"><i class="fas fa-ellipsis-h"></i></button></td>
+                <td class="col-date">01-Jul-2026</td>
+                <td class="col-date">30-Jun-2027</td>
+                <td class="col-money">31,601.00</td>
+                <td class="col-money">31,601.00</td>
+                <td class="col-money">23,999.00</td>
+                <td class="col-percent">24.54%</td>
+                <td class="col-percent">6.34%</td>
+                <td class="col-fee">Fixed Fee</td>
+              </tr>
+              <tr>
+                <td class="col-pkg-name">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">Yr 3 Unified Enterprise Support</a>
+                    <span class="badge badge-custom">Custom</span>
+                    <span class="badge badge-year badge-year3">Year 3</span>
+                    <i class="fas fa-exclamation-triangle pkg-warning"></i>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn"><i class="fas fa-ellipsis-h"></i></button></td>
+                <td class="col-date">01-Jul-2027</td>
+                <td class="col-date">30-Jun-2028</td>
+                <td class="col-money">775,371.62</td>
+                <td class="col-money">775,371.62</td>
+                <td class="col-money">243,746.00</td>
+                <td class="col-percent">68.56%</td>
+                <td class="col-percent">3.08%</td>
+                <td class="col-fee">Fixed Fee</td>
+              </tr>
+              <tr>
+                <td class="col-pkg-name">
+                  <div class="package-name-cell">
+                    <a href="#" class="package-link">Unified Proactive Services Add on | Unified Proactive Svcs Enterprise Apps &amp; Innov - yr 3</a>
+                    <span class="badge badge-year badge-year3">Year 3</span>
+                    <i class="fas fa-exclamation-triangle pkg-warning"></i>
+                  </div>
+                  <div class="package-tags">
+                    <span class="tag">7-SZRL6KRYDT</span>
+                    <span class="tag"><i class="fas fa-globe"></i> USA - Commercial Unassigned @ MSD</span>
+                  </div>
+                </td>
+                <td class="col-actions"><button class="ellipsis-btn"><i class="fas fa-ellipsis-h"></i></button></td>
+                <td class="col-date">01-Jul-2027</td>
+                <td class="col-date">30-Jun-2028</td>
+                <td class="col-money">32,707.00</td>
+                <td class="col-money">32,707.00</td>
+                <td class="col-money">24,745.00</td>
+                <td class="col-percent">24.34%</td>
+                <td class="col-percent">6.34%</td>
+                <td class="col-fee">Fixed Fee</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <i class="fas fa-info-circle" style="color:#616161;font-size:12px;"></i>
+            <span>This is a non-binding quote. These numbers have not been approved.</span>
+          </div>
+        </div>
+
+        </div><!-- /panel-option2 -->
 
         <!-- ===== PANEL: Reference (DealMax Discount Intelligence) ===== -->
         <div id="panel-reference" class="tab-panel">
