@@ -732,7 +732,6 @@
                         <span class="fin-input-error" id="r2fin-input-error">Current value is beyond Max. Discount.</span>
                         <div class="r2fin-inline-actions">
                           <button type="button" class="r2fin-reset-link" id="r2fin-reset-link" onclick="if(window.resetR2FinSlider){window.resetR2FinSlider();}" aria-label="Reset to recommended"><i class="fas fa-undo" aria-hidden="true"></i> Reset</button>
-                          <button type="button" class="r2fin-reset-link r2fin-apply-link" id="r2fin-apply-link" aria-label="Apply discount"><i class="fas fa-check" aria-hidden="true"></i> Apply</button>
                         </div>
                       </div>
                     </div>
@@ -3308,13 +3307,12 @@
 
       window.resetR2FinSlider = resetToDefault;
 
-      // Disable Reset/Apply links until input value differs from RECOMMENDED
+      // Disable Reset link until input value differs from RECOMMENDED
       var resetLink = document.getElementById('r2fin-reset-link');
-      var applyLink = document.getElementById('r2fin-apply-link');
       function syncDirtyState() {
         var v = parseFloat((input.value || '').replace(/[^0-9.]/g, ''));
         var dirty = !isNaN(v) && Math.abs(v - RECOMMENDED) > 0.0001;
-        [resetLink, applyLink].forEach(function(btn) {
+        [resetLink].forEach(function(btn) {
           if (!btn) return;
           btn.disabled = !dirty;
           btn.setAttribute('aria-disabled', dirty ? 'false' : 'true');
