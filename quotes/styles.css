@@ -2680,6 +2680,9 @@ input.ac-discount-hero--editable:focus {
 .opt2-accordion[open] > .opt2-accordion__header .opt2-accordion__icon {
   transform: rotate(90deg);
 }
+.opt2-accordion:not([open]) .opt2-accordion__header-actions .ref-banner__actions {
+  display: none;
+}
 .opt2-accordion__header-actions {
   display: flex;
   align-items: center;

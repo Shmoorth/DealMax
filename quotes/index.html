@@ -479,15 +479,21 @@
         <div id="panel-option2" class="tab-panel">
 
         <!-- Discount Recommendation Card (Accordion) -->
-        <details class="opt2-accordion" id="opt2-card" open>
+        <details class="opt2-accordion" id="opt2-card" open style="position:relative;">
+
+          <div class="r2-loading-overlay" id="opt2-loading-overlay">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Refreshing recommendations…</span>
+          </div>
+
           <summary class="opt2-accordion__header">
             <i class="fas fa-chevron-right opt2-accordion__icon"></i>
             <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
             <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
-            <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> As of 11:00 PM 04-Apr-2023</span>
+            <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Recommended Discount as of 11:00 AM 04-Apr-2026 is 11.20%.</span>
             <div class="opt2-accordion__header-actions">
               <div class="ref-banner__actions">
-                <button class="ref-banner__refresh" title="Refresh"><i class="fas fa-undo"></i> Refresh</button>
+                <button class="ref-banner__refresh" id="opt2-btn-refresh" title="Refresh"><i class="fas fa-undo"></i> Refresh</button>
                 <button class="ref-banner__refresh" title="Offering Details" onclick="if(typeof openOfferingsDrawer==='function') openOfferingsDrawer()"><i class="fas fa-eye"></i> Offering Details</button>
               </div>
               <div class="ellipsis-menu">
@@ -531,6 +537,24 @@
             </div>
           </div>
         </details>
+
+        <script>
+        (function() {
+          var opt2Refresh = document.getElementById('opt2-btn-refresh');
+          if (opt2Refresh) {
+            opt2Refresh.addEventListener('click', function(e) {
+              e.stopPropagation();
+              var overlay = document.getElementById('opt2-loading-overlay');
+              if (overlay) {
+                overlay.classList.add('active');
+                setTimeout(function() {
+                  overlay.classList.remove('active');
+                }, 1500);
+              }
+            });
+          }
+        })();
+        </script>
 
         <!-- Toolbar -->
         <div class="toolbar">
