@@ -478,59 +478,59 @@
         <!-- ===== PANEL: Option 2 (Copy of Financials) ===== -->
         <div id="panel-option2" class="tab-panel">
 
-        <!-- Discount Recommendation Card -->
-        <div class="ac-card" role="region" aria-label="Discount Recommendation" id="opt2-card" style="position:relative;">
-
-          <div class="ac-container ac-header">
-            <div class="ac-columnSet ac-header-row">
-              <div class="ac-column ac-column-stretch" style="gap:4px;">
-                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                  <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
-                  <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
-                </div>
-                <span class="ac-textBlock ac-textBlock--small ac-color--subtle">As of 11:00 PM 04-Apr-2023</span>
+        <!-- Discount Recommendation Card (Accordion) -->
+        <details class="opt2-accordion" id="opt2-card" open>
+          <summary class="opt2-accordion__header">
+            <i class="fas fa-chevron-right opt2-accordion__icon"></i>
+            <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
+            <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
+            <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> As of 11:00 PM 04-Apr-2023</span>
+            <div class="opt2-accordion__header-actions">
+              <div class="ref-banner__actions">
+                <button class="ref-banner__refresh" title="Refresh"><i class="fas fa-undo"></i> Refresh</button>
+                <button class="ref-banner__refresh" title="Offering Details" onclick="if(typeof openOfferingsDrawer==='function') openOfferingsDrawer()"><i class="fas fa-eye"></i> Offering Details</button>
               </div>
-              <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
-                <div class="ref-banner__actions">
-                  <button class="ref-banner__refresh" title="Refresh"><i class="fas fa-undo"></i> Refresh</button>
-                  <button class="ref-banner__refresh" title="Offering Details" onclick="if(typeof openOfferingsDrawer==='function') openOfferingsDrawer()"><i class="fas fa-eye"></i> Offering Details</button>
-                </div>
-                <div class="ellipsis-menu">
-                  <button class="ac-action ac-action--icon" title="More options" aria-label="More options" onclick="this.nextElementSibling.classList.toggle('is-open')"><i class="fas fa-ellipsis-h"></i></button>
-                  <div class="ellipsis-menu__dropdown">
-                    <button class="split-btn__menu-item"><i class="fas fa-graduation-cap"></i> Help</button>
-                  </div>
+              <div class="ellipsis-menu">
+                <button class="ac-action ac-action--icon" title="More options" aria-label="More options" onclick="event.stopPropagation();this.nextElementSibling.classList.toggle('is-open')"><i class="fas fa-ellipsis-h"></i></button>
+                <div class="ellipsis-menu__dropdown">
+                  <button class="split-btn__menu-item"><i class="fas fa-graduation-cap"></i> Help</button>
                 </div>
               </div>
             </div>
-          </div>
+          </summary>
+          <div class="opt2-accordion__body">
+            <!-- Recommended Discount + Metrics side by side -->
+            <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
+              <div style="flex:0 0 auto;">
+                <span class="ac-textBlock ac-textBlock--small ac-color--subtle">Recommended Discount</span>
+                <div style="font-size:32px;font-weight:700;color:#242424;line-height:1.2;">11.20%</div>
+              </div>
 
-          <hr style="border:none;border-top:1px solid #e1dfdd;margin:0;">
+              <div style="border-left:1px solid #e1dfdd;align-self:stretch;"></div>
 
-          <div class="ac-container ac-body">
-            <div style="margin-bottom:12px;">
-              <span class="ac-textBlock ac-textBlock--small ac-color--subtle">Recommended Discount</span>
-              <div style="font-size:32px;font-weight:700;color:#242424;line-height:1.2;">11.20%</div>
+              <div class="r2-col3-metrics" style="flex:1 1 0;margin:0;">
+                <div class="r2-metric-item"><span class="ac-fact-title">Min. Discount</span><span class="ac-fact-value">10.02%</span></div>
+                <div class="r2-metric-item"><span class="ac-fact-title">Max. Discount</span><span class="ac-fact-value">15.25%</span></div>
+                <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value">+0.00%</span></div>
+                <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value">Reduced Approval effort</span></div>
+              </div>
             </div>
 
-            <div class="r2-col3-metrics">
-              <div class="r2-metric-item"><span class="ac-fact-title">Min. Discount</span><span class="ac-fact-value">10.02%</span></div>
-              <div class="r2-metric-item"><span class="ac-fact-title">Max. Discount</span><span class="ac-fact-value">15.25%</span></div>
-              <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value">+0.00%</span></div>
-              <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value">Reduced Approval effort</span></div>
-              <div style="border-left:1px solid #e1dfdd;height:auto;align-self:stretch;margin:0 0 0 0;"></div>
-              <div class="r2-metric-item" style="border-left:none;padding-left:24px;flex:1;"><span class="ac-fact-value" style="font-size:12px;color:#616161;font-weight:400;white-space:normal;line-height:1.5;">Applying 15.25% recommended discount reduces approval from Green (Seller Manager) to Blue Empowerment. Financial locking and editing rules will be honored.</span></div>
+            <!-- Disclaimer -->
+            <div class="opt2-disclaimer">
+              <i class="fas fa-info-circle" style="color:#616161;"></i>
+              <span>Applying 15.25% recommended discount reduces approval from Green (Seller Manager) to Blue Empowerment. Financial locking and editing rules will be honored.</span>
             </div>
 
             <hr style="border:none;border-top:1px solid #e1dfdd;margin:16px 0 12px 0;">
 
+            <!-- Actions -->
             <div class="ac-actionSet" style="flex-wrap:wrap;gap:12px;margin:0;">
               <button class="ac-action ac-action--primary"><i class="fas fa-robot" style="margin-right:6px;font-size:12px;"></i> Simulate Financials</button>
               <button class="ac-action ac-action--secondary" style="border:none;background:none;color:#0f6cbd;font-weight:600;padding:8px 12px;"><i class="fas fa-robot" style="margin-right:6px;font-size:12px;"></i> Simulate Approval Impact</button>
             </div>
           </div>
-
-        </div>
+        </details>
 
         <!-- Toolbar -->
         <div class="toolbar">
