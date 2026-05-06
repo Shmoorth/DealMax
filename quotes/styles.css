@@ -58,6 +58,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex;
   flex-direction: column;
   z-index: 90;
+  transition: width 0.2s ease;
+}
+.left-sidebar.left-sidebar--collapsed {
+  width: 48px;
+  overflow: hidden;
+}
+.left-sidebar--collapsed .sidebar-nav-btn span,
+.left-sidebar--collapsed .sidebar-brand__text {
+  display: none;
+}
+.left-sidebar--collapsed .sidebar-nav-btn {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .sidebar-brand {
@@ -210,7 +224,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   flex-shrink: 0;
 }
 .quote-title-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-.quote-title { font-size: 20px; font-weight: 600; color: #201f1e; }
+.quote-title { font-size: 24px; font-weight: 600; color: #201f1e; }
 .badge {
   display: inline-flex; align-items: center;
   padding: 2px 10px; border-radius: 3px;
@@ -954,12 +968,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .ac-textBlock--small    { font-size: 12px; }
 .ac-textBlock--default  { font-size: 14px; }
 .ac-textBlock--medium   { font-size: 14px; }
-.ac-textBlock--large    { font-size: 18px; }
+.ac-textBlock--large    { font-size: 16px; }
 .ac-textBlock--extraLarge { font-size: 26px; }
 
 .ac-weight--lighter  { font-weight: 300; }
 .ac-weight--default  { font-weight: 400; }
-.ac-weight--bolder   { font-weight: 600; }
+.ac-weight--bolder   { font-weight: 400; }
 
 .ac-color--default   { color: #242424; }
 .ac-color--accent    { color: #0f6cbd; } /* Fluent brand-foreground-1 */
@@ -2524,6 +2538,13 @@ input.ac-discount-hero--editable:focus {
   color: #0f6cbd;
   text-decoration: none;
 }
+.agent-card__feedback-btns {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.ac-card:hover .agent-card__feedback-btns {
+  opacity: 1;
+}
 .agent-card__disclaimer a:hover {
   text-decoration: underline;
 }
@@ -2673,6 +2694,7 @@ input.ac-discount-hero--editable:focus {
   color: #616161;
   transition: transform 0.2s ease;
   flex-shrink: 0;
+  cursor: pointer;
 }
 .opt2-accordion[open] > .opt2-accordion__header {
   border-bottom: 1px solid #e1dfdd;
@@ -2694,7 +2716,7 @@ input.ac-discount-hero--editable:focus {
 }
 .opt2-disclaimer {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 8px;
   margin-top: 12px;
   padding: 10px 12px;
@@ -2847,6 +2869,45 @@ input.ac-discount-hero--editable:focus {
   font-size: 12px;
   color: #605e5c;
   max-width: 460px;
+}
+
+/* No Data Found card (carousel card 2) */
+.fin-nodata-card {
+  border: 1px solid #e1dfdd;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  margin: 16px 20px;
+}
+.fin-nodata-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  padding: 48px 24px;
+  height: 100%;
+  box-sizing: border-box;
+}
+.fin-nodata-card__icon {
+  font-size: 28px;
+  color: #616161;
+}
+.fin-nodata-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #323130;
+  margin: 0;
+}
+.fin-nodata-card__text {
+  font-size: 13px;
+  color: #605e5c;
+  max-width: 460px;
+  margin: 0;
+}
+/* Carousel container: natural height, controls follow content */
+.fin-carousel-container {
 }
 
 .agent-guardrail-warning {
@@ -3038,8 +3099,8 @@ input.ac-discount-hero--editable:focus {
   border-radius: 12px;
 }
 .r2-stale-badge--fresh {
-  color: #107c10;
-  background: #dff6dd;
+  color: #424242;
+  background: #f0f0f0;
 }
 .r2-stale-badge--stale {
   color: #ca5010;
@@ -3556,6 +3617,16 @@ input.ac-discount-hero--editable:focus {
   visibility: hidden;
   transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
 }
+#panel-financials #fin-opt2-card .fin-opt2-feedback-btns {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
+}
+#panel-financials #fin-opt2-card:hover .fin-opt2-feedback-btns,
+#panel-financials #fin-opt2-card:focus-within .fin-opt2-feedback-btns {
+  opacity: 1;
+  visibility: visible;
+}
 #panel-financials #fin-card:hover .ref-ai-disclaimer__feedback,
 #panel-financials #fin-card:focus-within .ref-ai-disclaimer__feedback,
 #panel-reference2 #r2fin-card:hover .ref-ai-disclaimer__feedback,
@@ -3644,6 +3715,35 @@ input.ac-discount-hero--editable:focus {
   white-space: nowrap;
 }
 #panel-option2 #opt2-card .r2-metric-item .ac-fact-value {
+  font-size: 14px;
+  color: #242424;
+  font-weight: 600;
+  white-space: nowrap;
+}
+#panel-financials #fin-opt2-card .r2-col3-metrics {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: 0;
+}
+#panel-financials #fin-opt2-card .r2-metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 24px;
+  border-left: 1px solid #e1dfdd;
+}
+#panel-financials #fin-opt2-card .r2-metric-item:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+#panel-financials #fin-opt2-card .r2-metric-item .ac-fact-title {
+  font-size: 12px;
+  color: #616161;
+  font-weight: 400;
+  white-space: nowrap;
+}
+#panel-financials #fin-opt2-card .r2-metric-item .ac-fact-value {
   font-size: 14px;
   color: #242424;
   font-weight: 600;

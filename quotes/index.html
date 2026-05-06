@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -128,12 +128,12 @@
           <button class="tab-dropdown-item" onclick="selectFinancialsOption(event,'Financial Summary')">Financial Summary</button>
         </div>
       </div>
-      <button class="tab" onclick="switchTab(event)" data-panel="panel-option2">Option 2</button>
-      <button class="tab" onclick="switchTab(event)" data-panel="panel-reference2">Reference 2</button>
       <button class="tab" onclick="switchTab(event)">Risks</button>
       <button class="tab" onclick="switchTab(event)">Approvals</button>
       <button class="tab" onclick="switchTab(event)">Proposals</button>
       <button class="tab" onclick="switchTab(event)">Team</button>
+      <button class="tab" onclick="switchTab(event)" data-panel="panel-reference2">Reference 2</button>
+      <button class="tab" onclick="switchTab(event)" data-panel="panel-option2">Option 2</button>
     </div>
 
     <!-- Content Area with sidebar -->
@@ -145,151 +145,199 @@
         <!-- ===== PANEL: Financials ===== -->
         <div id="panel-financials" class="tab-panel tab-panel--active">
 
-        <div id="fin-apply-message" class="fui-messagebar" role="status" aria-live="polite" hidden>
-          <i class="fas fa-info-circle fui-messagebar__icon" aria-hidden="true"></i>
-          <div class="fui-messagebar__body">
-            <span class="fui-messagebar__content">Recommeded Discount is 12%. Click on 'View Details' to aply or Simulate the Discount %..</span>
-            <div class="fui-messagebar__actions">
-              <button class="fui-messagebar__action" id="fin-msg-view-details" type="button">Simulate & Apply</button>
-            </div>
-          </div>
-        </div>
+        <!-- Carousel card container -->
+        <div class="fin-carousel-container">
 
-        <!-- Discount Intelligence Card -->
-        <div class="ac-card" role="region" aria-label="Discount Recommendation" id="fin-card" style="position:relative;">
+        <!-- Card 1: Discount Recommendation Card (Accordion) - copied from Option 2 -->
+        <details class="opt2-accordion fin-carousel-card fin-carousel-card--active" id="fin-opt2-card" open style="position:relative;">
 
-          <div class="r2-loading-overlay" id="fin-loading-overlay">
+          <div class="r2-loading-overlay" id="fin-opt2-loading-overlay">
             <i class="fas fa-spinner fa-spin"></i>
-            <span>Refreshing recommendationsâ€¦</span>
+            <span>Refreshing recommendations�</span>
           </div>
 
-          <div class="ac-container ac-header">
-            <div class="ac-columnSet ac-header-row">
-              <div class="ac-column ac-column-stretch" style="gap:10px;">
-                <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
-                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                  <span class="r2-stale-badge r2-stale-badge--fresh" id="fin-badge-up-to-date"><i class="fas fa-check-circle"></i> Up to date</span>
-                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Last Refreshed: 15 Apr 2026, 09:15 AM</span>
+          <summary class="opt2-accordion__header">
+            <i class="fas fa-chevron-right opt2-accordion__icon"></i>
+            <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
+            <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
+            <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Recommended Discount as of 11:00 AM 04-Apr-2026 is 11.20%.</span>
+            <div class="opt2-accordion__header-actions">
+              <div class="ref-banner__actions">
+                <button class="ref-banner__refresh" id="fin-opt2-btn-refresh" title="Refresh"><i class="fas fa-undo"></i> Refresh</button>
+                <button class="ref-banner__refresh" title="Offering Details" onclick="if(typeof openOfferingsDrawer==='function') openOfferingsDrawer()"><i class="fas fa-eye"></i> Offering Details</button>
+              </div>
+              <div class="ellipsis-menu">
+                <button class="ac-action ac-action--icon" title="More options" aria-label="More options" onclick="event.stopPropagation();this.nextElementSibling.classList.toggle('is-open')"><i class="fas fa-ellipsis-h"></i></button>
+                <div class="ellipsis-menu__dropdown">
+                  <button class="split-btn__menu-item"><i class="fas fa-graduation-cap"></i> Help</button>
                 </div>
               </div>
-              <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
-                <div class="ref-banner__actions">
-                  <button class="ref-banner__refresh" id="fin-btn-reasons" title="Refresh"><i class="fas fa-undo"></i> Refresh</button>
-                  <button class="ref-banner__refresh" title="Offering Details" id="fin-btn-refresh"><i class="fas fa-eye"></i> Offering Details</button>
-                </div>
-                <div class="ellipsis-menu">
-                  <button class="ac-action ac-action--icon" title="More options" aria-label="More options" onclick="this.nextElementSibling.classList.toggle('is-open')"><i class="fas fa-ellipsis-h"></i></button>
-                  <div class="ellipsis-menu__dropdown">
-                    <button class="split-btn__menu-item"><i class="fas fa-graduation-cap"></i> Help</button>
-                  </div>
-                </div>
+            </div>
+          </summary>
+          <div class="opt2-accordion__body">
+            <!-- Recommended Discount + Metrics side by side -->
+            <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
+              <div style="flex:0 0 auto;">
+                <span class="ac-textBlock ac-textBlock--small ac-color--subtle">Recommended Discount</span>
+                <div style="font-size:32px;font-weight:700;color:#242424;line-height:1.2;">11.20%</div>
+              </div>
+
+              <div style="border-left:1px solid #e1dfdd;align-self:stretch;"></div>
+
+              <div class="r2-col3-metrics" style="flex:1 1 0;margin:0;">
+                <div class="r2-metric-item"><span class="ac-fact-title">Min. Discount</span><span class="ac-fact-value">10.02%</span></div>
+                <div class="r2-metric-item"><span class="ac-fact-title">Max. Discount</span><span class="ac-fact-value">15.25%</span></div>
+                <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value">+0.00%</span></div>
+                <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value">Reduced Approval effort</span></div>
+              </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="opt2-disclaimer">
+              <i class="fas fa-info-circle" style="color:#616161;"></i>
+              <span>Applying 11.20% recommended discount reduces approval from Green (Seller Manager) to Blue Empowerment. Financial locking and editing rules will be honored.</span>
+            </div>
+
+            <hr style="border:none;border-top:1px solid #e1dfdd;margin:16px 0 12px 0;">
+
+            <!-- Actions -->
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:0;">
+              <div class="ac-actionSet" style="flex-wrap:wrap;gap:12px;margin:0;">
+                <button class="ac-action ac-action--primary"><i class="fas fa-robot" style="margin-right:6px;font-size:12px;"></i> Simulate Financials</button>
+                <button class="ac-action ac-action--secondary" style="border:none;background:none;color:#0f6cbd;font-weight:600;padding:8px 12px;"><i class="fas fa-robot" style="margin-right:6px;font-size:12px;"></i> Simulate Approval Impact</button>
+              </div>
+              <div class="ref-ai-disclaimer__feedback fin-opt2-feedback-btns" style="margin-left:auto;">
+                <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
+                <button class="ref-ai-disclaimer__btn fin-opt2-thumbs-down" title="Not helpful"><i class="far fa-thumbs-down"></i></button>
               </div>
             </div>
           </div>
 
-          <div class="ac-container ac-body">
-            <div class="ac-columnSet">
-
-              <div class="ac-column ac-column-auto">
-                <div class="ac-container ac-discount-block">
-                  <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:4px;">
-                    <span class="ac-textBlock ac-textBlock--default ac-weight--bolder" style="text-align:left;padding-top:8px;">Discount %</span>
-                    <div class="r2-hero-input-wrap">
-                      <div style="display:flex;align-items:center;gap:10px;">
-                        <div class="r2-hero-input-container">
-                          <input type="text" id="fin-discount-input" class="r2-hero-input" value="15.25" inputmode="decimal">
-                          <span class="r2-hero-input-suffix">%</span>
-                        </div>
-                        <button class="r2-revert-btn" id="fin-revert-btn" title="Reset to recommended" onclick="if(window.resetFinSlider){window.resetFinSlider();}" aria-label="Reset to recommended"><svg class="fluent-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.78033 2.71967C7.07322 3.01256 7.07322 3.48744 6.78033 3.78033L4.56066 6H13.25C17.5302 6 21 9.46979 21 13.75C21 18.0302 17.5302 21.5 13.25 21.5C8.96979 21.5 5.5 18.0302 5.5 13.75C5.5 13.3358 5.83579 13 6.25 13C6.66421 13 7 13.3358 7 13.75C7 17.2018 9.79822 20 13.25 20C16.7018 20 19.5 17.2018 19.5 13.75C19.5 10.2982 16.7018 7.5 13.25 7.5H4.56066L6.78033 9.71967C7.07322 10.0126 7.07322 10.4874 6.78033 10.7803C6.48744 11.0732 6.01256 11.0732 5.71967 10.7803L2.21967 7.28033C1.92678 6.98744 1.92678 6.51256 2.21967 6.21967L5.71967 2.71967C6.01256 2.42678 6.48744 2.42678 6.78033 2.71967Z" fill="currentColor"/></svg></button>
-                      </div>
-                      <span class="fin-input-error" id="fin-input-error">Current value is beyond Max. Discount.</span>
-                    </div>
-                  </div>
-                  <div class="r2-range-visual" id="fin-range-visual">
-                    <div class="static-range-bar" id="fin-range-bar">
-                      <div class="static-range-track">
-                        <div class="static-range-fill" id="fin-range-fill"></div>
-                        <div class="static-range-fill-error" id="fin-range-fill-error"></div>
-                        <div class="static-range-marker static-range-marker--rec" id="fin-rec-marker" title="Recommended: 15.25%"></div>
-                        <div class="static-range-marker static-range-marker--max" id="fin-max-marker" title="Max: 24.20%"></div>
-                        <div class="static-range-marker static-range-marker--current" id="fin-current-marker" title="Current: 15.25%"></div>
-                      </div>
-                    </div>
-                    <div class="r2-range-labels" id="fin-range-labels">
-                      <span id="fin-range-min-label">Min<br>12.00%</span>
-                      <span id="fin-range-max-label">Max Limit<br>24.20%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="ac-separator ac-separator--vertical" style="margin-left:16px;"></div>
-
-              <div class="ac-column ac-column-stretch">
-                <div class="ac-container">
-                  <div class="r2-col3-metrics">
-                    <div class="r2-metric-item"><span class="ac-fact-title">Recommended Discount</span><span class="ac-fact-value">15.25 %</span></div>
-                    <div class="r2-metric-item"><span class="ac-fact-title">Min Discount</span><span class="ac-fact-value">12.0 %</span></div>
-                    <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" id="fin-deviation" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span></div>
-                    <div class="r2-metric-item"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
-                    <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span></div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <hr style="border:none;border-top:1px solid #e1dfdd;margin:6px 0 0 0;">
-
-            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:24px;margin-top:4px;">
-              <div class="ac-actionSet" style="flex-wrap:wrap;gap:8px;margin:0;">
-                <button class="ac-action ac-action--primary" id="fin-btn-simulate" onclick="(function(){ document.querySelectorAll('.sidebar-nav-btn').forEach(function(b){b.classList.remove('sidebar-nav-btn--active');}); var btn=document.getElementById('nav-btn-agent'); if(btn) btn.classList.add('sidebar-nav-btn--active'); document.querySelectorAll('.nav-panel').forEach(function(p){p.classList.remove('nav-panel--active');}); var panel=document.getElementById('nav-agent'); if(panel) panel.classList.add('nav-panel--active'); })()"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate</button>
-              </div>
-
-              <div class="ref-ai-disclaimer" style="margin-top:0;min-width:0;flex:1 1 320px;margin-left:auto;">
-                <span class="ref-ai-disclaimer__text" id="fin-disclaimer-text" title="Applying 15.25% recommended discount reduces approval from Green (Seller Manager) to Blue Empowerment. Financial locking and editing rules will be honored.">Applying <strong class="disclaimer-pct">15.25%</strong> recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
-                <div class="ref-ai-disclaimer__feedback">
-                  <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
-                  <button class="ref-ai-disclaimer__btn" title="Not helpful" id="fin-btn-thumbs-down"><i class="far fa-thumbs-down"></i></button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="r2-feedback-overlay" id="fin-feedback-overlay">
+          <div class="r2-feedback-overlay" id="fin-opt2-feedback-overlay">
             <div class="r2-feedback-overlay-card">
               <div class="r2-feedback-overlay-header">
                 <span><i class="far fa-thumbs-down" style="margin-right:6px;"></i>What went wrong?</span>
-                <button class="r2-feedback-overlay-close" id="fin-feedback-overlay-close" title="Close"><i class="fas fa-times"></i></button>
+                <button class="r2-feedback-overlay-close" id="fin-opt2-feedback-close" title="Close"><i class="fas fa-times"></i></button>
               </div>
-              <textarea class="r2-feedback-textarea" id="fin-feedback-textarea" placeholder="Tell us what could be improvedâ€¦" rows="3"></textarea>
-              <p class="r2-feedback-disclaimer"><i class="fas fa-info-circle"></i> Feedback is tied to recommendation ID DM-2026-04-A123456 and used to improve model quality.</p>
+              <textarea class="r2-feedback-textarea" id="fin-opt2-feedback-textarea" placeholder="Tell us what could be improved�" rows="3"></textarea>
+              <p class="r2-feedback-disclaimer"><i class="fas fa-info-circle"></i> Feedback is tied to a recommendation and used to improve model quality.</p>
               <div class="r2-feedback-overlay-actions">
-                <button class="ac-action ac-action--primary" id="fin-feedback-submit">Submit</button>
-                <button class="ac-action ac-action--secondary" id="fin-feedback-cancel">Cancel</button>
+                <button class="ac-action ac-action--primary" id="fin-opt2-feedback-submit">Submit</button>
+                <button class="ac-action ac-action--secondary" id="fin-opt2-feedback-cancel">Cancel</button>
               </div>
             </div>
           </div>
 
-        </div>
+        </details>
 
-        <div class="ac-card fin-empty-card" id="fin-empty-card" role="region" aria-label="Additional financial card" hidden>
-          <div class="fin-empty-card__body">
-            <i class="far fa-clone fin-empty-card__icon" aria-hidden="true"></i>
-            <p class="fin-empty-card__title">No content in this card yet</p>
-            <p class="fin-empty-card__text">Use the carousel to navigate additional financial cards when they are available.</p>
+        <!-- Card 2: No Data Found -->
+        <div class="opt2-accordion fin-carousel-card fin-nodata-card" id="fin-nodata-card" style="position:relative;display:none;">
+          <div class="fin-nodata-card__body">
+            <i class="far fa-folder-open fin-nodata-card__icon" aria-hidden="true"></i>
+            <p class="fin-nodata-card__title">No data found</p>
+            <p class="fin-nodata-card__text">There are no additional recommendations available at this time.</p>
           </div>
         </div>
+
+        </div><!-- /fin-carousel-container -->
+
+        <script>
+        (function() {
+          var finOpt2Refresh = document.getElementById('fin-opt2-btn-refresh');
+          if (finOpt2Refresh) {
+            finOpt2Refresh.addEventListener('click', function(e) {
+              e.stopPropagation();
+              var overlay = document.getElementById('fin-opt2-loading-overlay');
+              if (overlay) {
+                overlay.classList.add('active');
+                setTimeout(function() {
+                  overlay.classList.remove('active');
+                }, 1500);
+              }
+            });
+          }
+          // Feedback overlay interaction
+          var thumbsDown = document.querySelector('.fin-opt2-thumbs-down');
+          var fbOverlay = document.getElementById('fin-opt2-feedback-overlay');
+          var fbClose = document.getElementById('fin-opt2-feedback-close');
+          var fbCancel = document.getElementById('fin-opt2-feedback-cancel');
+          var fbSubmit = document.getElementById('fin-opt2-feedback-submit');
+          if (thumbsDown && fbOverlay) {
+            thumbsDown.addEventListener('click', function() {
+              fbOverlay.classList.add('active');
+            });
+          }
+          function closeFeedback() { if (fbOverlay) fbOverlay.classList.remove('active'); }
+          if (fbClose) fbClose.addEventListener('click', closeFeedback);
+          if (fbCancel) fbCancel.addEventListener('click', closeFeedback);
+          if (fbSubmit) fbSubmit.addEventListener('click', function() {
+            var textarea = document.getElementById('fin-opt2-feedback-textarea');
+            if (textarea) textarea.value = '';
+            closeFeedback();
+          });
+        })();
+        </script>
 
         <div class="fin-card-carousel-controls" aria-label="Financial cards carousel controls">
-          <button class="rtb-carousel__arrow" aria-label="Previous card"><i class="fas fa-chevron-left"></i></button>
+          <button class="rtb-carousel__arrow" id="fin-carousel-prev" aria-label="Previous card"><i class="fas fa-chevron-left"></i></button>
           <div class="fin-card-carousel-controls__dots" aria-hidden="true">
-            <span class="rtb-carousel__dot rtb-carousel__dot--active"></span>
-            <span class="rtb-carousel__dot"></span>
-            <span class="rtb-carousel__dot"></span>
+            <span class="rtb-carousel__dot rtb-carousel__dot--active" id="fin-carousel-dot-0"></span>
+            <span class="rtb-carousel__dot" id="fin-carousel-dot-1"></span>
           </div>
-          <button class="rtb-carousel__arrow" aria-label="Next card"><i class="fas fa-chevron-right"></i></button>
+          <button class="rtb-carousel__arrow" id="fin-carousel-next" aria-label="Next card"><i class="fas fa-chevron-right"></i></button>
         </div>
+
+        <script>
+        (function() {
+          var cards = [document.getElementById('fin-opt2-card'), document.getElementById('fin-nodata-card')];
+          var dots = [document.getElementById('fin-carousel-dot-0'), document.getElementById('fin-carousel-dot-1')];
+          var prev = document.getElementById('fin-carousel-prev');
+          var next = document.getElementById('fin-carousel-next');
+          var current = 0;
+
+          // Match no-data card height to discount card
+          function syncHeight() {
+            var mainCard = cards[0];
+            var nodataCard = cards[1];
+            if (mainCard && nodataCard) {
+              // Temporarily show main card to measure if hidden
+              var wasHidden = mainCard.style.display === 'none';
+              if (wasHidden) mainCard.style.display = '';
+              nodataCard.style.minHeight = mainCard.offsetHeight + 'px';
+              if (wasHidden) mainCard.style.display = 'none';
+            }
+          }
+          syncHeight();
+          window.addEventListener('resize', syncHeight);
+
+          // Re-sync when accordion toggles open/close
+          var mainCard = cards[0];
+          if (mainCard) {
+            mainCard.addEventListener('toggle', syncHeight);
+          }
+
+          function showCard(idx) {
+            cards.forEach(function(c, i) {
+              if (i === idx) { c.style.display = ''; } else { c.style.display = 'none'; }
+            });
+            dots.forEach(function(d, i) {
+              if (i === idx) { d.classList.add('rtb-carousel__dot--active'); } else { d.classList.remove('rtb-carousel__dot--active'); }
+            });
+            current = idx;
+            syncHeight();
+          }
+
+          if (prev) prev.addEventListener('click', function() {
+            showCard(current === 0 ? cards.length - 1 : current - 1);
+          });
+          if (next) next.addEventListener('click', function() {
+            showCard(current === cards.length - 1 ? 0 : current + 1);
+          });
+          dots.forEach(function(d, i) {
+            if (d) d.addEventListener('click', function() { showCard(i); });
+          });
+        })();
+        </script>
 
         <!-- Toolbar -->
         <div class="toolbar">
@@ -478,12 +526,140 @@
         <!-- ===== PANEL: Option 2 (Copy of Financials) ===== -->
         <div id="panel-option2" class="tab-panel">
 
+        <div id="fin-apply-message" class="fui-messagebar" role="status" aria-live="polite" hidden>
+          <i class="fas fa-info-circle fui-messagebar__icon" aria-hidden="true"></i>
+          <div class="fui-messagebar__body">
+            <span class="fui-messagebar__content">Recommeded Discount is 12%. Click on 'View Details' to aply or Simulate the Discount %..</span>
+            <div class="fui-messagebar__actions">
+              <button class="fui-messagebar__action" id="fin-msg-view-details" type="button">Simulate & Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Discount Intelligence Card -->
+        <div class="ac-card" role="region" aria-label="Discount Recommendation" id="fin-card" style="position:relative;">
+
+          <div class="r2-loading-overlay" id="fin-loading-overlay">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Refreshing recommendations…</span>
+          </div>
+
+          <div class="ac-container ac-header">
+            <div class="ac-columnSet ac-header-row">
+              <div class="ac-column ac-column-stretch" style="gap:10px;">
+                <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">Discount Recommendation</span>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                  <span class="r2-stale-badge r2-stale-badge--fresh" id="fin-badge-up-to-date"><i class="fas fa-check-circle"></i> Up to date</span>
+                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="white-space:nowrap;"><i class="far fa-clock"></i> Last Refreshed: 15 Apr 2026, 09:15 AM</span>
+                </div>
+              </div>
+              <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
+                <div class="ref-banner__actions">
+                  <button class="ref-banner__refresh" id="fin-btn-reasons" title="Refresh"><i class="fas fa-undo"></i> Refresh</button>
+                  <button class="ref-banner__refresh" title="Offering Details" id="fin-btn-refresh"><i class="fas fa-eye"></i> Offering Details</button>
+                </div>
+                <div class="ellipsis-menu">
+                  <button class="ac-action ac-action--icon" title="More options" aria-label="More options" onclick="this.nextElementSibling.classList.toggle('is-open')"><i class="fas fa-ellipsis-h"></i></button>
+                  <div class="ellipsis-menu__dropdown">
+                    <button class="split-btn__menu-item"><i class="fas fa-graduation-cap"></i> Help</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ac-container ac-body">
+            <div class="ac-columnSet">
+
+              <div class="ac-column ac-column-auto">
+                <div class="ac-container ac-discount-block">
+                  <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:4px;">
+                    <span class="ac-textBlock ac-textBlock--default ac-weight--bolder" style="text-align:left;padding-top:8px;">Discount %</span>
+                    <div class="r2-hero-input-wrap">
+                      <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="r2-hero-input-container">
+                          <input type="text" id="fin-discount-input" class="r2-hero-input" value="15.25" inputmode="decimal">
+                          <span class="r2-hero-input-suffix">%</span>
+                        </div>
+                        <button class="r2-revert-btn" id="fin-revert-btn" title="Reset to recommended" onclick="if(window.resetFinSlider){window.resetFinSlider();}" aria-label="Reset to recommended"><svg class="fluent-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.78033 2.71967C7.07322 3.01256 7.07322 3.48744 6.78033 3.78033L4.56066 6H13.25C17.5302 6 21 9.46979 21 13.75C21 18.0302 17.5302 21.5 13.25 21.5C8.96979 21.5 5.5 18.0302 5.5 13.75C5.5 13.3358 5.83579 13 6.25 13C6.66421 13 7 13.3358 7 13.75C7 17.2018 9.79822 20 13.25 20C16.7018 20 19.5 17.2018 19.5 13.75C19.5 10.2982 16.7018 7.5 13.25 7.5H4.56066L6.78033 9.71967C7.07322 10.0126 7.07322 10.4874 6.78033 10.7803C6.48744 11.0732 6.01256 11.0732 5.71967 10.7803L2.21967 7.28033C1.92678 6.98744 1.92678 6.51256 2.21967 6.21967L5.71967 2.71967C6.01256 2.42678 6.48744 2.42678 6.78033 2.71967Z" fill="currentColor"/></svg></button>
+                      </div>
+                      <span class="fin-input-error" id="fin-input-error">Current value is beyond Max. Discount.</span>
+                    </div>
+                  </div>
+                  <div class="r2-range-visual" id="fin-range-visual">
+                    <div class="static-range-bar" id="fin-range-bar">
+                      <div class="static-range-track">
+                        <div class="static-range-fill" id="fin-range-fill"></div>
+                        <div class="static-range-fill-error" id="fin-range-fill-error"></div>
+                        <div class="static-range-marker static-range-marker--rec" id="fin-rec-marker" title="Recommended: 15.25%"></div>
+                        <div class="static-range-marker static-range-marker--max" id="fin-max-marker" title="Max: 24.20%"></div>
+                        <div class="static-range-marker static-range-marker--current" id="fin-current-marker" title="Current: 15.25%"></div>
+                      </div>
+                    </div>
+                    <div class="r2-range-labels" id="fin-range-labels">
+                      <span id="fin-range-min-label">Min<br>12.00%</span>
+                      <span id="fin-range-max-label">Max Limit<br>24.20%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ac-separator ac-separator--vertical" style="margin-left:16px;"></div>
+
+              <div class="ac-column ac-column-stretch">
+                <div class="ac-container">
+                  <div class="r2-col3-metrics">
+                    <div class="r2-metric-item"><span class="ac-fact-title">Recommended Discount</span><span class="ac-fact-value">15.25 %</span></div>
+                    <div class="r2-metric-item"><span class="ac-fact-title">Min Discount</span><span class="ac-fact-value">12.0 %</span></div>
+                    <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" id="fin-deviation" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span></div>
+                    <div class="r2-metric-item"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
+                    <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#242424;font-weight:400;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <hr style="border:none;border-top:1px solid #e1dfdd;margin:6px 0 0 0;">
+
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:24px;margin-top:4px;">
+              <div class="ac-actionSet" style="flex-wrap:wrap;gap:8px;margin:0;">
+                <button class="ac-action ac-action--primary" id="fin-btn-simulate" onclick="(function(){ document.querySelectorAll('.sidebar-nav-btn').forEach(function(b){b.classList.remove('sidebar-nav-btn--active');}); var btn=document.getElementById('nav-btn-agent'); if(btn) btn.classList.add('sidebar-nav-btn--active'); document.querySelectorAll('.nav-panel').forEach(function(p){p.classList.remove('nav-panel--active');}); var panel=document.getElementById('nav-agent'); if(panel) panel.classList.add('nav-panel--active'); })()"><i class="fas fa-robot" style="margin-right:4px;font-size:11px;"></i> Simulate</button>
+              </div>
+
+              <div class="ref-ai-disclaimer" style="margin-top:0;min-width:0;flex:1 1 320px;margin-left:auto;">
+                <span class="ref-ai-disclaimer__text" id="fin-disclaimer-text" title="Applying 15.25% recommended discount reduces approval from Green (Seller Manager) to Blue Empowerment. Financial locking and editing rules will be honored.">Applying <strong class="disclaimer-pct">15.25%</strong> recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
+                <div class="ref-ai-disclaimer__feedback">
+                  <button class="ref-ai-disclaimer__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
+                  <button class="ref-ai-disclaimer__btn" title="Not helpful" id="fin-btn-thumbs-down"><i class="far fa-thumbs-down"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="r2-feedback-overlay" id="fin-feedback-overlay">
+            <div class="r2-feedback-overlay-card">
+              <div class="r2-feedback-overlay-header">
+                <span><i class="far fa-thumbs-down" style="margin-right:6px;"></i>What went wrong?</span>
+                <button class="r2-feedback-overlay-close" id="fin-feedback-overlay-close" title="Close"><i class="fas fa-times"></i></button>
+              </div>
+              <textarea class="r2-feedback-textarea" id="fin-feedback-textarea" placeholder="Tell us what could be improved…" rows="3"></textarea>
+              <p class="r2-feedback-disclaimer"><i class="fas fa-info-circle"></i> Feedback is tied to a recommendation and used to improve model quality.</p>
+              <div class="r2-feedback-overlay-actions">
+                <button class="ac-action ac-action--primary" id="fin-feedback-submit">Submit</button>
+                <button class="ac-action ac-action--secondary" id="fin-feedback-cancel">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
         <!-- Discount Recommendation Card (Accordion) -->
         <details class="opt2-accordion" id="opt2-card" open style="position:relative;">
 
           <div class="r2-loading-overlay" id="opt2-loading-overlay">
             <i class="fas fa-spinner fa-spin"></i>
-            <span>Refreshing recommendations…</span>
+            <span>Refreshing recommendations�</span>
           </div>
 
           <summary class="opt2-accordion__header">
@@ -778,7 +954,7 @@
                   <div class="ac-container">
                     <div class="ac-factSet ref-factSet-aligned">
                       <div class="ac-fact"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" style="color:#d13438;font-weight:700;">+3.5 % ($105,000)</span></div>
-                      <div class="ac-fact"><span class="ac-fact-title">Approval Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Green â†’ Blue</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Approval Impact</span><span class="ac-fact-value" style="color:#242424;font-weight:400;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Green → Blue</span></div>
                       <div class="ac-fact"><span class="ac-fact-title">Customer Segment</span><span class="ac-fact-value">Major</span></div>
                       <div class="ac-fact"><span class="ac-fact-title">Customer satisfaction</span><span class="ac-fact-value">Positive</span></div>
                     </div>
@@ -939,7 +1115,7 @@
 
         </div><!-- /panel-reference -->
 
-        <!-- ===== PANEL: Reference 2 (Discount Simulation â€” PRD Design) ===== -->
+        <!-- ===== PANEL: Reference 2 (Discount Simulation — PRD Design) ===== -->
         <div id="panel-reference2" class="tab-panel">
 
           <!-- Cloned Discount Intelligence Card (from Financials tab) -->
@@ -947,7 +1123,7 @@
 
             <div class="r2-loading-overlay" id="r2fin-loading-overlay">
               <i class="fas fa-spinner fa-spin"></i>
-              <span>Refreshing recommendationsâ€¦</span>
+              <span>Refreshing recommendations…</span>
             </div>
 
             <div class="ac-container ac-header">
@@ -1052,8 +1228,8 @@
                   <span><i class="far fa-thumbs-down" style="margin-right:6px;"></i>What went wrong?</span>
                   <button class="r2-feedback-overlay-close" id="r2fin-feedback-overlay-close" title="Close"><i class="fas fa-times"></i></button>
                 </div>
-                <textarea class="r2-feedback-textarea" id="r2fin-feedback-textarea" placeholder="Tell us what could be improvedâ€¦" rows="3"></textarea>
-                <p class="r2-feedback-disclaimer"><i class="fas fa-info-circle"></i> Feedback is tied to recommendation ID DM-2026-04-A123456 and used to improve model quality.</p>
+                <textarea class="r2-feedback-textarea" id="r2fin-feedback-textarea" placeholder="Tell us what could be improved…" rows="3"></textarea>
+                <p class="r2-feedback-disclaimer"><i class="fas fa-info-circle"></i> Feedback is tied to a recommendation and used to improve model quality.</p>
                 <div class="r2-feedback-overlay-actions">
                   <button class="ac-action ac-action--primary" id="r2fin-feedback-submit">Submit</button>
                   <button class="ac-action ac-action--secondary" id="r2fin-feedback-cancel">Cancel</button>
@@ -1063,15 +1239,15 @@
 
           </div>
 
-          <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-               SECTION 1 â€” Deal-Level Discount Recommendation
-               â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+          <!-- ───────────────────────────────────────────────
+               SECTION 1 — Deal-Level Discount Recommendation
+               ─────────────────────────────────────────────── -->
           <div class="ac-card" role="region" aria-label="Discount Recommendation" id="r2-card">
 
             <!-- Loading Overlay -->
             <div class="r2-loading-overlay" id="r2-loading-overlay">
               <i class="fas fa-spinner fa-spin"></i>
-              <span>Refreshing recommendationsâ€¦</span>
+              <span>Refreshing recommendations…</span>
             </div>
 
             <div class="ac-container ac-header">
@@ -1141,7 +1317,7 @@
                       <span class="ac-fact-title">Min Discount</span><span class="ac-fact-value">12.0 %</span>
                       <span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span>
                       <span class="ac-fact-title">Deviation</span><span class="ac-fact-value" id="r2-deviation" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span>
-                      <span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span>
+                      <span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#242424;font-weight:400;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span>
                       <span class="ac-fact-title">Contract stage impact</span><span class="ac-fact-value">None</span>
                     </div>
                   </div>
@@ -1191,8 +1367,8 @@
                   <span><i class="far fa-thumbs-down" style="margin-right:6px;"></i>What went wrong?</span>
                   <button class="r2-feedback-overlay-close" id="r2-feedback-overlay-close" title="Close"><i class="fas fa-times"></i></button>
                 </div>
-                <textarea class="r2-feedback-textarea" id="r2-feedback-textarea" placeholder="Tell us what could be improvedâ€¦" rows="3"></textarea>
-                <p class="r2-feedback-disclaimer"><i class="fas fa-info-circle"></i> Feedback is tied to recommendation ID DM-2026-04-A123456 and used to improve model quality.</p>
+                <textarea class="r2-feedback-textarea" id="r2-feedback-textarea" placeholder="Tell us what could be improved…" rows="3"></textarea>
+                <p class="r2-feedback-disclaimer"><i class="fas fa-info-circle"></i> Feedback is tied to a recommendation and used to improve model quality.</p>
                 <div class="r2-feedback-overlay-actions">
                   <button class="ac-action ac-action--primary" id="r2-feedback-submit">Submit</button>
                   <button class="ac-action ac-action--secondary" id="r2-feedback-cancel">Cancel</button>
@@ -1202,9 +1378,9 @@
 
           </div>
 
-          <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-               SECTION 2 â€” Reasons to Believe
-               â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+          <!-- ───────────────────────────────────────────────
+               SECTION 2 — Reasons to Believe
+               ─────────────────────────────────────────────── -->
           <div class="ac-card" role="region" aria-label="Reasons to Believe">
 
             <div class="ac-container ac-header">
@@ -1240,12 +1416,12 @@
                   <div class="r2-reason-group__header"><i class="fas fa-chart-pie"></i> Financial Cohort</div>
                   <div class="r2-reason-signal r2-reason-signal--p0">
                     <span class="r2-reason-signal__label">Add-On Base Ratio Bucket</span>
-                    <span class="r2-reason-signal__value">60â€“80% (2nd highest)</span>
+                    <span class="r2-reason-signal__value">60–80% (2nd highest)</span>
                     <span class="r2-reason-signal__tag">P0</span>
                   </div>
                   <div class="r2-reason-signal r2-reason-signal--p0">
                     <span class="r2-reason-signal__label">Deal Size Bucket</span>
-                    <span class="r2-reason-signal__value">$1Mâ€“$5M</span>
+                    <span class="r2-reason-signal__value">$1M–$5M</span>
                     <span class="r2-reason-signal__tag">P0</span>
                   </div>
                 </div>
@@ -1273,7 +1449,7 @@
                   </div>
                   <div class="r2-reason-signal r2-reason-signal--p0">
                     <span class="r2-reason-signal__label">ACR Growth Bucket</span>
-                    <span class="r2-reason-signal__value" style="color:#107c10;font-weight:600;">High Growth</span>
+                    <span class="r2-reason-signal__value" style="color:#242424;font-weight:400;">High Growth</span>
                     <span class="r2-reason-signal__tag">P0</span>
                   </div>
                 </div>
@@ -1290,7 +1466,7 @@
                     </div>
                     <div class="r2-reason-signal">
                       <span class="r2-reason-signal__label">Customer Satisfaction (CSAT)</span>
-                      <span class="r2-reason-signal__value" style="color:#107c10;font-weight:600;">Positive</span>
+                      <span class="r2-reason-signal__value" style="color:#242424;font-weight:400;">Positive</span>
                       <span class="r2-reason-signal__tag r2-reason-signal__tag--p1">P1</span>
                     </div>
                   </div>
@@ -1329,9 +1505,9 @@
             </div>
           </div>
 
-          <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-               SECTION 3 â€” Simulation Preview
-               â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+          <!-- ───────────────────────────────────────────────
+               SECTION 3 — Simulation Preview
+               ─────────────────────────────────────────────── -->
           <div class="ac-card r2-simulation-card" role="region" aria-label="Simulation Preview">
 
             <div class="ac-container ac-header">
@@ -1352,7 +1528,7 @@
                     <div class="ac-factSet" style="margin-top:10px;">
                       <div class="ac-fact"><span class="ac-fact-title">Simulated Price to Customer</span><span class="ac-fact-value">$ 2,445,000.00</span></div>
                       <div class="ac-fact"><span class="ac-fact-title">Simulated Revenue</span><span class="ac-fact-value">$ 2,445,000.00</span></div>
-                      <div class="ac-fact"><span class="ac-fact-title">Simulated Margin</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;">9.4 %</span></div>
+                      <div class="ac-fact"><span class="ac-fact-title">Simulated Margin</span><span class="ac-fact-value" style="color:#242424;font-weight:400;">9.4 %</span></div>
                       <div class="ac-fact"><span class="ac-fact-title">Discount Amount (derived)</span><span class="ac-fact-value">$ 555,000.00</span></div>
                     </div>
                   </div>
@@ -1394,9 +1570,9 @@
 
           </div>
 
-          <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-               SECTION 4 â€” Approval Impact & Optimization
-               â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+          <!-- ───────────────────────────────────────────────
+               SECTION 4 — Approval Impact & Optimization
+               ─────────────────────────────────────────────── -->
           <div class="ac-card" role="region" aria-label="Approval Impact &amp; Optimization">
 
             <div class="ac-container ac-header">
@@ -1460,9 +1636,9 @@
             </div>
           </div>
 
-          <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-               SECTION 5 â€” Offering Group Recommendations Table
-               â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+          <!-- ───────────────────────────────────────────────
+               SECTION 5 — Offering Group Recommendations Table
+               ─────────────────────────────────────────────── -->
           <div class="toolbar">
             <div class="toolbar-left">
               <span class="toolbar-title"><i class="fas fa-layer-group"></i> Offering Group Recommendations by Contract Year</span>
@@ -1572,9 +1748,9 @@
             <span class="pagination-info">Displaying <strong>1-3</strong> of <strong>3</strong> offering groups</span>
           </div>
 
-          <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-               SECTION 6 â€” Feedback
-               â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+          <!-- ───────────────────────────────────────────────
+               SECTION 6 — Feedback
+               ─────────────────────────────────────────────── -->
           <div class="ac-card" role="region" aria-label="Feedback">
 
             <div class="ac-container ac-header">
@@ -1747,13 +1923,13 @@
 
                 <div class="r2-loading-overlay" id="agent-dil-loading-overlay">
                   <i class="fas fa-spinner fa-spin"></i>
-                  <span>Refreshing recommendationsâ€¦</span>
+                  <span>Refreshing recommendations…</span>
                 </div>
 
                 <div class="ac-container ac-header">
                   <div class="ac-columnSet ac-header-row">
                     <div class="ac-column ac-column-stretch" style="gap:10px;">
-                      <span class="ac-textBlock ac-textBlock--large ac-weight--bolder">DealMax Discount Recommendation</span>
+                      <span class="ac-textBlock ac-textBlock--large" style="font-weight:600;">DealMax Discount Recommendation</span>
                       <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
                     </div>
                     <div class="ac-column ac-column-auto" style="display:flex;align-items:center;gap:8px;">
@@ -1765,7 +1941,7 @@
                       </div>
                     </div>
                   </div>
-                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="margin-top:4px;">Quote A123456 &nbsp;|&nbsp; Last Refreshed: 22 Apr 2026, 11:17 AM</span>
+                  <span class="ac-textBlock ac-textBlock--small ac-color--subtle" style="margin-top:4px;">Recommended Discount as of 11:00 AM 04-Apr-2026 is 11.20%.</span>
                 </div>
 
                 <div class="ac-container ac-body">
@@ -1778,7 +1954,7 @@
                           <div class="r2-hero-input-wrap">
                             <div style="display:flex;align-items:center;gap:10px;">
                               <div class="r2-hero-input-container">
-                                <input type="text" id="agent-dil-discount-input" class="r2-hero-input" value="15.25" inputmode="decimal">
+                                <input type="text" id="agent-dil-discount-input" class="r2-hero-input" value="11.20" inputmode="decimal">
                                 <span class="r2-hero-input-suffix">%</span>
                               </div>
                               <button class="r2-revert-btn" id="agent-dil-revert-btn" title="Reset to recommended" onclick="if(window.resetAgentDilSlider){window.resetAgentDilSlider();}" aria-label="Reset to recommended"><svg class="fluent-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.78033 2.71967C7.07322 3.01256 7.07322 3.48744 6.78033 3.78033L4.56066 6H13.25C17.5302 6 21 9.46979 21 13.75C21 18.0302 17.5302 21.5 13.25 21.5C8.96979 21.5 5.5 18.0302 5.5 13.75C5.5 13.3358 5.83579 13 6.25 13C6.66421 13 7 13.3358 7 13.75C7 17.2018 9.79822 20 13.25 20C16.7018 20 19.5 17.2018 19.5 13.75C19.5 10.2982 16.7018 7.5 13.25 7.5H4.56066L6.78033 9.71967C7.07322 10.0126 7.07322 10.4874 6.78033 10.7803C6.48744 11.0732 6.01256 11.0732 5.71967 10.7803L2.21967 7.28033C1.92678 6.98744 1.92678 6.51256 2.21967 6.21967L5.71967 2.71967C6.01256 2.42678 6.48744 2.42678 6.78033 2.71967Z" fill="currentColor"/></svg></button>
@@ -1813,7 +1989,7 @@
                           <div class="r2-metric-item"><span class="ac-fact-title">Min Discount</span><span class="ac-fact-value">12.0 %</span></div>
                           <div class="r2-metric-item"><span class="ac-fact-title">Deviation</span><span class="ac-fact-value" style="color:#107c10;font-weight:700;">0.0 % &nbsp;($0)</span></div>
                           <div class="r2-metric-item"><span class="ac-fact-title">Max Discount</span><span class="ac-fact-value">24.2 %</span></div>
-                          <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span></div>
+                          <div class="r2-metric-item"><span class="ac-fact-title">Impact</span><span class="ac-fact-value" style="color:#242424;font-weight:400;"><i class="fas fa-arrow-down" style="font-size:11px;"></i> Reduced approval effort</span></div>
                         </div>
                       </div>
                     </div>
@@ -1825,23 +2001,20 @@
                     <span class="ref-ai-disclaimer__text" id="agent-dil-disclaimer-text">Applying <strong class="disclaimer-pct">15.25%</strong> recommended discount reduces approval from <strong>Green (Seller Manager)</strong> to <strong>Blue Empowerment</strong>. Financial locking and editing rules will be honored.</span>
                   </div>
                   <div class="agent-card__actions" style="margin-top:12px;">
-                    <button class="agent-card__btn agent-card__btn--primary" id="agent-dil-btn-apply"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Simulate</button>
+                    <button class="agent-card__btn agent-card__btn--primary" id="agent-dil-btn-apply"><i class="fas fa-check" style="margin-right:4px;font-size:11px;"></i> Simulate Financials</button>
                     <button class="agent-card__btn agent-card__btn--secondary" id="agent-dil-btn-offering-level" style="padding-left:12px;"><svg class="fluent-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="margin-right:6px;vertical-align:-2px;"><path d="M4 4.25C4 3.00736 5.00736 2 6.25 2H10.6312C11.2279 2 11.8002 2.23705 12.2221 2.65901L16.841 7.27786C17.2629 7.69981 17.5 8.27211 17.5 8.86885V17.25C17.5 18.4926 16.4926 19.5 15.25 19.5H6.25C5.00736 19.5 4 18.4926 4 17.25V4.25ZM6.25 3.5C5.83579 3.5 5.5 3.83579 5.5 4.25V17.25C5.5 17.6642 5.83579 18 6.25 18H15.25C15.6642 18 16 17.6642 16 17.25V8.99753H12.7539C11.5113 8.99753 10.5039 7.99017 10.5039 6.74753V3.5H6.25ZM12.0039 4.56209V6.74753C12.0039 7.16174 12.3397 7.49753 12.7539 7.49753H14.9393L12.0039 4.56209Z" fill="currentColor"/><path d="M6.62891 20.5C6.93778 21.3739 7.77121 22 8.75088 22H15.2509C17.8742 22 20.0009 19.8734 20.0009 17.25V11.3689C20.0009 10.7721 19.7638 10.1998 19.3419 9.77788L18.5009 8.93689V17.25C18.5009 19.0449 17.0458 20.5 15.2509 20.5H6.62891Z" fill="currentColor"/></svg> Offering Level Discount</button>
+                  </div>
+                  <div class="agent-card__disclaimer" style="margin-top:12px;display:flex;align-items:center;gap:8px;">
+                    <span>AI-generated content may be incorrect. Make sure AI-generated content is accurate and appropriate before using. <a href="#">See terms</a></span>
+                    <span class="agent-card__feedback-btns" style="margin-left:auto;display:flex;gap:4px;">
+                      <button class="agent-feedback__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
+                      <button class="agent-feedback__btn" title="Not helpful"><i class="far fa-thumbs-down"></i></button>
+                    </span>
                   </div>
                 </div>
 
               </div>
 
-              <div class="agent-card__disclaimer" style="margin-top:8px;">
-                AI-generated content may be incorrect. Make sure AI-generated content is accurate and appropriate before using. <a href="#">See terms</a>
-              </div>
-
-              <!-- Feedback -->
-              <div class="agent-feedback">
-                <span class="agent-feedback__label">Was this helpful?</span>
-                <button class="agent-feedback__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
-                <button class="agent-feedback__btn" title="Not helpful"><i class="far fa-thumbs-down"></i></button>
-              </div>
             </div>
           </div>
 
@@ -1878,7 +2051,7 @@
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY22</span><span class="agent-reasons-summary__value">$4,250,000</span></div>
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY23</span><span class="agent-reasons-summary__value" style="color:#107c10;">$5,120,000 <i class="fas fa-arrow-up" style="font-size:9px;"></i> +20.5%</span></div>
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY24</span><span class="agent-reasons-summary__value" style="color:#107c10;">$5,890,000 <i class="fas fa-arrow-up" style="font-size:9px;"></i> +15.0%</span></div>
-                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY25 (YTD)</span><span class="agent-reasons-summary__value agent-rec-value--attention">$3,410,000 <i class="fas fa-arrow-down" style="font-size:9px;"></i> −7.2%</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY25 (YTD)</span><span class="agent-reasons-summary__value agent-rec-value--attention">$3,410,000 <i class="fas fa-arrow-down" style="font-size:9px;"></i> -7.2%</span></div>
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Total Spend (3-Year)</span><span class="agent-reasons-summary__value" style="font-weight:700;">$15,260,000</span></div>
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Avg Annual Spend</span><span class="agent-reasons-summary__value">$5,086,667</span></div>
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Spend Trend</span><span class="agent-reasons-summary__value" style="color:#107c10;"><i class="fas fa-arrow-up" style="font-size:9px;"></i> Growing</span></div>
@@ -1888,7 +2061,7 @@
                           <div class="rtb-carousel__page">
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Gross minus Flex</span><span class="agent-reasons-summary__value">$28,589,055</span></div>
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Add-On Base Ratio</span><span class="agent-reasons-summary__value">Second highest (60-80%)</span></div>
-                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Deal Size Bucket</span><span class="agent-reasons-summary__value">$1M – $5M</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Deal Size Bucket</span><span class="agent-reasons-summary__value">$1M � $5M</span></div>
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">Multi-Year Deal</span><span class="agent-reasons-summary__value">No</span></div>
                           </div>
                           <!-- 3. Customer Attributes -->
@@ -1909,7 +2082,7 @@
                           <div class="rtb-carousel__page">
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY22</span><span class="agent-reasons-summary__value">$28,908,433</span></div>
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY23</span><span class="agent-reasons-summary__value" style="color:#107c10;">$30,300,333 <i class="fas fa-arrow-up" style="font-size:9px;"></i> +4.8%</span></div>
-                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY24</span><span class="agent-reasons-summary__value agent-rec-value--attention">$29,457,485 <i class="fas fa-arrow-down" style="font-size:9px;"></i> −2.8%</span></div>
+                            <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FY24</span><span class="agent-reasons-summary__value agent-rec-value--attention">$29,457,485 <i class="fas fa-arrow-down" style="font-size:9px;"></i> -2.8%</span></div>
                             <div class="agent-reasons-summary__group"><span class="agent-reasons-summary__label">FRATTM Category</span><span class="agent-reasons-summary__value">Higher than $10M</span></div>
                           </div>
                         </div>
@@ -1964,7 +2137,7 @@
                       <span style="color:#616161;">Min Discount</span><span style="font-weight:600;">12.0%</span>
                       <span style="color:#616161;">Max Discount</span><span style="font-weight:600;">24.2%</span>
                       <span style="color:#616161;">Deviation</span><span style="color:#107c10;font-weight:700;">0.0% ($0)</span>
-                      <span style="color:#616161;">Impact</span><span style="color:#107c10;font-weight:600;"><i class="fas fa-arrow-down" style="font-size:9px;"></i> Reduced approval effort</span>
+                      <span style="color:#616161;">Impact</span><span style="color:#242424;font-weight:400;"><i class="fas fa-arrow-down" style="font-size:9px;"></i> Reduced approval effort</span>
                       <span style="color:#616161;">Contract Stage Impact</span><span style="font-weight:600;">None</span>
                     </div>
                   </div>
@@ -1973,9 +2146,9 @@
                     <div style="display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:4px 10px;font-size:11px;">
                       <span style="color:#616161;font-weight:600;">Package</span><span style="color:#616161;font-weight:600;">Yr 1</span><span style="color:#616161;font-weight:600;">Yr 2</span><span style="color:#616161;font-weight:600;">Yr 3</span>
                       <span>Base Package</span><span>14.5%</span><span>11.2%</span><span>8.0%</span>
-                      <span>Enhanced Solutions</span><span>12.8%</span><span>9.5%</span><span style="color:#a19f9d;">â€”</span>
+                      <span>Enhanced Solutions</span><span>12.8%</span><span>9.5%</span><span style="color:#a19f9d;">—</span>
                       <span>Mission Critical</span><span>10.2%</span><span>7.8%</span><span>6.1%</span>
-                      <span>Value Acceleration</span><span>16.0%</span><span>13.4%</span><span style="color:#a19f9d;">â€”</span>
+                      <span>Value Acceleration</span><span>16.0%</span><span>13.4%</span><span style="color:#a19f9d;">—</span>
                     </div>
                   </div>
                 </div>
@@ -2024,6 +2197,7 @@
                 <button class="agent-feedback__btn" title="Helpful"><i class="far fa-thumbs-up"></i></button>
                 <button class="agent-feedback__btn" title="Not helpful"><i class="far fa-thumbs-down"></i></button>
               </div>
+              <p style="font-size:11px;color:#616161;margin:8px 0 0 0;"><i class="fas fa-shield-alt" style="margin-right:4px;"></i>AI-generated content may be incorrect. Make sure AI-generated content is accurate and appropriate before using. <a href="#" style="color:#0f6cbd;">See terms</a></p>
             </div>
           </div>
 
@@ -2095,7 +2269,7 @@
     </div>
   </aside>
 
-  <!-- Fluent 2 Drawer â€“ Historical Financials (medium 600px) -->
+  <!-- Fluent 2 Drawer – Historical Financials (medium 600px) -->
   <div class="fui-drawer-overlay" id="hist-drawer-overlay" aria-hidden="true"></div>
   <aside class="fui-drawer fui-drawer--medium" id="hist-drawer" role="dialog" aria-label="Historical Financials" aria-hidden="true">
     <div class="fui-drawer__header">
@@ -2140,7 +2314,7 @@
             <div class="hist-acr-card">
               <span class="hist-acr-card__fy">FY24</span>
               <span class="hist-acr-card__amount">$29,457,485</span>
-              <span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> âˆ’2.8%</span>
+              <span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> −2.8%</span>
             </div>
           </div>
         </div>
@@ -2157,7 +2331,7 @@
     </div>
   </aside>
 
-  <!-- Fluent 2 Drawer â€“ Reasons to Believe (medium 600px) -->
+  <!-- Fluent 2 Drawer – Reasons to Believe (medium 600px) -->
   <div class="fui-drawer-overlay" id="reasons-drawer-overlay" aria-hidden="true"></div>
   <aside class="fui-drawer fui-drawer--medium" id="reasons-drawer" role="dialog" aria-label="Reasons to Believe" aria-hidden="true">
     <div class="fui-drawer__header">
@@ -2263,7 +2437,7 @@
             <div class="hist-acr-card">
               <span class="hist-acr-card__fy">FY24</span>
               <span class="hist-acr-card__amount">$29,457,485</span>
-              <span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> âˆ’2.8%</span>
+              <span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> −2.8%</span>
             </div>
           </div>
         </div>
@@ -2300,7 +2474,7 @@
             <div class="hist-acr-card">
               <span class="hist-acr-card__fy">FY25 (YTD)</span>
               <span class="hist-acr-card__amount">$3,410,000</span>
-              <span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> âˆ’7.2%</span>
+              <span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> −7.2%</span>
             </div>
           </div>
           <div class="hist-section__facts" style="margin-top:10px;">
@@ -2400,7 +2574,10 @@
     </div>
     <div class="fui-drawer__body">
       <div class="sb-offering-wrap">
-        <div class="sb-offering-subtitle">Quote A123456 &nbsp;|&nbsp; Proportional discount application by year</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <span class="r2-stale-badge r2-stale-badge--fresh"><i class="fas fa-check-circle"></i> Up to date</span>
+          <span class="sb-offering-subtitle" style="margin:0;">Quote A123456 &nbsp;|&nbsp; Proportional discount application by year</span>
+        </div>
         <div class="sb-offering-grid-scroll">
           <table class="sb-offering-grid" aria-label="Offering group distribution by year">
             <thead>
@@ -2476,7 +2653,7 @@
               <div class="hist-acr-grid">
                 <div class="hist-acr-card"><span class="hist-acr-card__fy">FY22</span><span class="hist-acr-card__amount">$28,908,433</span></div>
                 <div class="hist-acr-card"><span class="hist-acr-card__fy">FY23</span><span class="hist-acr-card__amount">$30,300,333</span><span class="hist-acr-card__trend hist-fact__value--good"><i class="fas fa-arrow-up"></i> +4.8%</span></div>
-                <div class="hist-acr-card"><span class="hist-acr-card__fy">FY24</span><span class="hist-acr-card__amount">$29,457,485</span><span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> −2.8%</span></div>
+                <div class="hist-acr-card"><span class="hist-acr-card__fy">FY24</span><span class="hist-acr-card__amount">$29,457,485</span><span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> -2.8%</span></div>
               </div>
             </div>
             <div class="hist-section hist-section--wide">
@@ -2491,7 +2668,7 @@
                 <div class="hist-acr-card"><span class="hist-acr-card__fy">FY22</span><span class="hist-acr-card__amount">$4,250,000</span></div>
                 <div class="hist-acr-card"><span class="hist-acr-card__fy">FY23</span><span class="hist-acr-card__amount">$5,120,000</span><span class="hist-acr-card__trend hist-fact__value--good"><i class="fas fa-arrow-up"></i> +20.5%</span></div>
                 <div class="hist-acr-card"><span class="hist-acr-card__fy">FY24</span><span class="hist-acr-card__amount">$5,890,000</span><span class="hist-acr-card__trend hist-fact__value--good"><i class="fas fa-arrow-up"></i> +15.0%</span></div>
-                <div class="hist-acr-card"><span class="hist-acr-card__fy">FY25 (YTD)</span><span class="hist-acr-card__amount">$3,410,000</span><span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> −7.2%</span></div>
+                <div class="hist-acr-card"><span class="hist-acr-card__fy">FY25 (YTD)</span><span class="hist-acr-card__amount">$3,410,000</span><span class="hist-acr-card__trend hist-fact__value--attention"><i class="fas fa-arrow-down"></i> -7.2%</span></div>
               </div>
               <div class="hist-section__facts" style="margin-top:10px;">
                 <div class="hist-fact"><span class="hist-fact__label">Total Spend (3-Year)</span><span class="hist-fact__value" style="font-weight:700;">$15,260,000</span></div>
@@ -2511,7 +2688,7 @@
 
   <!-- Footer -->
   <footer class="bottom-footer">
-    <span>Â©2020 Microsoft</span>
+    <span>©2020 Microsoft</span>
     <a href="#">Data Protection Notice</a>
     <span class="footer-right">Build 1.6.0.20200121.5</span>
   </footer>
@@ -2926,6 +3103,14 @@
       // Show target
       var panel = document.getElementById(panelId);
       if (panel) panel.classList.add('nav-panel--active');
+
+      // Collapse sidebar when navigating to agent
+      var sidebar = document.querySelector('.left-sidebar');
+      if (panelId === 'nav-agent') {
+        sidebar.classList.add('left-sidebar--collapsed');
+      } else {
+        sidebar.classList.remove('left-sidebar--collapsed');
+      }
     }
 
     // --- Right sidebar tab switching ---
@@ -3065,7 +3250,7 @@
       });
     })();
 
-    // --- Reference 2: Discount Input â†’ Slider Sync ---
+    // --- Reference 2: Discount Input → Slider Sync ---
     (function() {
       var RECOMMENDED = 12.0;
       var DEAL_VALUE = 3000000;
@@ -3126,7 +3311,7 @@
         }
       }
 
-      // Slider â†’ input sync
+      // Slider → input sync
       slider.addEventListener('input', function() {
         var val = parseFloat(slider.value);
         input.value = fmt(val);
@@ -3134,7 +3319,7 @@
         updateDeviation(val);
       });
 
-      // Input â†’ slider sync
+      // Input → slider sync
       input.addEventListener('input', function() {
         var raw = input.value.replace(/[^0-9.\-]/g, '');
         var val = parseFloat(raw);
@@ -3168,7 +3353,7 @@
       // Expose reset globally
       window.resetR2Slider = resetToDefault;
 
-      // Refresh button â€” show loading overlay, reset, then hide
+      // Refresh button — show loading overlay, reset, then hide
       var refreshBtn = document.querySelector('#panel-reference2 .ref-banner__refresh[title="Refresh recommendation"]');
       var overlay = document.getElementById('r2-loading-overlay');
       if (refreshBtn && overlay) {
@@ -3230,7 +3415,7 @@
       function fmt(v) { return v.toFixed(2); }
       // Normal pct within min-max range
       function pct(v) { return ((v - MIN_DISC) / (MAX_DISC - MIN_DISC)) * 100; }
-      // Extended pct when value exceeds max — scale so max sits at ~55% and current at end
+      // Extended pct when value exceeds max � scale so max sits at ~55% and current at end
       function pctExtended(v, extMax) { return ((v - MIN_DISC) / (extMax - MIN_DISC)) * 100; }
 
       function setFinancialsActionsDisabled(disabled) {
@@ -3288,7 +3473,7 @@
             labelsEl.style.justifyContent = '';
           }
         } else {
-          // Normal state — show rec and max limit markers, hide current marker
+          // Normal state � show rec and max limit markers, hide current marker
           var p = pct(v);
           fill.style.width = p + '%';
           if (fillError) { fillError.style.width = '0'; fillError.style.display = 'none'; }
@@ -3883,13 +4068,13 @@
           '<hr style="border:none;border-top:1px solid #e5e5e5;margin:12px 0;">' +
           '<p style="font-weight:600;margin:0 0 6px 0;">Discount Breakdown by Year</p>' +
           '<ul style="margin:0 0 12px 18px;padding:0;">' +
-            '<li><strong>Year 1:</strong> Base Discount Percentage — ' + discStr + '%, Add-On Discount Percentage — 10.00%<br>Total Discount Percentage — 6.00%</li>' +
-            '<li><strong>Year 2:</strong> Base Discount Percentage — ' + discStr + '%, Add-On Discount Percentage — 0.00%<br>Total Discount Percentage — 1.00%</li>' +
-            '<li><strong>Year 3:</strong> Base Discount Percentage — 0.00%, Add-On Discount Percentage — 0.00%<br>Total Discount Percentage — 0.00%</li>' +
-            '<li><strong>Year 4:</strong> Base Discount Percentage — 0.00%, Add-On Discount Percentage — 0.00%<br>Total Discount Percentage — 0.00%</li>' +
-            '<li><strong>Year 5:</strong> Base Discount Percentage — 0.00%, Add-On Discount Percentage — 0.00%<br>Total Discount Percentage — 0.00%</li>' +
-            '<li><strong>Year 6:</strong> Base Discount Percentage — 0.00%, Add-On Discount Percentage — 0.00%<br>Total Discount Percentage — 0.00%</li>' +
-            '<li><strong>Year 7:</strong> Base Discount Percentage — 0.00%, Add-On Discount Percentage — 0.00%<br>Total Discount Percentage — 0.00%</li>' +
+            '<li><strong>Year 1:</strong> Base Discount Percentage � ' + discStr + '%, Add-On Discount Percentage � 10.00%<br>Total Discount Percentage � 6.00%</li>' +
+            '<li><strong>Year 2:</strong> Base Discount Percentage � ' + discStr + '%, Add-On Discount Percentage � 0.00%<br>Total Discount Percentage � 1.00%</li>' +
+            '<li><strong>Year 3:</strong> Base Discount Percentage � 0.00%, Add-On Discount Percentage � 0.00%<br>Total Discount Percentage � 0.00%</li>' +
+            '<li><strong>Year 4:</strong> Base Discount Percentage � 0.00%, Add-On Discount Percentage � 0.00%<br>Total Discount Percentage � 0.00%</li>' +
+            '<li><strong>Year 5:</strong> Base Discount Percentage � 0.00%, Add-On Discount Percentage � 0.00%<br>Total Discount Percentage � 0.00%</li>' +
+            '<li><strong>Year 6:</strong> Base Discount Percentage � 0.00%, Add-On Discount Percentage � 0.00%<br>Total Discount Percentage � 0.00%</li>' +
+            '<li><strong>Year 7:</strong> Base Discount Percentage � 0.00%, Add-On Discount Percentage � 0.00%<br>Total Discount Percentage � 0.00%</li>' +
           '</ul>' +
           '<p style="font-weight:600;margin:0 0 6px 0;">Deal Totals</p>' +
           '<ul style="margin:0 0 12px 18px;padding:0;">' +
@@ -3961,18 +4146,18 @@
         typing.innerHTML = '<div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>' +
           '<div class="agent-msg__bubble agent-msg__bubble--wide" style="display:flex;align-items:center;gap:10px;">' +
           '<i class="fas fa-spinner fa-spin" style="color:#5b5fc7;"></i>' +
-          '<span class="agent-typing-text">Creating new quote and applying simulated discounts…</span>' +
+          '<span class="agent-typing-text">Creating new quote and applying simulated discounts�</span>' +
           '</div>';
         chatArea.appendChild(typing);
         chatArea.scrollTop = chatArea.scrollHeight;
 
         var typingText = typing.querySelector('.agent-typing-text');
         var phases = [
-          'Cloning Quote A123456…',
-          'Applying ' + discStr2 + '% discount on Base packages (Years 1 &amp; 2)…',
-          'Applying ' + discStr2 + '% discount on Add-on packages (Years 1, 2, 3)…',
-          'Recalculating financials…',
-          'Finalizing new quote…'
+          'Cloning Quote A123456�',
+          'Applying ' + discStr2 + '% discount on Base packages (Years 1 &amp; 2)�',
+          'Applying ' + discStr2 + '% discount on Add-on packages (Years 1, 2, 3)�',
+          'Recalculating financials�',
+          'Finalizing new quote�'
         ];
         var i = 0;
         var phaseTimer = setInterval(function() {
@@ -4060,7 +4245,7 @@
           agentMsg.innerHTML =
             '<div class="agent-msg__avatar"><i class="fas fa-robot"></i></div>' +
             '<div class="agent-msg__bubble agent-msg__bubble--wide">' +
-              '<p>Here\'s the <strong>Offering Group Distribution — by Year</strong> for Quote A123456 (proportional discount application):</p>' +
+              '<p>Here\'s the <strong>Offering Group Distribution � by Year</strong> for Quote A123456 (proportional discount application):</p>' +
               '<div class="agent-card" style="margin-top:10px;">' +
                 '<h2 class="agent-card__title"><i class="fas fa-layer-group" style="margin-right:6px;color:#0f6cbd;"></i>Offering Group Distribution</h2>' +
                 '<p class="agent-card__subtitle">Quote A123456 &nbsp;|&nbsp; Proportional discount application by year</p>' +
